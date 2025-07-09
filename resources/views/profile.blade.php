@@ -94,8 +94,8 @@
                     class="w-32 h-32 rounded-full object-cover border-4 border-primary"
                     loading="lazy"
                     />
-                    <h2 class="text-2xl font-bold mt-4">John Doe</h2>
-                    <p class="text-gray-600">Computer Science Student</p>
+                    <h2 class="text-2xl font-bold mt-4">{{ $user->full_name }}</h2>
+                    <p class="text-gray-600">{{ $user->faculty_name }}</p>
                 </div>
                 
                 <section class="bg-white rounded-lg shadow-md p-8">
@@ -103,47 +103,43 @@
                     <form class="grid  gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Familya <span class="text-red-500">*</span></label>
-                            <input type="text" name="lastname" disabled class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
+                            <input type="text" name="lastname" disabled value="{{ $user->surname }}" class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Ism <span class="text-red-500">*</span></label>
-                            <input type="text" name="firstname" disabled class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Ism <span class="text-red-500">*</span></label>
-                            <input type="text" name="fathername" disabled class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
+                            <input type="text" name="firstname" value="{{ $user->firstname }}" disabled class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Fuqarolik <span class="text-red-500">*</span></label>
-                            <input type="text" name="citizenship" disabled class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
+                            <input type="text" name="citizenship" value="{{ $user-> }}" disabled class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Tug'ilan sana <span class="text-red-500">*</span></label>
-                            <input type="text" name="birthdate" disabled placeholder="dd.mm.yyyy" class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
+                            <input type="text" name="birthdate" value="{{ $user->faculty_name }}" disabled placeholder="dd.mm.yyyy" class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Passpor seria raqami <span class="text-red-500">*</span></label>
-                            <input type="text" name="passport" disabled placeholder="XX1234567" class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
+                            <input type="text" name="passport" value="{{ $user->passport_pin }}" disabled placeholder="XX1234567" class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Talim turi <span class="text-red-500">*</span></label>
-                            <input type="text" name="education_type" disabled placeholder="Бакалавр/магистр" class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
+                            <input type="text" name="education_type" value="{{ $user->faculty_name }}" disabled placeholder="Бакалавр/магистр" class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Kursi <span class="text-red-500">*</span></label>
-                            <input type="text" name="course" disabled class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
+                            <input type="text" name="course" value="{{ $user->faculty_name }}" disabled class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Guruhi <span class="text-red-500">*</span></label>
-                            <input type="text" name="group" disabled class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
+                            <input type="text" name="group" value="{{ $user->faculty_name }}" disabled class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Telefon raqami <span class="text-red-500">*</span></label>
-                            <input type="text" name="phone1" disabled placeholder="+998" class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
+                            <input type="text" name="phone1" value="{{ $user->faculty_name }}" disabled placeholder="+998" class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Telefon raqami (qo'shimcha)</label>
-                            <input type="text" name="phone2" disabled placeholder="+998" class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
+                            <input type="text" name="phone2" value="" disabled placeholder="+998" class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
                         </div>
                     </form>
                 </section>
