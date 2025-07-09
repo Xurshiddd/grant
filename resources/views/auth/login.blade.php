@@ -87,7 +87,6 @@
                         <input id="remember-me" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
                         <label for="remember-me" class="ml-2 block text-sm text-gray-700">Eslab qolish</label>
                     </div>
-                    {{-- <a href="{{ route('password.request') }}" class="text-sm text-blue-600 hover:text-blue-800">Parolni unutdingizmi?</a> --}}
                 </div>
                 
                 <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300 flex items-center justify-center">
