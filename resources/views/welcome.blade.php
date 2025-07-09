@@ -1,153 +1,79 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Institut Login</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .login-container {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        }
-        .input-field {
-            transition: all 0.3s ease;
-        }
-        .input-field:focus {
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-        }
-        .toggle-btn {
-            transition: all 0.3s ease;
-        }
-        .toggle-btn:hover {
-            transform: translateY(-2px);
-        }
-        @media (max-width: 768px) {
-            .login-box {
-                flex-direction: column;
-            }
-            .logo-section {
-                margin-bottom: 2rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grant Ariza Platformasi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4 login-container">
-    <div class="bg-white rounded-2xl shadow-xl overflow-hidden login-box flex max-w-4xl w-full">
-        <!-- Logo Section -->
-        <div class="logo-section bg-blue-600 flex flex-col items-center justify-center p-8 text-white md:w-1/2">
-            <div class="mb-6">
-                <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-lg">
-                    <i class="fas fa-graduation-cap text-blue-600 text-4xl"></i>
-                </div>
-            </div>
-            <h1 class="text-3xl font-bold mb-2 text-center">Toshkent To'qimachilik va yengil sanoat instituti</h1>
-            <p class="text-blue-100 text-center">Talabalar uchun ta'lim grantiga ariza topshirish platformasi</p>
-            <div class="mt-8">
-                <div class="flex space-x-4">
-                    <a href="https://facebook.com" class="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-700 transition"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://t.me/yourchannel" class="w-12 h-12 rounded-full bg-blue-400 flex items-center justify-center hover:bg-blue-600 transition"><i class="fab fa-telegram"></i></a>
-                    <a href="https://youtube.com" class="w-12 h-12 rounded-full bg-red-500 flex items-center justify-center hover:bg-red-700 transition"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Login Form Section -->
-        <div class="p-8 md:w-1/2 flex flex-col justify-center">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center" id="form-title">Xodimlar uchun kirish</h2>
-            
-            <!-- Staff Login Form -->
-            <form id="staff-login" class="space-y-4" method="POST" action="{{ route('login') }}">
-                @csrf
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Elektron pochta</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i class="fas fa-envelope text-gray-400"></i>
-                        </div>
-                        <input type="email" id="email" name="email" class="w-full pl-10 pr-4 py-2 border rounded-lg input-field focus:outline-none focus:border-blue-500" placeholder="email@institut.uz" required>
-                    </div>
-                </div>
-                
-                <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Parol</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i class="fas fa-lock text-gray-400"></i>
-                        </div>
-                        <input type="password" id="password" name="password" class="w-full pl-10 pr-4 py-2 border rounded-lg input-field focus:outline-none focus:border-blue-500" placeholder="********" required>
-                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer" onclick="togglePasswordVisibility('password')">
-                            <i class="fas fa-eye text-gray-400 hover:text-blue-500"></i>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <input id="remember-me" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                        <label for="remember-me" class="ml-2 block text-sm text-gray-700">Eslab qolish</label>
-                    </div>
-                    {{-- <a href="{{ route('password.request') }}" class="text-sm text-blue-600 hover:text-blue-800">Parolni unutdingizmi?</a> --}}
-                </div>
-                
-                <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300 flex items-center justify-center">
-                    <i class="fas fa-sign-in-alt mr-2"></i> Kirish
-                </button>
-            </form>
-            
-            <!-- Student Login OAuth -->
-            <div id="student-login" class="space-y-4 hidden">
-                <p class="text-gray-700 text-center">
-                    Talabalar HEMIS orqali tizimga kirishlari mumkin.
-                </p>
-                <a href="{{ route('hemis.student.redirect') }}"
-                   class="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300 flex items-center justify-center">
-                    <i class="fas fa-university mr-2"></i> HEMIS orqali kirish
-                </a>
-            </div>
-            
-            <div class="mt-6 text-center">
-                <button id="toggle-login" class="text-blue-600 hover:text-blue-800 font-medium toggle-btn flex items-center justify-center mx-auto">
-                    <i class="fas fa-exchange-alt mr-2"></i> Talabalar uchun kirish
-                </button>
-            </div>
-        </div>
+<body class="bg-blue-50 min-h-screen font-sans">
+  <!-- Navbar -->
+  <header class="bg-white shadow-lg">
+    <div class="container mx-auto flex justify-between items-center px-6 py-5">
+      <div class="flex items-center space-x-2">
+        <img src="{{ asset('logo.png') }}" alt="Logo" style="width: 400; height: 80px; border-radius: 15px;">
+      </div>
+      <nav class="space-x-6 text-gray-700 font-medium hidden md:block">
+        <a href="#" class="text-blue-600">Bosh sahifa</a>
+        <a href="#">Grant haqida</a>
+        <a href="#">Ijtimoiy faollik</a>
+        <a href="#">Registrator ofisi</a>
+      </nav>
+      <a href="{{ route('login') }}" class="bg-blue-600 text-white px-5 py-2 rounded-full shadow hover:bg-blue-700">Ariza topshirish</a>
     </div>
+  </header>
 
-    <script>
-        const toggleBtn = document.getElementById('toggle-login');
-        const staffForm = document.getElementById('staff-login');
-        const studentForm = document.getElementById('student-login');
-        const formTitle = document.getElementById('form-title');
-        let isStudentLogin = false;
+  <!-- Alert -->
+  <div class="bg-red-500 text-white text-center py-2 font-medium">
+    <div class="container mx-auto flex items-center justify-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+      </svg>
+      <span>Arizalar 20-iyul 23:59 gacha qabul qilinadi</span>
+    </div>
+  </div>
 
-        toggleBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            isStudentLogin = !isStudentLogin;
-            if (isStudentLogin) {
-                staffForm.classList.add('hidden');
-                studentForm.classList.remove('hidden');
-                formTitle.textContent = "Talabalar uchun kirish";
-                toggleBtn.innerHTML = '<i class="fas fa-exchange-alt mr-2"></i> Xodimlar uchun kirish';
-            } else {
-                studentForm.classList.add('hidden');
-                staffForm.classList.remove('hidden');
-                formTitle.textContent = "Xodimlar uchun kirish";
-                toggleBtn.innerHTML = '<i class="fas fa-exchange-alt mr-2"></i> Talabalar uchun kirish';
-            }
-        });
+  <!-- Hero Section -->
+  <section class="py-16 px-6 bg-gradient-to-b from-blue-50 to-white">
+    <div class="container mx-auto flex flex-col-reverse lg:flex-row items-center justify-between gap-12">
+      <div class="lg:w-1/2 space-y-8">
+        <h1 class="text-4xl lg:text-5xl font-bold text-blue-900 leading-tight">
+          2025-2026 o‘quv yili uchun grantlarni taqdim etish va qayta taqsimlash bo‘yicha maxsus elektron platforma
+        </h1>
+        <div class="flex flex-wrap gap-4">
+          <a href="#" class="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition-all duration-300 shadow-md hover:shadow-lg">Grant kvotalari</a>
+          <a href="#" class="flex items-center space-x-2 text-blue-600 hover:text-blue-800 transition-colors duration-300">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M4.5 3.75A1.75 1.75 0 0 1 6.25 2h7.5A1.75 1.75 0 0 1 15.5 3.75v12.5A1.75 1.75 0 0 1 13.75 18h-7.5A1.75 1.75 0 0 1 4.5 16.25V3.75zM10 5a.75.75 0 0 0 0 1.5h.008a.75.75 0 0 0 0-1.5H10zM9.25 8a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .742.648L10.75 8v4a.75.75 0 0 1-1.493.102L9.25 12V8z"/></svg>
+            <span>Video qo‘llanma</span>
+          </a>
+        </div>
+      </div>
+      <div class="lg:w-1/2 mb-10 lg:mb-0">
+        <img src="{{ asset('image.png') }}" alt="Grant uchun ariza" class="w-full max-w-md mx-auto rounded-lg shadow-lg overflow-hidden">
+      </div>
+    </div>
+  </section>
 
-        function togglePasswordVisibility(fieldId) {
-            const passwordField = document.getElementById(fieldId);
-            const eyeIcon = passwordField.nextElementSibling.querySelector('i');
-            if (passwordField.type === 'password') {
-                passwordField.type = 'text';
-                eyeIcon.classList.replace('fa-eye', 'fa-eye-slash');
-            } else {
-                passwordField.type = 'password';
-                eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
-            }
-        }
-    </script>
+  <!-- Stats Section -->
+  <section class="bg-white py-12 px-6">
+    <div class="container mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <div class="p-6 rounded-xl bg-white border border-blue-100 shadow-sm hover:shadow-md transition-shadow duration-300">
+        <div class="text-3xl font-bold text-blue-800 mb-2">1141 ta</div>
+        <div class="text-gray-600">Jami talabalar</div>
+      </div>
+      <div class="p-4 rounded-lg bg-blue-50">
+        <div class="text-2xl font-bold text-blue-800">84 ta</div>
+        <div class="text-gray-600 text-sm">Kelib tushgan arizalar</div>
+      </div>
+      <div class="p-4 rounded-lg bg-blue-50">
+        <div class="text-2xl font-bold text-blue-800">0 ta</div>
+        <div class="text-gray-600 text-sm">Tasdiqlangan arizalar</div>
+      </div>
+      <div class="p-4 rounded-lg bg-blue-50">
+        <div class="text-2xl font-bold text-blue-800">0 ta</div>
+        <div class="text-gray-600 text-sm">Rad etilgan arizalar</div>
+      </div>
+    </div>
+  </section>
 </body>
 </html>

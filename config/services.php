@@ -18,13 +18,14 @@ return [
         'token' => env('POSTMARK_TOKEN'),
     ],
     'hemis' => [
-        'client_id' => env('HEMIS_CLIENT_ID'),
+        'client_id'     => env('HEMIS_CLIENT_ID'),
         'client_secret' => env('HEMIS_CLIENT_SECRET'),
-        'redirect' => env('HEMIS_REDIRECT_URI'),
-        'url_authorize' => env('HEMIS_AUTH_URL'),
-        'url_token' => env('HEMIS_TOKEN_URL'),
-        'url_resource' => env('HEMIS_RESOURCE_URL'),
+        'redirect'      => env('HEMIS_REDIRECT_URI'),
+        'authorize_url' => env('HEMIS_AUTHORIZE_URL'),
+        'token_url'     => env('HEMIS_TOKEN_URL'),
+        'resource_url'  => env('HEMIS_RESOURCE_URL'),
     ],
+    
     
     
     'resend' => [
