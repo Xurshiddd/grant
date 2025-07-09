@@ -52,21 +52,45 @@ class HemisAuthController extends Controller
             
             $resourceOwner = $provider->getResourceOwner($accessToken);
             $userData = $resourceOwner->toArray();
-            dd($userData);
-            $user = User::updateOrCreate(
-                ['email' => $userData['email']],
-                [
-                    'name' => $userData['name'] ?? $userData['login'],
-                    'password' => bcrypt('default_password') // optional
-                    ]
-                );
-                
-                Auth::login($user);
-                return redirect()->intended('/profile');
-                
-            } catch (\Exception $e) {
-                return response()->json(['error' => $e->getMessage()]);
+            Log::info('Hemis user data:', $userData);
+                // 2. Student ma'lumotlarini yaratish yoki yangilash
+                $user = User::updateOrCreate(
+                    ['student_id_number' => $userData['student_id_number']],
+                    [
+                        'email' => $userData['email'] ?: $userData['login'] . '@student.hemis.uz',
+                        'uuid' => $userData['uuid'],
+                        'firstname' => $userData['firstname'],
+                        'surname' => $userData['surname'],
+                        'patronymic' => $userData['patronymic'],
+                        'full_name' => $userData['data']['full_name'],
+                        'short_name' => $userData['data']['short_name'] ?? null,
+                        'email' => $userData['email'] ?? $userData['data']['email'],
+                        'phone' => $userData['phone'] ?? $userData['data']['phone'],
+                        'passport_pin' => $userData['passport_pin'],
+                        'passport_number' => $userData['passport_number'],
+                        'birth_date' => $userData['birth_date'],
+                        'university' => $userData['data']['university'],
+                        'group_name' => $userData['groups'][0]['name'],
+                        'faculty_name' => $userData['data']['faculty']['name'] ?? null,
+                        'specialty_name' => $userData['data']['specialty']['name'] ?? null,
+                        'education_form' => $userData['groups'][0]['education_form']['name'],
+                        'education_type' => $userData['groups'][0]['education_type']['name'],
+                        'education_lang' => $userData['groups'][0]['education_lang']['name'],
+                        'picture' => $userData['data']['image'] ?? $userData['picture'],
+                        'address' => $userData['data']['address'] ?? null,
+                        ]
+                    );
+                    
+                    // 3. Login qilish
+                    Auth::login($user);
+                    
+                    // 4. Profil sahifasiga yo'naltirish
+                    Session::flash('success', 'Hemis tizimiga muvaffaqiyatli kirildi.');
+                    return view('profile', compact('user')); // 'profile' nomli marshrutga yo'naltirish
+                    
+                } catch (\Exception $e) {
+                    return redirect()->route('login')->withErrors(['error' => 'Hemis tizimiga kirishda xatolik yuz berdi: ' . $e->getMessage()]);
+                }
             }
         }
-    }
-    
+        

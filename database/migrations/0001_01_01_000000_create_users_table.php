@@ -13,23 +13,31 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name')->nullable();
-            $table->string('last_name')->nullable();
-            $table->string('father_name')->nullable();
-            $table->string('citizenship')->nullable();
-            $table->string('passport')->unique()->nullable();
-            $table->enum('type_training',['bachelor', 'master'])->nullable();
-            $table->integer('kurs')->nullable();
-            $table->string('group')->nullable();
+            $table->string('uuid')->unique();
+            $table->string('student_id_number')->unique();
+            $table->string('firstname');
+            $table->string('surname');
+            $table->string('patronymic')->nullable();
+            $table->string('full_name');
+            $table->string('short_name')->nullable();
+            $table->string('email')->nullable();
             $table->string('phone')->nullable();
-            $table->string('phone2')->nullable();
-            $table->date('birthday')->nullable();
-            $table->string('login')->unique()->nullable();
-            $table->string('avatar')->nullable();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('passport_pin');
+            $table->string('passport_number');
+            $table->string('birth_date');
+            $table->string('university');
+            $table->string('group_name');
+            $table->string('faculty_name')->nullable();
+            $table->string('specialty_name')->nullable();
+            $table->string('education_form')->nullable();
+            $table->string('education_type')->nullable();
+            $table->string('education_lang')->nullable();
+            $table->string('picture')->nullable();
+            $table->string('address')->nullable();
+            $table->string('email')->nullable()->unique();
+            $table->string('login')->nullable()->unique();
             $table->string('password')->nullable();
-            $table->enum('type', ['student', 'inspector','admin', 'superadmin']);
-            $table->rememberToken();
+            $table->string('status')->default('active'); // active, inactive, suspended
             $table->timestamps();
         });
 
