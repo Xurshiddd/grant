@@ -31,6 +31,7 @@ class HemisAuthController extends Controller
     
     public function handleHemisCallback(Request $request)
     {
+        dd($request->all());
         $provider = new GenericProvider([
             'clientId'                => config('services.hemis.client_id'),
             'clientSecret'            => config('services.hemis.client_secret'),
