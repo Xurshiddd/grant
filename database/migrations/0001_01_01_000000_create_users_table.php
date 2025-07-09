@@ -13,21 +13,21 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('father_name');
-            $table->string('citizenship');
-            $table->string('passport')->unique();
-            $table->enum('type_training',['bachelor', 'master']);
-            $table->integer('kurs');
-            $table->string('group');
-            $table->string('phone');
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('father_name')->nullable();
+            $table->string('citizenship')->nullable();
+            $table->string('passport')->unique()->nullable();
+            $table->enum('type_training',['bachelor', 'master'])->nullable();
+            $table->integer('kurs')->nullable();
+            $table->string('group')->nullable();
+            $table->string('phone')->nullable();
             $table->string('phone2')->nullable();
-            $table->date('birthday');
-            $table->string('login')->unique();
+            $table->date('birthday')->nullable();
+            $table->string('login')->unique()->nullable();
             $table->string('avatar')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->enum('type', ['student', 'inspector','admin', 'superadmin']);
             $table->rememberToken();
             $table->timestamps();

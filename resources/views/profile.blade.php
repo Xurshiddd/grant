@@ -1,554 +1,326 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <base target="_self">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
+    <title>Student Profile</title>
+    <meta name="description" content="Student profile page with personal information, achievements, and messages">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3B82F6",
+                        secondary: "#1E40AF",
+                        accent: "#10B981",
+                        notification: "#EF4444"
+                    }
+                }
+            }
         }
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-        .progress-ring__circle {
-            transition: stroke-dashoffset 0.5s;
-            transform: rotate(-90deg);
-            transform-origin: 50% 50%;
-        }
-        .notification-dot {
-            position: absolute;
-            top: -2px;
-            right: -2px;
-            width: 12px;
-            height: 12px;
-            background-color: #ef4444;
-            border-radius: 50%;
-        }
-    </style>
+    </script>
 </head>
-<body class="bg-gray-100 font-sans">
-    <div class="min-h-screen">
-        <!-- Header -->
-        <header class="gradient-bg text-white shadow-lg">
-            <div class="container mx-auto px-4 py-6">
-                <div class="flex justify-between items-center">
-                    <h1 class="text-2xl font-bold">Profile Dashboard</h1>
-                    <div class="relative">
-                        <button id="notificationBtn" class="p-2 rounded-full hover:bg-purple-700 transition">
-                            <i class="fas fa-bell text-xl"></i>
-                            <span class="notification-dot"></span>
-                        </button>
-                        <div id="notificationDropdown" class="hidden absolute right-0 mt-2 w-72 bg-white rounded-md shadow-lg z-10">
-                            <div class="p-4 border-b border-gray-200">
-                                <h3 class="font-semibold text-gray-800">Notifications (3)</h3>
+<body class="min-h-screen bg-gray-50">
+    <header class="bg-white shadow-sm">
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-primary">Student Profile</h1>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <button id="notification-btn" class="p-2 text-gray-600 hover:text-primary relative">
+                        <i class="fas fa-bell text-xl"></i>
+                        <span class="absolute -top-1 -right-1 bg-notification text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                    </button>
+                    <div id="notification-dropdown" class="hidden absolute right-0 mt-2 w-72 bg-white rounded-md shadow-lg z-10 border border-gray-200">
+                        <div class="p-3 border-b border-gray-200">
+                            <h3 class="font-semibold">Notifications</h3>
+                        </div>
+                        <div class="max-h-60 overflow-y-auto">
+                            <a href="#" class="block px-4 py-3 hover:bg-gray-50 border-b border-gray-100">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 text-primary">
+                                        <i class="fas fa-book"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm font-medium">New grade posted for Web Development</p>
+                                        <p class="text-xs text-gray-500">2 hours ago</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" class="block px-4 py-3 hover:bg-gray-50 border-b border-gray-100">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 text-accent">
+                                        <i class="fas fa-trophy"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm font-medium">Your achievement was approved</p>
+                                        <p class="text-xs text-gray-500">1 day ago</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" class="block px-4 py-3 hover:bg-gray-50">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 text-secondary">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="text-sm font-medium">Upcoming deadline: Project submission</p>
+                                        <p class="text-xs text-gray-500">3 days ago</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="p-2 border-t border-gray-200 text-center">
+                            <a href="#" class="text-sm text-primary font-medium">View All Notifications</a>
+                        </div>
+                    </div>
+                </div>
+                <button class="px-4 py-2 bg-primary text-white rounded-md hover:bg-secondary transition">Edit Profile</button>
+                <button class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 transition">Logout</button>
+            </div>
+        </nav>
+    </header>
+    
+    <main class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <!-- Personal Information Section -->
+            <div class="lg:col-span-1 bg-white rounded-lg shadow-md p-6">
+                <div class="flex flex-col items-center mb-6">
+                    <img 
+                    src="https://picsum.photos/200?random=1" 
+                    alt="Student profile photo" 
+                    class="w-32 h-32 rounded-full object-cover border-4 border-primary"
+                    loading="lazy"
+                    />
+                    <h2 class="text-2xl font-bold mt-4">John Doe</h2>
+                    <p class="text-gray-600">Computer Science Student</p>
+                </div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="font-semibold text-gray-700">Student ID</h3>
+                        <p>STD-2023-001</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-700">Email</h3>
+                        <p>john.doe@university.edu</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-700">Phone</h3>
+                        <p>+1 (123) 456-7890</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-700">Date of Birth</h3>
+                        <p>January 15, 2000</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-700">Department</h3>
+                        <p>Computer Science</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content Area -->
+            <div class="lg:col-span-3 space-y-8">
+                <!-- Academic Information Section -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-bold mb-6 border-b pb-2">Academic Information</h2>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="font-semibold text-gray-700">Current GPA</h3>
+                            <div class="flex items-center mt-2">
+                                <div class="w-full bg-gray-200 rounded-full h-4">
+                                    <div class="bg-accent h-4 rounded-full" style="width: 85%"></div>
+                                </div>
+                                <span class="ml-2 font-bold">3.7</span>
                             </div>
-                            <div class="divide-y divide-gray-200">
-                                <a href="#" class="block px-4 py-3 hover:bg-gray-100">
-                                    <p class="text-sm text-gray-700">New message from John</p>
-                                    <p class="text-xs text-gray-500">2 minutes ago</p>
-                                </a>
-                                <a href="#" class="block px-4 py-3 hover:bg-gray-100">
-                                    <p class="text-sm text-gray-700">Your submission was approved</p>
-                                    <p class="text-xs text-gray-500">1 hour ago</p>
-                                </a>
-                                <a href="#" class="block px-4 py-3 hover:bg-gray-100">
-                                    <p class="text-sm text-gray-700">New assignment posted</p>
-                                    <p class="text-xs text-gray-500">3 hours ago</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-semibold text-gray-700">Semester Progress</h3>
+                            <div class="mt-2 space-y-2">
+                                <div class="flex justify-between">
+                                    <span>Fall 2022</span>
+                                    <span class="font-semibold">3.5</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Spring 2023</span>
+                                    <span class="font-semibold">3.8</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Fall 2023</span>
+                                    <span class="font-semibold">3.9</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="font-semibold text-gray-700">Current Courses</h3>
+                            <ul class="mt-2 space-y-1">
+                                <li>• Data Structures and Algorithms</li>
+                                <li>• Database Systems</li>
+                                <li>• Web Development</li>
+                                <li>• Artificial Intelligence</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Messages and Achievements Section -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Messages Section -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <div class="flex justify-between items-center mb-6 border-b pb-2">
+                            <h2 class="text-xl font-bold">Messages</h2>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="border rounded-md p-4 hover:bg-gray-50 cursor-pointer">
+                                <div class="flex justify-between">
+                                    <h3 class="font-semibold">Professor Smith</h3>
+                                    <span class="text-sm text-gray-500">Today</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mt-1 truncate">Regarding your project submission - please check the feedback I've provided...</p>
+                            </div>
+                            
+                            <div class="border rounded-md p-4 hover:bg-gray-50 cursor-pointer">
+                                <div class="flex justify-between">
+                                    <h3 class="font-semibold">Admissions Office</h3>
+                                    <span class="text-sm text-gray-500">Yesterday</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mt-1 truncate">Important information about your scholarship application status...</p>
+                            </div>
+                            
+                            <div class="border rounded-md p-4 hover:bg-gray-50 cursor-pointer">
+                                <div class="flex justify-between">
+                                    <h3 class="font-semibold">Student Affairs</h3>
+                                    <span class="text-sm text-gray-500">2 days ago</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mt-1 truncate">Reminder: Upcoming career fair on campus next week...</p>
+                            </div>
+                            
+                            <div class="text-center mt-4">
+                                <a href="#" class="text-primary hover:text-secondary text-sm font-medium">
+                                    View All Messages
                                 </a>
                             </div>
-                            <div class="p-2 text-center bg-gray-50">
-                                <a href="#" class="text-sm text-purple-600 font-medium">View all notifications</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Achievements Section -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <div class="flex justify-between items-center mb-6 border-b pb-2">
+                            <h2 class="text-xl font-bold">Achievements</h2>
+                            <button class="px-3 py-1 bg-primary text-white rounded-md text-sm hover:bg-secondary transition">
+                                <i class="fas fa-plus mr-1"></i> Add New
+                            </button>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            @foreach (\App\Models\Category::all() as $category)
+                            <div class="border rounded-md p-4">
+                                <div class="flex justify-between">
+                                    <h3 class="font-semibold">{{ $category->name }}</h3>
+                                    <span class="text-sm text-gray-500">Spring 2023</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mt-1">Awarded for academic excellence</p>
+                                <div class="mt-2 flex space-x-2">
+                                    <button class="text-primary hover:text-secondary text-sm">
+                                        <i class="fas fa-eye mr-1"></i> View
+                                    </button>
+                                    <button class="text-primary hover:text-secondary text-sm">
+                                        <i class="fas fa-download mr-1"></i> Download
+                                    </button>
+                                </div>
+                            </div>
+                            @endforeach
+                            <div class="text-center mt-4">
+                                <a href="#" class="text-primary hover:text-secondary text-sm font-medium">
+                                    View All Achievements
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </header>
-
-        <!-- Main Content -->
-        <main class="container mx-auto px-4 py-8">
-            <div class="flex flex-col lg:flex-row gap-8">
-                <!-- Left Sidebar -->
-                <div class="w-full lg:w-1/3">
-                    <!-- Profile Card -->
-                    <div class="bg-white rounded-xl shadow-md overflow-hidden transition duration-300 card-hover">
-                        <div class="gradient-bg h-32 relative">
-                            <div class="absolute -bottom-16 left-1/2 transform -translate-x-1/2">
-                                <div class="h-32 w-32 rounded-full border-4 border-white overflow-hidden">
-                                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Profile" class="h-full w-full object-cover">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="pt-20 pb-6 px-6">
-                            <div class="text-center">
-                                <h2 class="text-2xl font-bold text-gray-800">Sarah Johnson</h2>
-                                <p class="text-gray-600">Computer Science Student</p>
-                                <div class="flex justify-center mt-2">
-                                    <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full">Group A</span>
-                                </div>
-                            </div>
-
-                            <div class="mt-6 grid grid-cols-2 gap-4 text-center">
-                                <div>
-                                    <p class="text-gray-500 text-sm">Courses</p>
-                                    <p class="font-semibold">12</p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-500 text-sm">Completed</p>
-                                    <p class="font-semibold">8</p>
-                                </div>
-                            </div>
-
-                            <div class="mt-6">
-                                <h3 class="text-lg font-semibold text-gray-800 mb-2">Contact Info</h3>
-                                <ul class="space-y-2">
-                                    <li class="flex items-center">
-                                        <i class="fas fa-envelope text-purple-600 mr-2"></i>
-                                        <span class="text-gray-600">sarah.johnson@example.com</span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-phone text-purple-600 mr-2"></i>
-                                        <span class="text-gray-600">(555) 123-4567</span>
-                                    </li>
-                                    <li class="flex items-center">
-                                        <i class="fas fa-map-marker-alt text-purple-600 mr-2"></i>
-                                        <span class="text-gray-600">New York, USA</span>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div class="mt-6">
-                                <h3 class="text-lg font-semibold text-gray-800 mb-2">Skills</h3>
-                                <div class="space-y-2">
-                                    <div>
-                                        <div class="flex justify-between text-sm mb-1">
-                                            <span>JavaScript</span>
-                                            <span>85%</span>
-                                        </div>
-                                        <div class="w-full bg-gray-200 rounded-full h-2">
-                                            <div class="bg-purple-600 h-2 rounded-full" style="width: 85%"></div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="flex justify-between text-sm mb-1">
-                                            <span>Python</span>
-                                            <span>75%</span>
-                                        </div>
-                                        <div class="w-full bg-gray-200 rounded-full h-2">
-                                            <div class="bg-purple-600 h-2 rounded-full" style="width: 75%"></div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="flex justify-between text-sm mb-1">
-                                            <span>Database</span>
-                                            <span>65%</span>
-                                        </div>
-                                        <div class="w-full bg-gray-200 rounded-full h-2">
-                                            <div class="bg-purple-600 h-2 rounded-full" style="width: 65%"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- GPA and Score Card -->
-                    <div class="bg-white rounded-xl shadow-md overflow-hidden mt-6 p-6 transition duration-300 card-hover">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Academic Performance</h3>
-                        
-                        <div class="flex items-center justify-between mb-6">
-                            <div class="text-center">
-                                <div class="relative w-24 h-24 mx-auto">
-                                    <svg class="w-full h-full" viewBox="0 0 100 100">
-                                        <circle class="text-gray-200" stroke-width="8" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" />
-                                        <circle class="text-purple-600 progress-ring__circle" stroke-width="8" stroke-linecap="round" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" stroke-dasharray="251.2" stroke-dashoffset="calc(251.2 - (251.2 * 87) / 100)" />
-                                    </svg>
-                                    <div class="absolute inset-0 flex items-center justify-center">
-                                        <span class="text-2xl font-bold text-gray-800">87%</span>
-                                    </div>
-                                </div>
-                                <p class="text-sm text-gray-600 mt-2">Overall Score</p>
-                            </div>
-                            
-                            <div class="text-center">
-                                <div class="relative w-24 h-24 mx-auto">
-                                    <svg class="w-full h-full" viewBox="0 0 100 100">
-                                        <circle class="text-gray-200" stroke-width="8" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" />
-                                        <circle class="text-green-500 progress-ring__circle" stroke-width="8" stroke-linecap="round" stroke="currentColor" fill="transparent" r="40" cx="50" cy="50" stroke-dasharray="251.2" stroke-dashoffset="calc(251.2 - (251.2 * 3.7) / 4)" />
-                                    </svg>
-                                    <div class="absolute inset-0 flex items-center justify-center">
-                                        <span class="text-2xl font-bold text-gray-800">3.7</span>
-                                    </div>
-                                </div>
-                                <p class="text-sm text-gray-600 mt-2">GPA</p>
-                            </div>
-                        </div>
-                        
-                        <div class="space-y-3">
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm font-medium text-gray-700">Assignments</span>
-                                <span class="text-sm font-semibold text-purple-600">92%</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm font-medium text-gray-700">Exams</span>
-                                <span class="text-sm font-semibold text-purple-600">85%</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm font-medium text-gray-700">Participation</span>
-                                <span class="text-sm font-semibold text-purple-600">95%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Content -->
-                <div class="w-full lg:w-2/3">
-                    <!-- Categories and Work Section -->
-                    <div class="bg-white rounded-xl shadow-md overflow-hidden transition duration-300 card-hover">
-                        <div class="p-6">
-                            <div class="flex justify-between items-center mb-6">
-                                <h2 class="text-xl font-bold text-gray-800">My Work</h2>
-                                <button id="uploadBtn" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition flex items-center">
-                                    <i class="fas fa-plus mr-2"></i> Upload Work
-                                </button>
-                            </div>
-
-                            <!-- Upload Modal (Hidden by default) -->
-                            <div id="uploadModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                                <div class="bg-white rounded-lg p-6 w-full max-w-md">
-                                    <div class="flex justify-between items-center mb-4">
-                                        <h3 class="text-lg font-semibold">Upload New Work</h3>
-                                        <button id="closeModal" class="text-gray-500 hover:text-gray-700">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </div>
-                                    <form id="uploadForm">
-                                        <div class="mb-4">
-                                            <label class="block text-gray-700 text-sm font-medium mb-2" for="category">
-                                                Category
-                                            </label>
-                                            <select id="category" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600">
-                                                <option value="assignment">Assignment</option>
-                                                <option value="project">Project</option>
-                                                <option value="research">Research</option>
-                                                <option value="other">Other</option>
-                                            </select>
-                                        </div>
-                                        <div class="mb-4">
-                                            <label class="block text-gray-700 text-sm font-medium mb-2" for="description">
-                                                Description
-                                            </label>
-                                            <textarea id="description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"></textarea>
-                                        </div>
-                                        <div class="mb-4">
-                                            <label class="block text-gray-700 text-sm font-medium mb-2" for="file">
-                                                File
-                                            </label>
-                                            <div class="flex items-center justify-center w-full">
-                                                <label for="file" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
-                                                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                                        <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-2"></i>
-                                                        <p class="mb-2 text-sm text-gray-500">Click to upload or drag and drop</p>
-                                                        <p class="text-xs text-gray-500">PDF, DOCX, PPTX (MAX. 10MB)</p>
-                                                    </div>
-                                                    <input id="file" type="file" class="hidden" />
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="flex justify-end">
-                                            <button type="button" id="cancelUpload" class="mr-2 px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 transition">
-                                                Cancel
-                                            </button>
-                                            <button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition">
-                                                Upload
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-
-                            <!-- Category Tabs -->
-                            <div class="border-b border-gray-200">
-                                <ul class="flex flex-wrap -mb-px" id="categoryTabs">
-                                    <li class="mr-2">
-                                        <button class="category-tab active inline-block p-4 text-purple-600 border-b-2 border-purple-600 rounded-t-lg" data-category="all">All</button>
-                                    </li>
-                                    <li class="mr-2">
-                                        <button class="category-tab inline-block p-4 text-gray-500 hover:text-gray-600 hover:border-gray-300 border-b-2 border-transparent rounded-t-lg" data-category="assignment">Assignments</button>
-                                    </li>
-                                    <li class="mr-2">
-                                        <button class="category-tab inline-block p-4 text-gray-500 hover:text-gray-600 hover:border-gray-300 border-b-2 border-transparent rounded-t-lg" data-category="project">Projects</button>
-                                    </li>
-                                    <li class="mr-2">
-                                        <button class="category-tab inline-block p-4 text-gray-500 hover:text-gray-600 hover:border-gray-300 border-b-2 border-transparent rounded-t-lg" data-category="research">Research</button>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <!-- Work Items -->
-                            <div id="workItems" class="mt-6 space-y-4">
-                                <!-- Work Item 1 -->
-                                <div class="work-item p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition" data-category="assignment">
-                                    <div class="flex items-start">
-                                        <div class="flex-shrink-0 bg-purple-100 p-3 rounded-lg">
-                                            <i class="fas fa-file-alt text-purple-600 text-xl"></i>
-                                        </div>
-                                        <div class="ml-4 flex-1">
-                                            <div class="flex justify-between">
-                                                <h3 class="font-medium text-gray-900">Data Structures Assignment</h3>
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">Assignment</span>
-                                            </div>
-                                            <p class="mt-1 text-sm text-gray-600">Implementation of various sorting algorithms with performance analysis.</p>
-                                            <div class="mt-2 flex items-center text-sm text-gray-500">
-                                                <i class="fas fa-calendar-alt mr-1"></i>
-                                                <span>Submitted on May 15, 2023</span>
-                                            </div>
-                                            <div class="mt-2 flex items-center">
-                                                <span class="text-sm font-medium text-gray-900 mr-2">Grade:</span>
-                                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">A (95%)</span>
-                                            </div>
-                                        </div>
-                                        <div class="ml-4 flex-shrink-0">
-                                            <button class="p-2 text-gray-400 hover:text-gray-500">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Work Item 2 -->
-                                <div class="work-item p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition" data-category="project">
-                                    <div class="flex items-start">
-                                        <div class="flex-shrink-0 bg-blue-100 p-3 rounded-lg">
-                                            <i class="fas fa-project-diagram text-blue-600 text-xl"></i>
-                                        </div>
-                                        <div class="ml-4 flex-1">
-                                            <div class="flex justify-between">
-                                                <h3 class="font-medium text-gray-900">E-commerce Website</h3>
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">Project</span>
-                                            </div>
-                                            <p class="mt-1 text-sm text-gray-600">Full-stack e-commerce platform with React frontend and Node.js backend.</p>
-                                            <div class="mt-2 flex items-center text-sm text-gray-500">
-                                                <i class="fas fa-calendar-alt mr-1"></i>
-                                                <span>Submitted on April 28, 2023</span>
-                                            </div>
-                                            <div class="mt-2 flex items-center">
-                                                <span class="text-sm font-medium text-gray-900 mr-2">Grade:</span>
-                                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">A+ (98%)</span>
-                                            </div>
-                                        </div>
-                                        <div class="ml-4 flex-shrink-0">
-                                            <button class="p-2 text-gray-400 hover:text-gray-500">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Work Item 3 -->
-                                <div class="work-item p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition" data-category="research">
-                                    <div class="flex items-start">
-                                        <div class="flex-shrink-0 bg-yellow-100 p-3 rounded-lg">
-                                            <i class="fas fa-microscope text-yellow-600 text-xl"></i>
-                                        </div>
-                                        <div class="ml-4 flex-1">
-                                            <div class="flex justify-between">
-                                                <h3 class="font-medium text-gray-900">AI in Healthcare Research</h3>
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Research</span>
-                                            </div>
-                                            <p class="mt-1 text-sm text-gray-600">Analysis of machine learning applications in medical diagnosis systems.</p>
-                                            <div class="mt-2 flex items-center text-sm text-gray-500">
-                                                <i class="fas fa-calendar-alt mr-1"></i>
-                                                <span>Submitted on March 10, 2023</span>
-                                            </div>
-                                            <div class="mt-2 flex items-center">
-                                                <span class="text-sm font-medium text-gray-900 mr-2">Grade:</span>
-                                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">A (93%)</span>
-                                            </div>
-                                        </div>
-                                        <div class="ml-4 flex-shrink-0">
-                                            <button class="p-2 text-gray-400 hover:text-gray-500">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Work Item 4 -->
-                                <div class="work-item p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition" data-category="assignment">
-                                    <div class="flex items-start">
-                                        <div class="flex-shrink-0 bg-purple-100 p-3 rounded-lg">
-                                            <i class="fas fa-file-alt text-purple-600 text-xl"></i>
-                                        </div>
-                                        <div class="ml-4 flex-1">
-                                            <div class="flex justify-between">
-                                                <h3 class="font-medium text-gray-900">Database Design</h3>
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">Assignment</span>
-                                            </div>
-                                            <p class="mt-1 text-sm text-gray-600">ER diagrams and SQL queries for library management system.</p>
-                                            <div class="mt-2 flex items-center text-sm text-gray-500">
-                                                <i class="fas fa-calendar-alt mr-1"></i>
-                                                <span>Submitted on February 22, 2023</span>
-                                            </div>
-                                            <div class="mt-2 flex items-center">
-                                                <span class="text-sm font-medium text-gray-900 mr-2">Grade:</span>
-                                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">A- (90%)</span>
-                                            </div>
-                                        </div>
-                                        <div class="ml-4 flex-shrink-0">
-                                            <button class="p-2 text-gray-400 hover:text-gray-500">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Recent Activity -->
-                    <div class="bg-white rounded-xl shadow-md overflow-hidden mt-6 transition duration-300 card-hover">
-                        <div class="p-6">
-                            <h2 class="text-xl font-bold text-gray-800 mb-6">Recent Activity</h2>
-                            
-                            <div class="space-y-4">
-                                <!-- Activity Item 1 -->
-                                <div class="flex items-start">
-                                    <div class="flex-shrink-0 bg-purple-100 p-2 rounded-full">
-                                        <i class="fas fa-check-circle text-purple-600"></i>
-                                    </div>
-                                    <div class="ml-4">
-                                        <p class="text-sm font-medium text-gray-900">Assignment graded</p>
-                                        <p class="text-sm text-gray-600">Your "Data Structures Assignment" received 95%</p>
-                                        <p class="text-xs text-gray-500 mt-1">2 days ago</p>
-                                    </div>
-                                </div>
-                                
-                                <!-- Activity Item 2 -->
-                                <div class="flex items-start">
-                                    <div class="flex-shrink-0 bg-blue-100 p-2 rounded-full">
-                                        <i class="fas fa-comment-alt text-blue-600"></i>
-                                    </div>
-                                    <div class="ml-4">
-                                        <p class="text-sm font-medium text-gray-900">New feedback</p>
-                                        <p class="text-sm text-gray-600">Professor Smith left comments on your research paper</p>
-                                        <p class="text-xs text-gray-500 mt-1">1 week ago</p>
-                                    </div>
-                                </div>
-                                
-                                <!-- Activity Item 3 -->
-                                <div class="flex items-start">
-                                    <div class="flex-shrink-0 bg-green-100 p-2 rounded-full">
-                                        <i class="fas fa-upload text-green-600"></i>
-                                    </div>
-                                    <div class="ml-4">
-                                        <p class="text-sm font-medium text-gray-900">Work submitted</p>
-                                        <p class="text-sm text-gray-600">You uploaded "E-commerce Website Project"</p>
-                                        <p class="text-xs text-gray-500 mt-1">2 weeks ago</p>
-                                    </div>
-                                </div>
-                                
-                                <!-- Activity Item 4 -->
-                                <div class="flex items-start">
-                                    <div class="flex-shrink-0 bg-yellow-100 p-2 rounded-full">
-                                        <i class="fas fa-award text-yellow-600"></i>
-                                    </div>
-                                    <div class="ml-4">
-                                        <p class="text-sm font-medium text-gray-900">Achievement unlocked</p>
-                                        <p class="text-sm text-gray-600">You earned the "Top Performer" badge for this semester</p>
-                                        <p class="text-xs text-gray-500 mt-1">3 weeks ago</p>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="mt-6 text-center">
-                                <a href="#" class="text-sm font-medium text-purple-600 hover:text-purple-700">View all activity</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
-
+        </div>
+    </main>
+    
+    <footer class="bg-white border-t mt-8">
+        <div class="container mx-auto px-4 py-6 text-center text-gray-600 text-sm">
+            <p>© 20255 TTYSI University Student Portal</p>
+        </div>
+    </footer>
+    
     <script>
         // Notification dropdown toggle
-        const notificationBtn = document.getElementById('notificationBtn');
-        const notificationDropdown = document.getElementById('notificationDropdown');
+        const notificationBtn = document.getElementById('notification-btn');
+        const notificationDropdown = document.getElementById('notification-dropdown');
         
-        notificationBtn.addEventListener('click', () => {
+        notificationBtn.addEventListener('click', function() {
             notificationDropdown.classList.toggle('hidden');
         });
         
         // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!notificationBtn.contains(e.target) && !notificationDropdown.contains(e.target)) {
+        document.addEventListener('click', function(event) {
+            if (!notificationBtn.contains(event.target) && !notificationDropdown.contains(event.target)) {
                 notificationDropdown.classList.add('hidden');
             }
         });
         
-        // Upload modal functionality
-        const uploadBtn = document.getElementById('uploadBtn');
-        const uploadModal = document.getElementById('uploadModal');
-        const closeModal = document.getElementById('closeModal');
-        const cancelUpload = document.getElementById('cancelUpload');
+        // Sample data for messages
+        const messages = [
+        {
+            id: 1,
+            sender: "Professor Smith",
+            preview: "Regarding your project submission - please check the feedback I've provided...",
+            date: "Today",
+            read: false
+        },
+        {
+            id: 2,
+            sender: "Admissions Office",
+            preview: "Important information about your scholarship application status...",
+            date: "Yesterday",
+            read: false
+        },
+        {
+            id: 3,
+            sender: "Student Affairs",
+            preview: "Reminder: Upcoming career fair on campus next week...",
+            date: "2 days ago",
+            read: true
+        }
+        ];
         
-        uploadBtn.addEventListener('click', () => {
-            uploadModal.classList.remove('hidden');
-        });
+        // Sample data for achievements
+        const achievements = [
+        {
+            id: 1,
+            title: "Dean's List Certificate",
+            description: "Awarded for academic excellence",
+            date: "Spring 2023",
+            type: "pdf",
+            file: "deans-list.pdf"
+        },
+        {
+            id: 2,
+            title: "Hackathon Winner",
+            description: "1st place in University Hackathon",
+            date: "Fall 2022",
+            type: "image",
+            file: "hackathon.jpg"
+        }
+        ];
         
-        closeModal.addEventListener('click', () => {
-            uploadModal.classList.add('hidden');
-        });
-        
-        cancelUpload.addEventListener('click', () => {
-            uploadModal.classList.add('hidden');
-        });
-        
-        // Close modal when clicking outside
-        uploadModal.addEventListener('click', (e) => {
-            if (e.target === uploadModal) {
-                uploadModal.classList.add('hidden');
-            }
-        });
-        
-        // Form submission
-        const uploadForm = document.getElementById('uploadForm');
-        uploadForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            // Here you would typically handle the file upload with AJAX
-            alert('Work uploaded successfully!');
-            uploadModal.classList.add('hidden');
-            uploadForm.reset();
-        });
-        
-        // Category tabs functionality
-        const categoryTabs = document.querySelectorAll('.category-tab');
-        const workItems = document.querySelectorAll('.work-item');
-        
-        categoryTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                // Update active tab
-                categoryTabs.forEach(t => t.classList.remove('active', 'text-purple-600', 'border-purple-600'));
-                categoryTabs.forEach(t => t.classList.add('text-gray-500', 'hover:text-gray-600', 'hover:border-gray-300', 'border-transparent'));
-                
-                tab.classList.add('active', 'text-purple-600', 'border-purple-600');
-                tab.classList.remove('text-gray-500', 'hover:text-gray-600', 'hover:border-gray-300', 'border-transparent');
-                
-                // Filter work items
-                const category = tab.getAttribute('data-category');
-                
-                workItems.forEach(item => {
-                    if (category === 'all' || item.getAttribute('data-category') === category) {
-                        item.classList.remove('hidden');
-                    } else {
-                        item.classList.add('hidden');
-                    }
-                });
+        // Navigation handling
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log(`Navigating to: ${this.getAttribute('href')}`);
             });
         });
     </script>

@@ -32,13 +32,13 @@
                     </a>
                     <a href="#" class="sidebar-item flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:text-indigo-600">
                         <i class="fas fa-users mr-3 text-gray-500"></i>
-                        Users
+                        Students
                     </a>
                     <a href="/categories" class="sidebar-item flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:text-indigo-600">
                         <i class="fas fa-box mr-3 text-gray-500"></i>
                         Mezonlar
                     </a>
-                    <a href="#" class="sidebar-item flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:text-indigo-600">
+                    {{-- <a href="#" class="sidebar-item flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:text-indigo-600">
                         <i class="fas fa-shopping-cart mr-3 text-gray-500"></i>
                         Orders
                     </a>
@@ -49,7 +49,7 @@
                     <a href="#" class="sidebar-item flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:text-indigo-600">
                         <i class="fas fa-cog mr-3 text-gray-500"></i>
                         Settings
-                    </a>
+                    </a> --}}
                 </div>
             </div>
             
