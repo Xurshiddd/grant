@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('patronymic')->nullable();
             $table->string('full_name');
             $table->string('short_name')->nullable();
-            $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->string('passport_pin');
             $table->string('passport_number');
