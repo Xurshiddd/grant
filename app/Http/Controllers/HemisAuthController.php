@@ -54,15 +54,18 @@ class HemisAuthController extends Controller
             $resourceOwner = $provider->getResourceOwner($accessToken);
             $userData = $resourceOwner->toArray();
             // dd($userData);
-            if ($userData['avg_gpa'] < "3.50") {
-                return redirect()->route('welcome')->withErrors(['error' => 'Sizning o\'rtacha baholaringiz 3.50 dan past bo\'lgani uchun ariza topshira olmaysiz.']);
+            if ((float) $userData['avg_gpa'] < 3.5) {
+                return redirect()->route('welcome')->withErrors([
+                    'error' => "Sizning o'rtacha baholaringiz 3.50 dan past bo'lgani uchun ariza topshira olmaysiz."
+                ]);
             }
+            
             $user = User::where('uuid', $userData['uuid'])->first();
             if (!empty($user) && $userData['uuid'] == $user->uuid) {
                 Auth::login($user);
                 Session::flash('success', 'Hemis tizimiga muvaffaqiyatli kirildi.');
                 // 4. Profil sahifasiga yo'naltirish
-                return view('profile', compact('user')); // 'profile' nomli marshrutga yo'naltirish
+                return redirect()->route('profile')->with('success', 'Hemis tizimiga muvaffaqiyatli kirildi.'); // 'profile' nomli marshrutga yo'naltirish
             }
             Log::info('Hemis user data:', $userData);
             // 2. Student ma'lumotlarini yaratish yoki yangilash
@@ -94,8 +97,7 @@ class HemisAuthController extends Controller
             Auth::login($user);
             
             // 4. Profil sahifasiga yo'naltirish
-            Session::flash('success', 'Hemis tizimiga muvaffaqiyatli kirildi.');
-            return view('profile', compact('user')); // 'profile' nomli marshrutga yo'naltirish
+            return redirect()->route('profile')->with('success', 'Hemis tizimiga muvaffaqiyatli kirildi.'); // 'profile' nomli marshrutga yo'naltirish
         } catch (\Exception $e) {
             return redirect()->route('welcome')->withErrors(['error' => 'Hemis tizimiga kirishda xatolik yuz berdi: ' . $e->getMessage()]);
         }
