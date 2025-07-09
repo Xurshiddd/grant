@@ -19,9 +19,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/categories', [CategoryController::class, 'store']);
     Route::put('/categories/{category}', [CategoryController::class, 'update']);
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
-    Route::get('/profile', function(){
-        return view('profile');
-    });
 });
 Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::get('/hemis/redirect', [HemisAuthController::class, 'redirectToHemis'])->name('hemis.redirect');

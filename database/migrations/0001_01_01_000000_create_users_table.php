@@ -19,24 +19,21 @@ return new class extends Migration
             $table->string('surname');
             $table->string('patronymic')->nullable();
             $table->string('full_name');
-            $table->string('short_name')->nullable();
             $table->string('phone')->nullable();
-            $table->string('passport_pin');
+            $table->string('passport_pnfl')->nullable();
             $table->string('passport_number');
             $table->string('birth_date');
-            $table->string('university');
             $table->string('group_name');
-            $table->string('faculty_name')->nullable();
-            $table->string('specialty_name')->nullable();
             $table->string('education_form')->nullable();
             $table->string('education_type')->nullable();
-            $table->string('education_lang')->nullable();
-            $table->string('picture')->nullable();
+            $table->string('image')->nullable();
             $table->string('address')->nullable();
             $table->string('email')->nullable()->unique();
-            $table->string('login')->nullable()->unique();
+            $table->string('country')->nullable();
+            $table->string('livel')->nullable();
+            $table->string('type')->default('student'); // 'student', 'teacher', 'admin'
             $table->string('password')->nullable();
-            $table->string('status')->default('active'); // active, inactive, suspended
+            $table->string('remember_token')->nullable();
             $table->timestamps();
         });
 
