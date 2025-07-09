@@ -17,5 +17,5 @@ Route::post('/categories', [CategoryController::class, 'store']);
 Route::put('/categories/{category}', [CategoryController::class, 'update']);
 Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
 Route::post('login', [AuthController::class, 'login'])->name('login');
-Route::get('/hemis/login', [HemisAuthController::class, 'redirectToHemis']);
+Route::get('/hemis/login', [HemisAuthController::class, 'redirectToHemis'])->name('hemis.student.redirect');
 Route::get('/hemis/callback', [HemisAuthController::class, 'handleHemisCallback']);
