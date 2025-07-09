@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grant Ariza Platformasi</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
 </head>
 <body class="bg-blue-50 min-h-screen font-sans">
     <!-- Navbar -->
@@ -22,23 +24,26 @@
             <a href="{{ route('login') }}" class="bg-blue-600 text-white px-5 py-2 rounded-full shadow hover:bg-blue-700">Ariza topshirish</a>
         </div>
     </header>
+    @if (session('success') || $errors->has('error'))
     <div
-    x-data="{ show: true }"
-    x-init="setTimeout(() => show = false, 3000)"
-    x-show="show"
-    x-transition
-    class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md"
+        x-data="{ show: true }"
+        x-init="setTimeout(() => show = false, 3000)"
+        x-show="show"
+        x-transition
+        class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md"
     >
-    @if (session('success'))
-    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded shadow">
-        <strong>Success!</strong> {{ session('success') }}
-    </div>
-    @elseif ($errors->has('error'))
-    <div class="bg-red-100 text-red-700 px-4 py-2 rounded mt-2 text-center">
-        {{ $errors->first('error') }}
+        @if (session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded shadow text-center">
+                <strong>Success!</strong> {{ session('success') }}
+            </div>
+        @elseif ($errors->has('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded shadow text-center">
+                <strong>Xatolik!</strong> {{ $errors->first('error') }}
+            </div>
+        @endif
     </div>
 @endif
-</div>
+
 <!-- Alert -->
 <div class="bg-red-500 text-white text-center py-2 font-medium">
     <div class="container mx-auto flex items-center justify-center gap-2">
