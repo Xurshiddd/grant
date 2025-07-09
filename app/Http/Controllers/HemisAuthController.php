@@ -52,6 +52,7 @@ class HemisAuthController extends Controller
             
             $resourceOwner = $provider->getResourceOwner($accessToken);
             $userData = $resourceOwner->toArray();
+            dd($userData);
             Log::info('Hemis user data:', $userData);
                 // 2. Student ma'lumotlarini yaratish yoki yangilash
                 $user = User::updateOrCreate(
