@@ -94,7 +94,7 @@
                     class="w-32 h-32 rounded-full object-cover border-4 border-primary"
                     loading="lazy"
                     />
-                    <h2 class="text-2xl font-bold mt-4">{{ $user->full_name }}</h2>
+                    <h2 class="text-2xl font-bold mt-4 text-center">{{ $user->full_name }}</h2>
                     <p class="text-gray-600">{{ $user->faculty_name }}</p>
                 </div>
                 
