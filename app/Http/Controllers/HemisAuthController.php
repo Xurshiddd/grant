@@ -52,7 +52,7 @@ class HemisAuthController extends Controller
             
             $resourceOwner = $provider->getResourceOwner($accessToken);
             $userData = $resourceOwner->toArray();
-            
+            dd($userData);
             $user = User::updateOrCreate(
                 ['email' => $userData['email']],
                 [

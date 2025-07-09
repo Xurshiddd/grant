@@ -98,28 +98,55 @@
                     <p class="text-gray-600">Computer Science Student</p>
                 </div>
                 
-                <div class="space-y-4">
-                    <div>
-                        <h3 class="font-semibold text-gray-700">Student ID</h3>
-                        <p>STD-2023-001</p>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-700">Email</h3>
-                        <p>john.doe@university.edu</p>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-700">Phone</h3>
-                        <p>+1 (123) 456-7890</p>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-700">Date of Birth</h3>
-                        <p>January 15, 2000</p>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-700">Department</h3>
-                        <p>Computer Science</p>
-                    </div>
-                </div>
+                <section class="bg-white rounded-lg shadow-md p-8">
+                    <h2 class="text-2xl font-bold text-center mb-6">Talim granti uchun talabgor talaba malumotlari</h2>
+                    <form class="grid  gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Familya <span class="text-red-500">*</span></label>
+                            <input type="text" name="lastname" disabled class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Ism <span class="text-red-500">*</span></label>
+                            <input type="text" name="firstname" disabled class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Ism <span class="text-red-500">*</span></label>
+                            <input type="text" name="fathername" disabled class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Fuqarolik <span class="text-red-500">*</span></label>
+                            <input type="text" name="citizenship" disabled class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Tug'ilan sana <span class="text-red-500">*</span></label>
+                            <input type="text" name="birthdate" disabled placeholder="dd.mm.yyyy" class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Passpor seria raqami <span class="text-red-500">*</span></label>
+                            <input type="text" name="passport" disabled placeholder="XX1234567" class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Talim turi <span class="text-red-500">*</span></label>
+                            <input type="text" name="education_type" disabled placeholder="Бакалавр/магистр" class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Kursi <span class="text-red-500">*</span></label>
+                            <input type="text" name="course" disabled class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Guruhi <span class="text-red-500">*</span></label>
+                            <input type="text" name="group" disabled class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Telefon raqami <span class="text-red-500">*</span></label>
+                            <input type="text" name="phone1" disabled placeholder="+998" class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Telefon raqami (qo'shimcha)</label>
+                            <input type="text" name="phone2" disabled placeholder="+998" class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
+                        </div>
+                    </form>
+                </section>
             </div>
             
             <!-- Main Content Area -->
@@ -168,7 +195,9 @@
                         </div>
                     </div>
                 </div>
+                <div class="bg-white rounded-lg shadow-md p-6">
                 
+                </div>
                 <!-- Messages and Achievements Section -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- Messages Section -->
@@ -246,6 +275,7 @@
                     </div>
                 </div>
             </div>
+            
         </div>
     </main>
     
