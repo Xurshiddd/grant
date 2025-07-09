@@ -111,7 +111,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Fuqarolik <span class="text-red-500">*</span></label>
-                            <input type="text" name="citizenship" value="{{ $user-> }}" disabled class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
+                            <input type="text" name="citizenship" value="" disabled class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Tug'ilan sana <span class="text-red-500">*</span></label>
