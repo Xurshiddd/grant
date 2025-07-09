@@ -53,7 +53,7 @@ class HemisAuthController extends Controller
             
             $resourceOwner = $provider->getResourceOwner($accessToken);
             $userData = $resourceOwner->toArray();
-            // dd($userData);
+            dd($userData);
             if ((float) $userData['avg_gpa'] < 3.5) {
                 return redirect()->route('welcome')->withErrors([
                     'error' => "Sizning o'rtacha baholaringiz 3.50 dan past bo'lgani uchun ariza topshira olmaysiz."
