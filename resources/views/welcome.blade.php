@@ -6,7 +6,7 @@
     <title>Grant Ariza Platformasi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-
+    <link rel="shortcut icon" href="https://ttysi.uz/assets/public/images/logo_black.svg" type="image/svg">
 </head>
 <body class="bg-blue-50 min-h-screen font-sans">
     <!-- Navbar -->
@@ -26,22 +26,22 @@
     </header>
     @if (session('success') || $errors->has('error'))
     <div
-        x-data="{ show: true }"
-        x-init="setTimeout(() => show = false, 3000)"
-        x-show="show"
-        x-transition
-        class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md"
+    x-data="{ show: true }"
+    x-init="setTimeout(() => show = false, 3000)"
+    x-show="show"
+    x-transition
+    class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md"
     >
-        @if (session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded shadow text-center">
-                <strong>Success!</strong> {{ session('success') }}
-            </div>
-        @elseif ($errors->has('error'))
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded shadow text-center">
-                <strong>Xatolik!</strong> {{ $errors->first('error') }}
-            </div>
-        @endif
+    @if (session('success'))
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded shadow text-center">
+        <strong>Success!</strong> {{ session('success') }}
     </div>
+    @elseif ($errors->has('error'))
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded shadow text-center">
+        <strong>Xatolik!</strong> {{ $errors->first('error') }}
+    </div>
+    @endif
+</div>
 @endif
 
 <!-- Alert -->
