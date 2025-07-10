@@ -85,7 +85,7 @@ class HemisAuthController extends Controller
                 'passport_number' => $userData['passport_number'] ?? null,
                 'education_form' => $userData['data']['educationForm']['name'] ?? null,
                 'education_type' => $userData['data']['educationType']['name'] ?? null,
-                'livel' => $userData['data']['livel']['name'] ?? null,
+                'livel' => $userData['data']['level']['name'] ?? null,
                 'group_name' => $userData['data']['group']['name'] ?? null,
                 'avg_gpa' => $userData['data']['avg_gpa'] ?? null,
                 'address' => $userData['data']['address'] ?? null,

@@ -97,7 +97,7 @@
                             <td class="px-6 py-4 whitespace-nowrap">{{ $student->passport }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $student->education_form }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $student->education_type }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ $student->group }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $student->group_name }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="px-2 py-1 rounded-full {{ 
                                     $student->avg_gpa >= 3.5 ? 'gpa-excellent' : 
