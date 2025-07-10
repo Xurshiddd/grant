@@ -60,8 +60,8 @@ class HemisAuthController extends Controller
                 ]);
             }
             
-            $user = User::where('uuid', $userData['uuid'])->first();
-            if (!empty($user) && $userData['uuid'] == $user->uuid) {
+            $user = User::where('student_id_number', $userData['student_id_number'])->first();
+            if (!empty($user) && $userData['student_id_number'] == $user->student_id_number) {
                 Auth::login($user);
                 Session::flash('success', 'Hemis tizimiga muvaffaqiyatli kirildi.');
                 // 4. Profil sahifasiga yo'naltirish
@@ -69,19 +69,19 @@ class HemisAuthController extends Controller
             }
             Log::info('Hemis user data:', $userData);
             // 2. Student ma'lumotlarini yaratish yoki yangilash
-            $user = User::updateOrCreate([
+            $user = User::create([
                 'student_id_number' => $userData['student_id_number'],
                 'email' => $userData['email'] ?: $userData['login'] . '@student.hemis.uz',
                 'uuid' => $userData['uuid'],
-                'type' => $userData['type'],
-                'firstname' => $userData['firstname'],
-                'surname' => $userData['surname'],
-                'father_name' => $userData['patronymic'],
+                'type' => $userData['type'] ?? 'student',
+                'firstname' => $userData['firstname'] ?? '',
+                'surname' => $userData['surname'] ?? '',
+                'father_name' => $userData['patronymic'] ?? '',
                 'image' => $userData['picture'] ?? null,
-                'full_name' => $userData['data']['full_name'],
-                'birth_date' => $userData['birth_date'],
-                'passport_pnfl' => $userData['passport_pin'],
-                'passport_number' => $userData['passport_number'],
+                'full_name' => $userData['data']['full_name'] ?? null,
+                'birth_date' => $userData['birth_date'] ?? null,
+                'passport_pnfl' => $userData['passport_pin'] ?? null,
+                'passport_number' => $userData['passport_number'] ?? null,
                 'education_form' => $userData['educationForm']['name'] ?? null,
                 'education_type' => $userData['educationType']['name'] ?? null,
                 'livel' => $userData['livel']['name'] ?? null,
