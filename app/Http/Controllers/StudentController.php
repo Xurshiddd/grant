@@ -9,7 +9,7 @@ class StudentController extends Controller
 {
     public function index()
     {
-        $students = User::where('type', 'student')->paginate(15);
+        $students = User::where('type', 'student')->paginate(10);
         return view('students.index', compact('students'));
     }
 

@@ -36,8 +36,8 @@
         color: white;
     }
 </style>
-<div class="container">
-    <div class="container mx-auto px-4 py-8">
+<div class="container min-h-screen">
+    <div class="mx-auto px-4 py-8">
         <div class="flex flex-col md:flex-row justify-between items-center mb-8">
             <h1 class="text-3xl font-bold text-indigo-700 mb-4 md:mb-0">
                 <i class="fas fa-user-graduate mr-2"></i>Student Management System
