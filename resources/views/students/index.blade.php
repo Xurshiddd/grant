@@ -36,7 +36,9 @@
         color: white;
     }
 </style>
-<div class="container min-h-screen">
+<div class="container min-h-screen" style="owerflow-y: scroll;">
+
+    {{-- Include the sidebar --}}
     <div class="mx-auto px-4 py-8">
         <div class="flex flex-col md:flex-row justify-between items-center mb-8">
             <h1 class="text-3xl font-bold text-indigo-700 mb-4 md:mb-0">
@@ -117,7 +119,7 @@
         </div>
         
         <div class="flex justify-between items-center mt-4">
-            {{ $students->links('pagination::bootstrap-5') }}
+            {{ $students->links() }}
         </div>
     </div>
 </div>
