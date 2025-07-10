@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
     <base target="_self">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Profile</title>
-    <meta name="description" content="Student profile page with personal information, achievements, and messages">
+    <meta name="description" content="Student profile page with personal information, academic performance, and notifications.">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="shortcut icon" href="https://ttysi.uz/assets/public/images/logo_black.svg" type="image/svg">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script>
         tailwind.config = {
@@ -94,8 +97,13 @@
                     </div>
                 </div>
             </div>
-            <button class="px-4 py-2 bg-primary text-white rounded-md hover:bg-secondary transition">Edit Profile</button>
-            <button class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 transition">Logout</button>
+            <form action="{{ route('logout') }}" method="POST" class="inline">
+                @csrf
+                <button type="submit" class="p-2 text-gray-600 hover:text-primary">
+                    Logout
+                    <i class="fas fa-sign-out-alt text-xl"></i>
+                </button>
+            </form>
         </div>
     </nav>
 </header>
@@ -116,185 +124,168 @@
             
             <section class="bg-white rounded-lg shadow-md p-8">
                 <h2 class="text-2xl font-bold text-center mb-6">Talim granti uchun talabgor talaba malumotlari</h2>
-                <form class="grid  gap-4">
+                <div class="grid  gap-4">
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Familya <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700">Familya </label>
                         <input type="text" name="lastname" disabled value="{{ $user->surname }}" class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Ism <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700">Ism </label>
                         <input type="text" name="firstname" value="{{ $user->firstname }}" disabled class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Fuqarolik <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700">Fuqarolik </label>
                         <input type="text" name="citizenship" value="{{ $user->country }}" disabled class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Tug'ilan sana <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700">Tug'ilan sana </label>
                         <input type="text" name="birthdate" value="{{ $user->birth_date }}" disabled placeholder="dd.mm.yyyy" class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Passpor seria raqami <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700">Passpor seria raqami </label>
                         <input type="text" name="passport" value="{{ $user->passport_number }}" disabled placeholder="XX1234567" class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Talim turi <span class="text-red-500">*</span></label>
-                        <input type="text" name="education_type" value="{{ $user->education_type }}" disabled placeholder="Бакалавр/магистр" class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
+                        <label class="block text-sm font-medium text-gray-700">Talim turi </label>
+                        <input type="text" name="education_type" value="{{ $user->education_type }}" disabled class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Kursi <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700">Kursi </label>
                         <input type="text" name="course" value="{{ $user->livel }}" disabled class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Guruhi <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700">Guruhi </label>
                         <input type="text" name="group" value="{{ $user->group_name }}" disabled class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-gray-700">Telefon raqami <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-medium text-gray-700">Telefon raqami </label>
                         <input type="text" name="phone1" value="{{ $user->phone }}" disabled placeholder="+998" class="mt-1 block w-full border border-blue-400 rounded-md shadow-sm px-3 py-2" />
                     </div>
-                </form>
+                </div>
             </section>
         </div>
         
         <!-- Main Content Area -->
         <div class="lg:col-span-3 space-y-8">
             <!-- Academic Information Section -->
+             @php
+                    $gpa = $user->avg_gpa ?? 3.5;
+                    $gpaPercentage = min(100, ($gpa / 5) * 100); // GPA ni 5 ga nisbatan % hisoblash
+                    @endphp
             <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-xl font-bold mb-6 border-b pb-2">Academic Information</h2>
+                <h2 class="font-semibold text-gray-700">Umumiy ball: {{$user->petitions->sum('evaluation') + ($gpa*16)}}</h2>
                 
                 <div class="space-y-6">
                     <div>
-                        <h3 class="font-semibold text-gray-700">Current GPA</h3>
+                        <h3 class="font-semibold text-gray-700">GPA</h3>
                         <div class="flex items-center mt-2">
                             <div class="w-full bg-gray-200 rounded-full h-4">
-                                <div class="bg-accent h-4 rounded-full" style="width: 85%"></div>
+                                <div class="bg-accent h-4 rounded-full" style="width: {{ $gpaPercentage }}%"></div>
                             </div>
-                            <span class="ml-2 font-bold">3.7</span>
+                            <span class="ml-2 font-bold">{{ number_format($gpa, 2) }}</span>
                         </div>
                     </div>
                     
-                    <div>
-                        <h3 class="font-semibold text-gray-700">Semester Progress</h3>
-                        <div class="mt-2 space-y-2">
-                            <div class="flex justify-between">
-                                <span>Fall 2022</span>
-                                <span class="font-semibold">3.5</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>Spring 2023</span>
-                                <span class="font-semibold">3.8</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>Fall 2023</span>
-                                <span class="font-semibold">3.9</span>
-                            </div>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold text-gray-700">Akademik o'zlashtirish</h3>
+                    <div class="mt-2 space-y-2">
+                        <div class="flex justify-between">
+                            <span>ball</span>
+                            <span class="font-semibold">{{ $gpa * 16}}</span>
                         </div>
+                        
                     </div>
+                </div>
+            </div>
+            <div class="lg:col-span-3 bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-bold mb-6 border-b pb-2">Ijtimoiy faollik ko'rsatkichi baliga ega bo'lish uchun asoslovchi hujjatlarni yuklash (ixtiyoriy)</h2>
+                <h4 class="underline mb-1.5">Yig'ilgan ballar: {{ $user->petitions->sum('evaluation') }}</h4>
+                @foreach ($categories as $category)
+                <form action="{{ route('petitions.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
                     
-                    <div>
-                        <h3 class="font-semibold text-gray-700">Current Courses</h3>
-                        <ul class="mt-2 space-y-1">
-                            <li>• Data Structures and Algorithms</li>
-                            <li>• Database Systems</li>
-                            <li>• Web Development</li>
-                            <li>• Artificial Intelligence</li>
+                    <div class="mb-6 card p-4 bg-gray-100 rounded-lg shadow-sm">
+                        <h3 class="font-semibold text-gray-700">{{ $category->name }}</h3>
+                        <p class="text-sm text-gray-500 mb-2">Maksimal ball: {{ $category->max_score }}</p>
+                        <input type="hidden" name="category_id" value="{{ $category->id }}">
+                        <input type="file" name="path[]" multiple accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp" class="mt-2 form-input block text-sm text-gray-500
+                        file:focus:ring-2 file:focus:ring-primary file:focus:border-transparent file:border file:border-gray-300 file:bg-white file:text-sm file:font-semibold file:rounded-lg file:px-4 file:py-2
+                        file:hover:bg-gray-50 file:hover:border-gray-400 file:hover:text-gray-700
+                        file:transition-colors file:duration-200
+                        file:cursor-pointer
+                        file:focus:outline-none
+                        file:focus:ring-offset-2
+                        file:focus:ring-offset-white
+                        file:focus:ring-primary
+                        file:focus:ring-opacity-50"><span class="text-xs text-gray-500">Yuklash uchun PDF, DOC, DOCX, PNG, JPG, JPEG yoki WEBP formatidagi faylni tanlang. max 5mb</span>
+                        <p class="text-sm text-yellow-500 mt-2 mb-4">Siz bu mezon uchun {{ $user->petitions->where('category_id', $category->id)->count() }} ta hujjat yuklagansiz.</p>
+                        <div class="{{ $user->petitions->where('category_id', $category->id)->count() > 0 ? 'inline' : 'hidden' }}">
+                        <ul class="list-none pl-5 flex justify-around items-center flex-wrap mb-2">
+                            @foreach ($user->petitions->where('category_id', $category->id) as $petition)
+                            <li class="group text-sm text-gray-700 p-2 bg-gray-200 rounded-lg flex items-center justify-between m-1.5">
+                                <a href="{{ asset($petition->path) }}" class="text-blue-600 hover:underline" target="_blank">
+                                    {{ basename($petition->path) }}
+                                </a>
+                                <span class="text-xs text-gray-500 ml-2">{{ $petition->created_at->format('d.m.Y') }}</span>
+                                <span class="text-xs text-gray-500 ml-2">
+                                        <button type="submit" class="text-red-600 hover:text-red-900" title="O‘chirish" onclick="deletePetition({{ $petition->id }})">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                </span>
+                            </li>
+                            @endforeach
                         </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-white rounded-lg shadow-md p-6">
-                
-            </div>
-            <!-- Messages and Achievements Section -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Messages Section -->
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <div class="flex justify-between items-center mb-6 border-b pb-2">
-                        <h2 class="text-xl font-bold">Messages</h2>
+                        </div>
+                        <button type="submit" class="bg-primary text-white px-4 py-2 rounded hover:bg-secondary transition-colors">Yuklash</button>
                     </div>
                     
-                    <div class="space-y-4">
-                        <div class="border rounded-md p-4 hover:bg-gray-50 cursor-pointer">
-                            <div class="flex justify-between">
-                                <h3 class="font-semibold">Professor Smith</h3>
-                                <span class="text-sm text-gray-500">Today</span>
-                            </div>
-                            <p class="text-sm text-gray-600 mt-1 truncate">Regarding your project submission - please check the feedback I've provided...</p>
-                        </div>
-                        
-                        <div class="border rounded-md p-4 hover:bg-gray-50 cursor-pointer">
-                            <div class="flex justify-between">
-                                <h3 class="font-semibold">Admissions Office</h3>
-                                <span class="text-sm text-gray-500">Yesterday</span>
-                            </div>
-                            <p class="text-sm text-gray-600 mt-1 truncate">Important information about your scholarship application status...</p>
-                        </div>
-                        
-                        <div class="border rounded-md p-4 hover:bg-gray-50 cursor-pointer">
-                            <div class="flex justify-between">
-                                <h3 class="font-semibold">Student Affairs</h3>
-                                <span class="text-sm text-gray-500">2 days ago</span>
-                            </div>
-                            <p class="text-sm text-gray-600 mt-1 truncate">Reminder: Upcoming career fair on campus next week...</p>
-                        </div>
-                        
-                        <div class="text-center mt-4">
-                            <a href="#" class="text-primary hover:text-secondary text-sm font-medium">
-                                View All Messages
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Achievements Section -->
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <div class="flex justify-between items-center mb-6 border-b pb-2">
-                        <h2 class="text-xl font-bold">Achievements</h2>
-                        <button class="px-3 py-1 bg-primary text-white rounded-md text-sm hover:bg-secondary transition">
-                            <i class="fas fa-plus mr-1"></i> Add New
-                        </button>
-                    </div>
-                    
-                    <div class="space-y-4">
-                        @foreach (\App\Models\Category::all() as $category)
-                        <div class="border rounded-md p-4">
-                            <div class="flex justify-between">
-                                <h3 class="font-semibold">{{ $category->name }}</h3>
-                                <span class="text-sm text-gray-500">Spring 2023</span>
-                            </div>
-                            <p class="text-sm text-gray-600 mt-1">Awarded for academic excellence</p>
-                            <div class="mt-2 flex space-x-2">
-                                <button class="text-primary hover:text-secondary text-sm">
-                                    <i class="fas fa-eye mr-1"></i> View
-                                </button>
-                                <button class="text-primary hover:text-secondary text-sm">
-                                    <i class="fas fa-download mr-1"></i> Download
-                                </button>
-                            </div>
-                        </div>
-                        @endforeach
-                        <div class="text-center mt-4">
-                            <a href="#" class="text-primary hover:text-secondary text-sm font-medium">
-                                View All Achievements
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                </form>
+                @endforeach
             </div>
         </div>
+        <!-- category form Section -->
         
     </div>
 </main>
 
 <footer class="bg-white border-t mt-8">
     <div class="container mx-auto px-4 py-6 text-center text-gray-600 text-sm">
-        <p>© 20255 TTYSI University Student Portal</p>
+        <p>© 2025 TTYSI University Student Portal</p>
     </div>
 </footer>
 
 <script>
-    // Notification dropdown toggle
+    // delete function prevent default form submission
+    function deletePetition(id) {
+    event.preventDefault(); // Prevent default form submission
+
+    if (confirm('Are you sure you want to delete this petition?')) {
+        fetch(`/petitions/${id}/delete`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Accept': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Petition deleted successfully.');
+                location.reload();
+            } else {
+                alert('Error deleting petition: ' + (data.error || 'Unknown error'));
+                location.reload();
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting petition:', error);
+            alert('An unexpected error occurred.');
+        });
+    }
+}
+
     const notificationBtn = document.getElementById('notification-btn');
     const notificationDropdown = document.getElementById('notification-dropdown');
     
@@ -333,34 +324,6 @@
         read: true
     }
     ];
-    
-    // Sample data for achievements
-    const achievements = [
-    {
-        id: 1,
-        title: "Dean's List Certificate",
-        description: "Awarded for academic excellence",
-        date: "Spring 2023",
-        type: "pdf",
-        file: "deans-list.pdf"
-    },
-    {
-        id: 2,
-        title: "Hackathon Winner",
-        description: "1st place in University Hackathon",
-        date: "Fall 2022",
-        type: "image",
-        file: "hackathon.jpg"
-    }
-    ];
-    
-    // Navigation handling
-    document.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            console.log(`Navigating to: ${this.getAttribute('href')}`);
-        });
-    });
 </script>
 </body>
 </html>

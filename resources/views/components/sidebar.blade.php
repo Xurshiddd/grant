@@ -26,11 +26,11 @@
             <!-- Navigation -->
             <div class="flex-1 overflow-y-auto py-2">
                 <div class="px-2 space-y-1">
-                    <a href="#" class="sidebar-item active flex items-center px-3 py-2 text-sm font-medium rounded-md text-indigo-700">
+                    <a href="{{ route('dashboard') }}" class="sidebar-item active flex items-center px-3 py-2 text-sm font-medium rounded-md text-indigo-700">
                         <i class="fas fa-tachometer-alt mr-3 text-indigo-500"></i>
                         Dashboard
                     </a>
-                    <a href="#" class="sidebar-item flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:text-indigo-600">
+                    <a href="{{ route('students.index') }}" class="sidebar-item flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:text-indigo-600">
                         <i class="fas fa-users mr-3 text-gray-500"></i>
                         Students
                     </a>

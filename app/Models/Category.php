@@ -10,4 +10,8 @@ class Category extends Model
         'name',
         'max_score'
     ];
+    public function petitions()
+    {
+        return $this->hasMany(Petition::class);
+    }
 }

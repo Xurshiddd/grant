@@ -79,11 +79,11 @@
 <section class="bg-white py-12 px-6">
     <div class="container mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
         <div class="p-6 rounded-xl bg-white border border-blue-100 shadow-sm hover:shadow-md transition-shadow duration-300">
-            <div class="text-3xl font-bold text-blue-800 mb-2">1141 ta</div>
-            <div class="text-gray-600">Jami talabalar</div>
+            <div class="text-3xl font-bold text-blue-800 mb-2">{{ $allStudent }}</div>
+            <div class="text-gray-600">Jami 1-kurs talabalar</div>
         </div>
         <div class="p-4 rounded-lg bg-blue-50">
-            <div class="text-2xl font-bold text-blue-800">84 ta</div>
+            <div class="text-2xl font-bold text-blue-800">{{ DB::table('users')->where('type', 'student')->count() }} ta</div>
             <div class="text-gray-600 text-sm">Kelib tushgan arizalar</div>
         </div>
         <div class="p-4 rounded-lg bg-blue-50">
