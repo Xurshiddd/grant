@@ -67,6 +67,7 @@ class HemisAuthController extends Controller
                 // 4. Profil sahifasiga yo'naltirish
                 return redirect()->route('profile')->with('success', 'Hemis tizimiga muvaffaqiyatli kirildi.'); // 'profile' nomli marshrutga yo'naltirish
             }
+            dd($userData);
             Log::info('Hemis user data:', $userData);
             // 2. Student ma'lumotlarini yaratish yoki yangilash
             $user = User::create([
@@ -88,7 +89,7 @@ class HemisAuthController extends Controller
                 'group_name' => $userData['group']['name'] ?? null,
                 'avg_gpa' => $userData['data']['avg_gpa'] ?? null,
                 'address' => $userData['data']['address'] ?? null,
-                'country' => $userData['country']['name'] ?? null,
+                'country' => $userData['data']['country']['name'] ?? null,
                 'phone' => $userData['phone'] ?? null,
                 ]
             );

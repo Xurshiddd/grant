@@ -7,6 +7,7 @@
     <title>Student Profile</title>
     <meta name="description" content="Student profile page with personal information, academic performance, and notifications.">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <link rel="shortcut icon" href="https://ttysi.uz/assets/public/images/logo_black.svg" type="image/svg">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
