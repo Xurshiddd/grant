@@ -96,7 +96,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $student->student_id_number }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $student->full_name }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ $student->passport }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $student->passport_number }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $student->education_form }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $student->education_type }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $student->group_name }}</td>
