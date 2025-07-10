@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('student_id_number')->unique();
             $table->string('firstname')->nullable();
             $table->string('surname')->nullable();
-            $table->string('patronymic')->nullable();
+            $table->string('father_name')->nullable();
             $table->string('full_name')->nullable();
             $table->string('phone')->nullable();
             $table->string('passport_pnfl')->nullable();
@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('group_name')->nullable();
             $table->string('education_form')->nullable();
             $table->string('education_type')->nullable();
+            $table->string('avg_gpa')->nullable();
             $table->string('image')->nullable();
             $table->string('address')->nullable();
             $table->string('email')->nullable()->unique();

@@ -52,13 +52,13 @@
                 </div>
             </div>
         </div>
-
+        
         <!-- Login Form Section -->
         <div class="p-8 md:w-1/2 flex flex-col justify-center">
             <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center" id="form-title">Xodimlar uchun kirish</h2>
             
             <!-- Staff Login Form -->
-            <form id="staff-login" class="space-y-4" method="POST" action="{{ route('login') }}">
+            <form id="staff-login" class="space-y-4 hidden" method="POST" action="{{ route('login') }}">
                 @csrf
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Elektron pochta</label>
@@ -96,58 +96,64 @@
             </form>
             
             <!-- Student Login OAuth -->
-            <div id="student-login" class="space-y-4 hidden">
+            <div id="student-login" class="space-y-4">
                 <p class="text-gray-700 text-center">
                     Talabalar HEMIS orqali tizimga kirishlari mumkin.
                 </p>
                 <a href="{{ route('hemis.redirect') }}"
-                   class="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300 flex items-center justify-center">
-                    <i class="fas fa-university mr-2"></i> HEMIS orqali kirish
-                </a>
-            </div>
-            
-            <div class="mt-6 text-center">
-                <button id="toggle-login" class="text-blue-600 hover:text-blue-800 font-medium toggle-btn flex items-center justify-center mx-auto">
-                    <i class="fas fa-exchange-alt mr-2"></i> Talabalar uchun kirish
-                </button>
-            </div>
+                class="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300 flex items-center justify-center">
+                <i class="fas fa-university mr-2"></i> HEMIS orqali kirish
+            </a>
+        </div>
+        
+        <div class="mt-6 text-center">
+            <button id="toggle-login" class="text-blue-600 hover:text-blue-800 font-medium toggle-btn flex items-center justify-center mx-auto">
+                <i class="fas fa-exchange-alt mr-2"></i> Talabalar uchun kirish
+            </button>
         </div>
     </div>
+</div>
 
-    <script>
-        const toggleBtn = document.getElementById('toggle-login');
-        const staffForm = document.getElementById('staff-login');
-        const studentForm = document.getElementById('student-login');
-        const formTitle = document.getElementById('form-title');
-        let isStudentLogin = false;
-
-        toggleBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            isStudentLogin = !isStudentLogin;
-            if (isStudentLogin) {
-                staffForm.classList.add('hidden');
-                studentForm.classList.remove('hidden');
-                formTitle.textContent = "Talabalar uchun kirish";
-                toggleBtn.innerHTML = '<i class="fas fa-exchange-alt mr-2"></i> Xodimlar uchun kirish';
-            } else {
-                studentForm.classList.add('hidden');
-                staffForm.classList.remove('hidden');
-                formTitle.textContent = "Xodimlar uchun kirish";
-                toggleBtn.innerHTML = '<i class="fas fa-exchange-alt mr-2"></i> Talabalar uchun kirish';
-            }
-        });
-
-        function togglePasswordVisibility(fieldId) {
-            const passwordField = document.getElementById(fieldId);
-            const eyeIcon = passwordField.nextElementSibling.querySelector('i');
-            if (passwordField.type === 'password') {
-                passwordField.type = 'text';
-                eyeIcon.classList.replace('fa-eye', 'fa-eye-slash');
-            } else {
-                passwordField.type = 'password';
-                eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
-            }
+<script>
+    // Sahifa yuklanganda formani sozlash
+    window.addEventListener('DOMContentLoaded', function() {
+        formTitle.textContent = "Talabalar uchun kirish";
+        toggleBtn.innerHTML = '<i class="fas fa-exchange-alt mr-2"></i> Xodimlar uchun kirish';
+    });
+    
+    const toggleBtn = document.getElementById('toggle-login');
+    const staffForm = document.getElementById('staff-login');
+    const studentForm = document.getElementById('student-login');
+    const formTitle = document.getElementById('form-title');
+    let isStudentLogin = true;
+    
+    toggleBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        isStudentLogin = !isStudentLogin;
+        if (isStudentLogin) {
+            staffForm.classList.add('hidden');
+            studentForm.classList.remove('hidden');
+            formTitle.textContent = "Talabalar uchun kirish";
+            toggleBtn.innerHTML = '<i class="fas fa-exchange-alt mr-2"></i> Xodimlar uchun kirish';
+        } else {
+            studentForm.classList.add('hidden');
+            staffForm.classList.remove('hidden');
+            formTitle.textContent = "Xodimlar uchun kirish";
+            toggleBtn.innerHTML = '<i class="fas fa-exchange-alt mr-2"></i> Talabalar uchun kirish';
         }
-    </script>
+    });
+    
+    function togglePasswordVisibility(fieldId) {
+        const passwordField = document.getElementById(fieldId);
+        const eyeIcon = passwordField.nextElementSibling.querySelector('i');
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            eyeIcon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            passwordField.type = 'password';
+            eyeIcon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    }
+</script>
 </body>
 </html>
