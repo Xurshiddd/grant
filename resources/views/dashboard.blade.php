@@ -1,61 +1,53 @@
 @extends('layouts.admin')
+
 @section('content')
 <div class="container">
     <h2 class="text-xl font-semibold mb-4">Dashboard</h2>
-    
-    {{-- Foydalanuvchilar statistikasi --}}
-    <div id="usersChart" class="mb-10"></div>
-    
-    {{-- Petitions statistikasi --}}
+
+    {{-- Foydalanuvchilar: bakalavr vs magistr --}}
+    <div id="educationChart" class="mb-10"></div>
+
+    {{-- Petitions statistikasi (o‘zgarishsiz) --}}
     <div id="petitionsChart"></div>
 </div>
+
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script>
-    // Userlar diagrammasi
-    Highcharts.chart('usersChart', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'Oylik foydalanuvchilar'
-        },
+    /* ---------------- Education type chart ---------------- */
+    Highcharts.chart('educationChart', {
+        chart: { type: 'column' },
+        title: { text: 'Foydalanuvchilar (Bakalavr/Magistr)' },
         xAxis: {
-            categories: ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun', 'Iyul', 'Avgust', 'Sentabr', 'Oktabr', 'Noyabr', 'Dekabr']
+            categories: [
+                @foreach (['Bakalavr' => 'Bakalavr', 'Magistr' => 'Magistr'] as $key => $label)
+                    "{{ $label }}",
+                @endforeach
+            ]
         },
-        yAxis: {
-            title: {
-                text: 'Foydalanuvchilar soni'
-            }
-        },
+        yAxis: { title: { text: 'Foydalanuvchilar soni' } },
         series: [{
             name: 'Foydalanuvchilar',
             data: [
-            @for ($i = 1; $i <= 12; $i++)
-            {{ $monthlyUsers[str_pad($i, 2, '0', STR_PAD_LEFT)] ?? 0 }},
-            @endfor
+                {{ $usersByEducation['Bakalavr'] ?? 0 }},
+                {{ $usersByEducation['Magistr']  ?? 0 }}
             ]
-            
         }]
     });
-    
-    // Petitions diagrammasi
+
+    /* ---------------- Petitions chart (o‘zgarishsiz) ---------------- */
     Highcharts.chart('petitionsChart', {
-        chart: {
-            type: 'pie'
-        },
-        title: {
-            text: 'Petitions bo‘linishi (kategoriya bo‘yicha)'
-        },
+        chart: { type: 'pie' },
+        title: { text: 'Yuklamalar bo‘linishi (mezonlar bo‘yicha)' },
         series: [{
-            name: 'Petitions',
+            name: 'Fayllar',
             colorByPoint: true,
             data: [
-            @foreach ($petitionsByCategory as $item)
-            {
-                name: "{{ $item->category->name ?? 'Nomaʼlum' }}",
-                y: {{ $item->total }}
-            },
-            @endforeach
+                @foreach ($petitionsByCategory as $item)
+                {
+                    name: "{{ $item->category->name ?? 'Nomaʼlum' }}",
+                    y: {{ $item->total }}
+                },
+                @endforeach
             ]
         }]
     });

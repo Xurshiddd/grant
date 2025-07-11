@@ -10,23 +10,21 @@ use Illuminate\Support\Facades\DB;
 class DashboardController extends Controller
 {
     public function index()
-    {
-        // Oylik userlar
-        $monthlyUsers = User::where('type', 'user')
-            ->selectRaw("strftime('%m', created_at) as month, COUNT(*) as count")
-            ->groupBy('month')
-            ->pluck('count', 'month');
-
-        
-        // Petitions kategoriyalarga ko‘ra
-        $petitionsByCategory = Petition::select('category_id', DB::raw('count(*) as total'))
+{
+    // dd(User::find(5)->education_type);
+    $usersByEducation = User::where('type', 'student')
+        ->select('education_type', DB::raw('COUNT(*) AS count'))
+        ->groupBy('education_type')
+        ->pluck('count', 'education_type'); 
+        // dd($usersByEducation);
+    $petitionsByCategory = Petition::select('category_id', DB::raw('count(*) as total'))
         ->groupBy('category_id')
-        ->with('category') // agar relation mavjud bo‘lsa
+        ->with('category')
         ->get();
-        
-        return view('dashboard', [
-            'monthlyUsers' => $monthlyUsers,
-            'petitionsByCategory' => $petitionsByCategory
-        ]);
-    }
+
+    return view('dashboard', [
+        'usersByEducation'   => $usersByEducation,
+        'petitionsByCategory'=> $petitionsByCategory
+    ]);
+}
 }

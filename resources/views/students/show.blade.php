@@ -50,11 +50,11 @@
                 <div class="flex justify-between items-start">
                     <div>
                         <h2 class="text-2xl font-bold text-gray-800">{{ $student->full_name }}</h2>
-                        <p class="text-gray-600">{{$student->birth_date}}</p>
+                        <p class="text-gray-600">Tug'ilgan sanasi: {{$student->birth_date}}</p>
                         <div class="mt-2 flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">{{$student->group_name}}</span>
+                            {{-- <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">{{$student->group_name}}</span>
                             <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">{{$student->birth_date}}</span>
-                            <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">{{$student->birth_date}}</span>
+                            <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">{{$student->birth_date}}</span> --}}
                         </div>
                     </div>
                     <div class="text-right">
@@ -66,8 +66,8 @@
                 <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="bg-gray-50 p-4 rounded-lg">
                         <h3 class="text-sm font-medium text-gray-500">Talaba malumoti</h3>
-                        <p class="mt-1">Fuqarolik:<span class="font-medium">:</span>{{ $student->country }}</p>
-                        <p class="mt-1">Telefon:<span class="font-medium">:</span>{{ $student->phone }}</p>
+                        <p class="mt-1">Fuqarolik<span class="font-medium">:</span>{{ $student->country }}</p>
+                        <p class="mt-1">Telefon<span class="font-medium">:</span>{{ $student->phone }}</p>
                         <p><span class="font-medium">Passport:</span>{{ $student->passport_number }}</p>
                     </div>
                     <div class="bg-gray-50 p-4 rounded-lg">
@@ -104,82 +104,59 @@
                     <div>
                         <span class="text-sm font-medium text-gray-500">Eng yuqori ball: {{ $category->max_score }}</span>
                         <span class="mx-2">|</span>
-                        <span class="text-sm font-medium text-gray-500">Current Score: 3.5</span>
+                        @php
+                        $value = $student->audits()
+                        ->where('category_id', $category->id)
+                        ->first();   // faqat ustun qiymatini oladi
+                        @endphp
+                        <span class="text-sm font-medium text-gray-500">Hozirgi ball: {{ $value->new_values ?? '0' }}</span>
                     </div>
                 </div>
                 
                 <div class="mb-4">
-                    <p class="text-gray-600 mb-3">Evaluation criteria for technical skills including programming languages, frameworks, and problem-solving abilities.</p>
+                    <p class="text-gray-600 mb-3">{{ $value->comment ?? ' ' }}</p>
                     <!-- Files Section -->
                     <div class="mb-6">
                         <h4 class="text-md font-medium text-gray-700 mb-3">Yuklangan malumotlar</h4>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                            <!-- PDF File -->
-                            @foreach ( $student->petitions->where('category_id', $category->id) as $file)
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">                            
+                            @foreach ($student->petitions->where('category_id', $category->id) as $file)
+                            @php
+                            $pathRel   = $file->path;                      // uploads/1752172855_687009374143c.jpg
+                            $basename  = basename($pathRel);               // 1752172855_687009374143c.jpg
+                            $display   = \Illuminate\Support\Str::after($basename, '_');       // 687009374143c.jpg
+                            $ext       = strtolower(pathinfo($basename, PATHINFO_EXTENSION));
+                            [$icon, $color] = file_icon($ext);
+                            
+                            $url = asset($pathRel);                        // public URL
+                            @endphp
+                            
                             <div class="file-preview bg-gray-50 rounded-lg p-4 border border-gray-200">
                                 <div class="flex items-center mb-2">
-                                    <i class="fas fa-file-pdf text-red-500 text-2xl mr-3"></i>
-                                    <div>
-                                        <p class="font-medium text-gray-800 truncate">{{ $file->name }}</p>
-                                        <p class="text-xs text-gray-500">2.4 MB</p>
-                                    </div>
+                                    <i class="fas {{ $icon }} {{ $color }} text-2xl mr-3"></i>
+                                    <p class="font-medium text-gray-800 truncate">{{ $display }}</p>
                                 </div>
+                                
                                 <div class="flex justify-between text-sm">
-                                    <button class="text-blue-600 hover:text-blue-800">
+                                    <a href="{{ $url }}" target="_blank" class="text-blue-600 hover:text-blue-800">
                                         <i class="fas fa-eye mr-1"></i> View
-                                    </button>
-                                    <button class="text-gray-600 hover:text-gray-800">
+                                    </a>
+                                    <a href="{{ $url }}" download class="text-gray-600 hover:text-gray-800">
                                         <i class="fas fa-download mr-1"></i> Download
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                             @endforeach
                             
-                            <!-- Image File -->
-                            <div class="file-preview bg-gray-50 rounded-lg p-4 border border-gray-200">
-                                <div class="flex items-center mb-2">
-                                    <i class="fas fa-file-image text-blue-500 text-2xl mr-3"></i>
-                                    <div>
-                                        <p class="font-medium text-gray-800 truncate">project-screenshot.png</p>
-                                        <p class="text-xs text-gray-500">1.8 MB</p>
-                                    </div>
-                                </div>
-                                <div class="flex justify-between text-sm">
-                                    <button class="text-blue-600 hover:text-blue-800">
-                                        <i class="fas fa-eye mr-1"></i> View
-                                    </button>
-                                    <button class="text-gray-600 hover:text-gray-800">
-                                        <i class="fas fa-download mr-1"></i> Download
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <!-- DOC File -->
-                            <div class="file-preview bg-gray-50 rounded-lg p-4 border border-gray-200">
-                                <div class="flex items-center mb-2">
-                                    <i class="fas fa-file-word text-blue-700 text-2xl mr-3"></i>
-                                    <div>
-                                        <p class="font-medium text-gray-800 truncate">report.docx</p>
-                                        <p class="text-xs text-gray-500">3.1 MB</p>
-                                    </div>
-                                </div>
-                                <div class="flex justify-between text-sm">
-                                    <button class="text-blue-600 hover:text-blue-800">
-                                        <i class="fas fa-eye mr-1"></i> View
-                                    </button>
-                                    <button class="text-gray-600 hover:text-gray-800">
-                                        <i class="fas fa-download mr-1"></i> Download
-                                    </button>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     
                     <!-- Rating Button -->
                     <div class="flex justify-end">
-                        <button onclick="openRatingModal('Technical Skills', 5)" 
+                        @dd($student->petitions())
+                        <button
+                        onclick="openRatingModal('{{ $category->name }}', {{ $category->max_score }}, '{{ $category->id }}')"
                         class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition flex items-center">
-                        <i class="fas fa-star mr-2"></i> Rate This Category
+                        <i class="fas fa-star mr-2"></i> Ushbu mezon bo'yicha baholash
                     </button>
                 </div>
             </div>
@@ -190,100 +167,121 @@
 </div>
 
 
-<!-- Rating Modal -->
-<div id="ratingModal" class="modal fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
-    <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-2/3 lg:w-1/2 shadow-lg rounded-md bg-white">
-        <div class="mt-3 text-center">
-            <h3 id="modalTitle" class="text-2xl font-bold text-gray-800 mb-4">Rate Technical Skills</h3>
-            
-            <div class="my-6 px-4">
-                <div class="rating-stars flex justify-center mb-6">
-                    <!-- Stars will be added dynamically by JavaScript -->
-                </div>
-                
-                <div class="mb-6">
-                    <label for="comments" class="block text-left text-gray-700 font-medium mb-2">Comments</label>
-                    <textarea id="comments" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Add your comments here..."></textarea>
-                </div>
-                
-                <div class="flex justify-between">
-                    <button onclick="closeRatingModal()" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition">
-                        Cancel
-                    </button>
-                    <button onclick="submitRating()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center">
-                        <i class="fas fa-check-circle mr-2"></i> Submit Rating
-                    </button>
-                </div>
-            </div>
+{{-- --------------- Modal --------------- --}}
+{{--with float input  assessment and comment--}}
+<!-- ===== Modal Overlay ===== -->
+<div id="ratingModal"
+class="fixed inset-0 z-40 flex items-center justify-center bg-black/50 backdrop-blur-sm
+            transition-opacity duration-300 ease-out hidden">
+
+<!-- ===== Modal Card ===== -->
+<div class="w-full max-w-lg mx-4 bg-white rounded-2xl shadow-2xl ring-1 ring-black/10
+                animate-[zoomIn_.25s_ease-out]">
+
+<!-- ===== Header ===== -->
+<div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+    <h2 id="modalTitle" class="text-2xl font-semibold text-gray-800">Baholash</h2>
+    <button type="button" onclick="closeRatingModal()"
+    class="text-gray-400 hover:text-gray-600 transition" aria-label="Close">
+    <i class="fas fa-times text-lg"></i>
+</button>
+</div>
+
+<!-- ===== Form ===== -->
+<form id="ratingForm" class="px-6 py-6 space-y-6">
+    <input type="hidden" name="category" id="categoryName">
+    <input type="hidden" name="user_id" value="{{ $student->id }}">
+    <!-- Ball -->
+    <div>
+        <label for="score" class="block mb-1 text-sm font-medium text-gray-700">Ball</label>
+        <div class="flex items-center gap-3">
+            <input type="number" name="score" id="score"
+            class="w-28 px-3 py-2 border border-gray-300 rounded-lg shadow-sm
+                                  focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                                  text-center font-semibold text-gray-800"
+            placeholder="0">
+            <span id="max_score"
+            class="text-sm text-gray-500 whitespace-nowrap"></span>
         </div>
     </div>
-</div>
-<script>
-    let currentCategory = '';
-    let maxScore = 5;
     
-    function openRatingModal(category, score) {
-        currentCategory = category;
-        maxScore = score;
-        
-        document.getElementById('modalTitle').textContent = `Rate ${category}`;
-        
-        // Generate star rating inputs
-        const starsContainer = document.querySelector('.rating-stars');
-        starsContainer.innerHTML = '';
-        
-        for (let i = maxScore; i >= 1; i--) {
-            const input = document.createElement('input');
-            input.type = 'radio';
-            input.id = `star${i}`;
-            input.name = 'rating';
-            input.value = i;
-            
-            const label = document.createElement('label');
-            label.htmlFor = `star${i}`;
-            label.innerHTML = '★';
-            
-            starsContainer.appendChild(input);
-            starsContainer.appendChild(label);
-        }
+    <!-- Izoh -->
+    <div>
+        <label for="comment" class="block mb-1 text-sm font-medium text-gray-700">Izoh</label>
+        <textarea name="comment" id="comment" rows="4"
+        class="w-full resize-none px-4 py-3 border border-gray-300 rounded-lg shadow-sm
+                                 focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                                 placeholder-gray-400"
+        placeholder="Fikrlaringizni shu yerga yozing..."></textarea>
+    </div>
+    
+    <!-- Action buttons -->
+    <div class="flex justify-end gap-3">
+        <button type="button" onclick="closeRatingModal()"
+        class="inline-flex items-center px-4 py-2 rounded-lg border border-gray-300
+                               text-gray-700 bg-white hover:bg-gray-50 transition">
+        Bekor qilish
+    </button>
+    <button type="submit"
+    class="inline-flex items-center px-5 py-2.5 rounded-lg bg-blue-600
+                               text-white font-medium hover:bg-blue-700 transition">
+    Yuborish
+</button>
+</div>
+</form>
+</div>
+</div>
+
+
+{{-- --------------- End of Modal --------------- --}}
+{{-- --------------- Skript --------------- --}}
+<script>
+    /** Modalni ochish */
+    function openRatingModal(category, maxScore, id) {
+        document.getElementById('modalTitle').innerText = `Baholash: ${category}`;
+        document.getElementById('categoryName').value   = id;
+        document.getElementById('score').max            = maxScore;
+        document.getElementById('max_score').innerText         = 'Eng yuqori ball' + maxScore;   // default
         
         document.getElementById('ratingModal').classList.remove('hidden');
     }
     
+    /** Modalni yopish */
     function closeRatingModal() {
         document.getElementById('ratingModal').classList.add('hidden');
+        document.getElementById('ratingForm').reset();
     }
+    /** Form yuborilganda */
+    document.getElementById('ratingForm').addEventListener('submit', function (e) {
+        e.preventDefault(); // Prevent default form submission
+        const formData = new FormData(this);
+        fetch('{{ route('audits.store') }}', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Baholash muvaffaqiyatli yuborildi!');
+                closeRatingModal();
+                // Optionally, you can refresh the page or update the UI
+                location.reload();
+            } else {
+                alert('Xatolik yuz berdi: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Xatolik yuz berdi. Iltimos, qayta urinib ko\'ring.');
+        });
+    });
     
-    function submitRating() {
-        const rating = document.querySelector('input[name="rating"]:checked');
-        const comments = document.getElementById('comments').value;
-        
-        if (!rating) {
-            alert('Please select a rating before submitting.');
-            return;
-        }
-        
-        // Here you would typically send the data to your backend
-        console.log(`Rating submitted for ${currentCategory}:`);
-        console.log(`Score: ${rating.value}/${maxScore}`);
-        console.log(`Comments: ${comments}`);
-        
-        // Show success message
-        alert(`Rating of ${rating.value}/${maxScore} submitted for ${currentCategory}!`);
-        
-        // Close modal
-        closeRatingModal();
-        
-        // Reset form
-        document.getElementById('comments').value = '';
-    }
-    
-    // Close modal when clicking outside
-    window.onclick = function(event) {
-        const modal = document.getElementById('ratingModal');
-        if (event.target === modal) {
-            closeRatingModal();
-        }
-    }
+    /** Modal foniga bosilganda yopish */
+    window.addEventListener('click', (e) => {
+        if (e.target.id === 'ratingModal') closeRatingModal();
+    });
 </script>
 @endsection

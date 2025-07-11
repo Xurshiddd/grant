@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuditController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HemisAuthController;
@@ -47,6 +48,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
     Route::resource('students', StudentController::class);
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('audits', [AuditController::class, 'store'])->name('audits.store');
 });
 // Route::get('adm', function () {
 //     User::where('id', 1)->update(['password' => bcrypt('password')]);

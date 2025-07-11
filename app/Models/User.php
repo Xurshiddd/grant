@@ -67,4 +67,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Petition::class);
     }
+    public function audits()
+    {
+        return $this->hasMany(Audit::class, 'user_id');
+    }
 }
