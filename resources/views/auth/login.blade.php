@@ -47,7 +47,7 @@
             <div class="mt-8">
                 <div class="flex space-x-4">
                     <a href="https://facebook.com" class="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center hover:bg-blue-700 transition"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://t.me/yourchannel" class="w-12 h-12 rounded-full bg-blue-400 flex items-center justify-center hover:bg-blue-600 transition"><i class="fab fa-telegram"></i></a>
+                    <a href="https://t.me/ttysi_uz" class="w-12 h-12 rounded-full bg-blue-400 flex items-center justify-center hover:bg-blue-600 transition"><i class="fab fa-telegram"></i></a>
                     <a href="https://youtube.com" class="w-12 h-12 rounded-full bg-red-500 flex items-center justify-center hover:bg-red-700 transition"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
