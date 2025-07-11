@@ -152,12 +152,13 @@
                     
                     <!-- Rating Button -->
                     <div class="flex justify-end">
-                        {{-- @dd($student->petitions()) --}}
+                        @if($student->petitions->where('category_id', $category->id)->count()>0)
                         <button
                         onclick="openRatingModal('{{ $category->name }}', {{ $category->max_score }}, '{{ $category->id }}')"
                         class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition flex items-center">
                         <i class="fas fa-star mr-2"></i> Ushbu mezon bo'yicha baholash
                     </button>
+                    @endif
                 </div>
             </div>
         </div>
