@@ -25,7 +25,7 @@ class AuthController extends Controller
         // Agar user topilsa, parolni tekshiramiz
         if ($user && Hash::check($data['password'], $user->password)) {
             Auth::login($user, $remember);
-            return redirect('/categories')->with('success', 'Login successful!');
+            return redirect('/dashboard')->with('success', 'Login successful!');
         }
         
         // Agar user topilmasa, uni yaratamiz

@@ -38,7 +38,12 @@
             <i class="fas fa-arrow-left mr-2"></i> Orqaga qaytish
         </a>
     </div>
-    
+    @php
+    $totalScore = $student->audits->sum('new_values');   // Jami ball
+    $maxScore   = \DB::table('categories')->sum('max_score');  
+    $percent    = (float)$maxScore ? ((float)$totalScore / (float)$maxScore) * 100 : 0;
+    $allCount = (float)$student->avg_gpa * 16 + (float)$totalScore; // Jami ballar
+    @endphp
     <!-- User Info Card -->
     <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
         <div class="md:flex">
@@ -52,8 +57,9 @@
                         <h2 class="text-2xl font-bold text-gray-800">{{ $student->full_name }}</h2>
                         <p class="text-gray-600">Tug'ilgan sanasi: {{$student->birth_date}}</p>
                         <div class="mt-2 flex flex-wrap gap-2">
-                            {{-- <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">{{$student->group_name}}</span>
-                            <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">{{$student->birth_date}}</span>
+                            
+                            <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">Umumiy ball  {{$allCount}}</span>
+                            {{-- <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">{{$student->birth_date}}</span>
                             <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">{{$student->birth_date}}</span> --}}
                         </div>
                     </div>
@@ -76,15 +82,23 @@
                         <p class="mt-1"><span class="font-medium">Gururhi:</span>{{ $student->group_name }}</p>
                         <p><span class="font-medium">Kursi:</span> {{ $student->livel }}</p>
                     </div>
+                    
                     <div class="bg-gray-50 p-4 rounded-lg">
                         <h3 class="text-sm font-medium text-gray-500">Status</h3>
+                        
                         <div class="mt-1 flex items-center">
                             <div class="w-full bg-gray-200 rounded-full h-2.5">
-                                <div class="bg-blue-600 h-2.5 rounded-full" style="width: 85%"></div>
+                                <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{ $percent }}%"></div>
                             </div>
-                            <span class="ml-2 text-sm font-medium">85% complete</span>
+                            <span class="ml-2 text-sm font-medium">
+                                {{ round($percent) }}% complete
+                            </span>
                         </div>
-                        <p class="mt-2"><span class="font-medium">Overall Score:</span>100</p>
+                        
+                        <p class="mt-2">
+                            <span class="font-medium">Overall Score:</span>
+                            {{ $totalScore }}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -105,9 +119,7 @@
                         <span class="text-sm font-medium text-gray-500">Eng yuqori ball: {{ $category->max_score }}</span>
                         <span class="mx-2">|</span>
                         @php
-                        $value = $student->audits()
-                        ->where('category_id', $category->id)
-                        ->first();   // faqat ustun qiymatini oladi
+                        $value = \DB::table('audits')->where('user_id', $student->id)->where('category_id', $category->id)->first();    
                         @endphp
                         <span class="text-sm font-medium text-gray-500">Hozirgi ball: {{ $value->new_values ?? '0' }}</span>
                     </div>
@@ -201,34 +213,21 @@ class="fixed inset-0 z-40 flex items-center justify-center bg-black/50 backdrop-
                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500
                                   text-center font-semibold text-gray-800"
             placeholder="0">
-            <span id="max_score"
-            class="text-sm text-gray-500 whitespace-nowrap"></span>
+            <span id="max_score"class="text-sm text-gray-500 whitespace-nowrap"></span>
         </div>
     </div>
     
     <!-- Izoh -->
     <div>
         <label for="comment" class="block mb-1 text-sm font-medium text-gray-700">Izoh</label>
-        <textarea name="comment" id="comment" rows="4"
-        class="w-full resize-none px-4 py-3 border border-gray-300 rounded-lg shadow-sm
-                                 focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                                 placeholder-gray-400"
-        placeholder="Fikrlaringizni shu yerga yozing..."></textarea>
+        <textarea name="comment" id="comment" rows="4" class="w-full resize-none px-4 py-3 border border-gray-300 rounded-lg shadow-smfocus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400" placeholder="Fikrlaringizni shu yerga yozing..."></textarea>
     </div>
     
     <!-- Action buttons -->
     <div class="flex justify-end gap-3">
-        <button type="button" onclick="closeRatingModal()"
-        class="inline-flex items-center px-4 py-2 rounded-lg border border-gray-300
-                               text-gray-700 bg-white hover:bg-gray-50 transition">
-        Bekor qilish
-    </button>
-    <button type="submit"
-    class="inline-flex items-center px-5 py-2.5 rounded-lg bg-blue-600
-                               text-white font-medium hover:bg-blue-700 transition">
-    Yuborish
-</button>
-</div>
+        <button type="button" onclick="closeRatingModal()" class="inline-flex items-center px-4 py-2 rounded-lg border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 transition">Bekor qilish</button>
+        <button type="submit" class="inline-flex items-center px-5 py-2.5 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition">Yuborish</button>
+    </div>
 </form>
 </div>
 </div>

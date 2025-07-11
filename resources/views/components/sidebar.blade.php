@@ -18,8 +18,8 @@
             <i class="fas fa-user text-indigo-500"></i>
         </div>
         <div>
-            <p class="font-medium">Admin User</p>
-            <p class="text-xs text-gray-500">Super Admin</p>
+            <p class="font-medium">{{ auth()->user()->firstname }}</p>
+            <p class="text-xs text-gray-500">Admin</p>
         </div>
     </div>
     

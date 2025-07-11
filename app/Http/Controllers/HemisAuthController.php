@@ -53,7 +53,6 @@ class HemisAuthController extends Controller
             
             $resourceOwner = $provider->getResourceOwner($accessToken);
             $userData = $resourceOwner->toArray();
-            // dd($userData);
             $code = $userData['data']['educationType']['code'];
             if (!in_array($code, ['11', '12'])) {
                 return redirect()->route('welcome')->withErrors([

@@ -16,16 +16,13 @@ class AuditController extends Controller
             'category' => 'nullable|exists:categories,id',
             'comment' => 'nullable|string|max:1000',
         ]);
-
-        // Create a new audit record
+        
         try {
-            if(Audit::where('user_id', $request->user_id)
-                ->where('category_id', $request->category_id)
-                ->exists()) {
-                // update existing audit record
-                $audit = Audit::where('user_id', $request->user_id)
-                    ->where('category_id', $request->category_id)
-                    ->first();
+            $audit = Audit::where('user_id', $request->user_id)
+            ->where('category_id', $request->category)
+            ->first();
+            
+            if ($audit) {
                 $audit->update([
                     'event' => 'Baholash yangilandi',
                     'comment' => $request->comment,
@@ -33,21 +30,24 @@ class AuditController extends Controller
                     'old_values' => $audit->new_values,
                     'new_values' => $request->score,
                 ]);
-                return response()->json(['message' => 'Audit updated successfully'], 200);
+                
+                return response()->json(['success' => 'Audit updated successfully'], 201);
             }
+            
             Audit::create([
                 'user_id' => $request->user_id,
                 'event' => 'Baholash',
-                'category_id' => $request->category_id,
+                'category_id' => $request->category,
                 'comment' => $request->comment,
-                'auditable_id' => Auth::id(), 
+                'auditable_id' => Auth::id(),
                 'old_values' => '0',
                 'new_values' => $request->score,
             ]);
-        }catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to create audit record: ' . $e->getMessage()], 500);
+            
+            return response()->json(['success' => 'Audit created successfully'], 201);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to process audit: ' . $e->getMessage()], 500);
         }
-
-        return response()->json(['message' => 'Audit created successfully'], 201);
     }
+    
 }
