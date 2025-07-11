@@ -172,9 +172,10 @@
              @php
                     $gpa = $user->avg_gpa ?? 3.5;
                     $gpaPercentage = min(100, ($gpa / 5) * 100); // GPA ni 5 ga nisbatan % hisoblash
+                    $totalScore = $user->audits->sum('new_values');
                     @endphp
             <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="font-semibold text-gray-700">Umumiy ball: {{$user->petitions->sum('evaluation') + ($gpa*16)}}</h2>
+                <h2 class="font-semibold text-gray-700">Umumiy ball: {{(float)$totalScore + ($gpa*16)}}</h2>
                 
                 <div class="space-y-6">
                     <div>
@@ -202,7 +203,7 @@
             </div>
             <div class="lg:col-span-3 bg-white rounded-lg shadow-md p-6">
                 <h2 class="text-xl font-bold mb-6 border-b pb-2">Ijtimoiy faollik ko'rsatkichi baliga ega bo'lish uchun asoslovchi hujjatlarni yuklash (ixtiyoriy)</h2>
-                <h4 class="underline mb-1.5">Yig'ilgan ballar: {{ $user->petitions->sum('evaluation') }}</h4>
+                <h4 class="underline mb-1.5">Yig'ilgan ballar: {{ $totalScore }}</h4>
                 @foreach ($categories as $category)
                 <form action="{{ route('petitions.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
