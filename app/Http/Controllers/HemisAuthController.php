@@ -54,6 +54,11 @@ class HemisAuthController extends Controller
             $resourceOwner = $provider->getResourceOwner($accessToken);
             $userData = $resourceOwner->toArray();
             // dd($userData);
+            if ($userData['data']['level']['code'] != '11' || $userData['data']['educationForm']['code'] != '11' || $userData['data']['educationType']['code'] != '11' || $userData['data']['educationType']['code'] != '12') {
+                return redirect()->route('welcome')->withErrors([
+                    'error' => "Siz 1-kurs talabasi bo'lmaganingiz uchun ariza topshira olmaysiz."
+                ]);
+            }
             if ((float) $userData['data']['avg_gpa'] < 3.5) {
                 return redirect()->route('welcome')->withErrors([
                     'error' => "Sizning o'rtacha baholaringiz 3.50 dan past bo'lgani uchun ariza topshira olmaysiz."

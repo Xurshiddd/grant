@@ -244,6 +244,9 @@
                     
                 </form>
                 @endforeach
+                <div class="mt-2 card p-4 bg-gray-100 rounded-lg shadow-sm">
+                    {{ $categories->links() }}
+                </div>
             </div>
         </div>
         <!-- category form Section -->
@@ -253,7 +256,8 @@
 
 <footer class="bg-white border-t mt-8">
     <div class="container mx-auto px-4 py-6 text-center text-gray-600 text-sm">
-        <p>© 2025 TTYSI University Student Portal</p>
+        <p>© {{ date('Y') }} TTYS Student Portal</p>
+
     </div>
 </footer>
 

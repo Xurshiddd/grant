@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -25,8 +26,9 @@ class StudentController extends Controller
 
     public function show($id)
     {
-        
-        return view('students.show', compact('id'));
+        $student = User::findOrFail($id);
+        $categories = Category::paginate(4);
+        return view('students.show', compact('student', 'categories'));
     }
 
     public function edit($id)
