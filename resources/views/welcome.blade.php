@@ -96,5 +96,13 @@
         </div>
     </div>
 </section>
+{{-- Muammolar uchun dasturchi bilan bog'lanish  --}}
+<section class="bg-white py-12 px-6">
+    <div class="container mx-auto text-center">
+        <h2 class="text-2xl font-bold text-blue-800 mb-4">Xatoliklar uchun dasturchi bilan bog'lanish</h2>
+        <p class="text-gray-600 mb-6">Agar sizda platforma bilan bog'liq xatoliklar yuz bersa, quyidagi havoladan foydalaning:</p>
+        <a href="https://t.me/Muhammad_alayhissalom_ummati" target="_blank" class="bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition-colors duration-300">Dasturchi bilan bog'lanish</a>
+    </div>
+</section>
 </body>
 </html>
