@@ -50,11 +50,11 @@
         <h1 class="text-xl font-bold text-primary">Talaba profili</h1>
         <div class="flex items-center space-x-4">
             <div class="relative">
-                <button id="notification-btn" class="p-2 text-gray-600 hover:text-primary relative">
+                <button id="notification-btn" class="p-2 text-gray-600 hover:text-primary relative hidden">
                     <i class="fas fa-bell text-xl"></i>
                     <span class="absolute -top-1 -right-1 bg-notification text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
                 </button>
-                <div id="notification-dropdown" class="hidden absolute right-0 mt-2 w-72 bg-white rounded-md shadow-lg z-10 border border-gray-200">
+                <!-- <div id="notification-dropdown" class="hidden absolute right-0 mt-2 w-72 bg-white rounded-md shadow-lg z-10 border border-gray-200">
                     <div class="p-3 border-b border-gray-200">
                         <h3 class="font-semibold">Notifications</h3>
                     </div>
@@ -96,7 +96,7 @@
                     <div class="p-2 border-t border-gray-200 text-center">
                         <a href="#" class="text-sm text-primary font-medium">View All Notifications</a>
                     </div>
-                </div>
+                </div> -->
             </div>
             <form action="{{ route('logout') }}" method="POST" class="inline">
                 @csrf

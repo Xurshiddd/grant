@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="container">
+<div class="container overflow-y-scroll">
     <h2 class="text-xl font-semibold mb-4">Dashboard</h2>
 
     {{-- Foydalanuvchilar: bakalavr vs magistr --}}

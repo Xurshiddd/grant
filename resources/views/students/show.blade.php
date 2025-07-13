@@ -165,11 +165,7 @@
                     <!-- Rating Button -->
                     <div class="flex justify-end">
                         @if($student->petitions->where('category_id', $category->id)->count()>0)
-                        <button
-                        onclick="openRatingModal('{{ $category->name }}', {{ $category->max_score }}, '{{ $category->id }}')"
-                        class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition flex items-center">
-                        <i class="fas fa-star mr-2"></i> Ushbu mezon bo'yicha baholash
-                    </button>
+                        <button onclick="openRatingModal('{{ $category->name }}', '{{ $category->max_score }}', '{{ $category->id }}')" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition flex items-center"><i class="fas fa-star mr-2"></i> Ushbu mezon bo'yicha baholash</button>
                     @endif
                 </div>
             </div>
@@ -208,11 +204,7 @@ class="fixed inset-0 z-40 flex items-center justify-center bg-black/50 backdrop-
     <div>
         <label for="score" class="block mb-1 text-sm font-medium text-gray-700">Ball</label>
         <div class="flex items-center gap-3">
-            <input type="number" name="score" id="score"
-            class="w-28 px-3 py-2 border border-gray-300 rounded-lg shadow-sm
-                                  focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                                  text-center font-semibold text-gray-800"
-            placeholder="0">
+            <input type="number" name="score" id="score" class="w-28 px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-center font-semibold text-gray-800" placeholder="0">
             <span id="max_score"class="text-sm text-gray-500 whitespace-nowrap"></span>
         </div>
     </div>
