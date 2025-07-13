@@ -11,19 +11,57 @@
 <body class="bg-blue-50 min-h-screen font-sans">
     <!-- Navbar -->
     <header class="bg-white shadow-lg">
-        <div class="container mx-auto flex justify-between items-center px-6 py-5">
-            <div class="flex items-center space-x-2">
-                <img src="{{ asset('logo.png') }}" alt="Logo" style="width: 400; height: 80px; border-radius: 15px;">
-            </div>
-            <nav class="space-x-6 text-gray-700 font-medium hidden md:block">
-                <a href="#" class="text-blue-600">Bosh sahifa</a>
-                <a href="#">Grant haqida</a>
-                <a href="#">Ijtimoiy faollik</a>
-                <a href="#">Registrator ofisi</a>
-            </nav>
-            <a href="{{ route('login') }}" class="bg-blue-600 text-white px-5 py-2 rounded-full shadow hover:bg-blue-700">Ariza topshirish</a>
+    <div class="mx-auto flex justify-between items-center px-4 py-4 max-w-7xl">
+        <!-- Logo -->
+        <a href="/" class="flex items-center space-x-2">
+            <img src="{{ asset('logo.png') }}" alt="Logo"
+                 class="w-50 h-20 rounded-xl object-contain" />
+        </a>
+
+        <!-- Desktop navigation -->
+        <nav class="hidden md:flex space-x-6 text-gray-700 font-medium">
+            <a href="/"                            class="hover:text-blue-600">Bosh sahifa</a>
+            <a href="https://www.lex.uz/uz/docs/-7429154" target="_blank"
+                                             class="hover:text-blue-600">Grant haqida</a>
+            <a href="{{ asset('186-buyruq.pdf') }}" target="_blank"
+                                             class="hover:text-blue-600">Ijtimoiy faollik</a>
+            <a href="#"                           class="hover:text-blue-600">Registrator ofisi</a>
+        </nav>
+
+        <!-- Call‑to‑action button -->
+        <a href="{{ route('login') }}"
+           class="hidden sm:inline-block bg-blue-600 text-white px-4 py-2 rounded-full shadow
+                  hover:bg-blue-700 transition">Ariza topshirish</a>
+
+        <!-- Mobile hamburger -->
+        <button x-data @click="$dispatch('toggle-menu')"
+                class="md:hidden text-gray-700 focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round"
+                 stroke-linejoin="round" stroke-width="2"
+                 d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+    </div>
+
+    <!-- Mobile dropdown (Alpine.js misoli) -->
+    <nav x-data="{ open: false }"
+         x-on:toggle-menu.window="open = !open"
+         x-show="open" x-collapse
+         class="md:hidden bg-white border-t">
+        <div class="px-4 py-3 space-y-2 font-medium text-gray-700">
+            <a href="/"                            class="block hover:text-blue-600">Bosh sahifa</a>
+            <a href="https://www.lex.uz/uz/docs/-7429154" target="_blank"
+                                               class="block hover:text-blue-600">Grant haqida</a>
+            <a href="{{ asset('186-buyruq.pdf') }}" target="_blank"
+                                               class="block hover:text-blue-600">Ijtimoiy faollik</a>
+            <a href="#"                           class="block hover:text-blue-600">Registrator ofisi</a>
+            <a href="{{ route('login') }}"
+               class="block bg-blue-600 text-white text-center px-4 py-2 rounded-full
+                      hover:bg-blue-700 transition">Ariza topshirish</a>
         </div>
-    </header>
+    </nav>
+</header>
+
     @if (session('success') || $errors->has('error'))
     <div
     x-data="{ show: true }"
@@ -67,6 +105,8 @@
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M4.5 3.75A1.75 1.75 0 0 1 6.25 2h7.5A1.75 1.75 0 0 1 15.5 3.75v12.5A1.75 1.75 0 0 1 13.75 18h-7.5A1.75 1.75 0 0 1 4.5 16.25V3.75zM10 5a.75.75 0 0 0 0 1.5h.008a.75.75 0 0 0 0-1.5H10zM9.25 8a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .742.648L10.75 8v4a.75.75 0 0 1-1.493.102L9.25 12V8z"/></svg>
                     <span>Video qo‘llanma</span>
                 </a>
+                <a href="{{ route('login') }}" class="inline-block lg:hidden bg-blue-600 text-white px-4 py-2 rounded-full shadow hover:bg-blue-700 transition">Ariza topshirish</a>
+
             </div>
         </div>
         <div class="lg:w-1/2 mb-10 lg:mb-0">
@@ -104,5 +144,14 @@
         <a href="https://t.me/Muhammad_alayhissalom_ummati" target="_blank" class="bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition-colors duration-300">Dasturchi bilan bog'lanish</a>
     </div>
 </section>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const reofficeLink = document.getElementById('reoffice');
+        reofficeLink.addEventListener('click', function (event) {
+            event.preventDefault();
+            alert('Registrator ofisi sahifasi jarayonda tez orada ishga tushadi.');
+        });
+    });
+</script>
 </body>
 </html>

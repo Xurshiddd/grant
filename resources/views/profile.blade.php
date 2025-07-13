@@ -257,7 +257,7 @@
 
 <footer class="bg-white border-t mt-8">
     <div class="container mx-auto px-4 py-6 text-center text-gray-600 text-sm">
-        <p>© {{ date('Y') }} TTYS Student Portal</p>
+        <p>© {{ date('Y') }} TTYSI Student Portal</p>
 
     </div>
 </footer>
