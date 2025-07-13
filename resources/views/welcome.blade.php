@@ -20,18 +20,14 @@
 
         <!-- Desktop navigation -->
         <nav class="hidden md:flex space-x-6 text-gray-700 font-medium">
-            <a href="/"                            class="hover:text-blue-600">Bosh sahifa</a>
-            <a href="https://www.lex.uz/uz/docs/-7429154" target="_blank"
-                                             class="hover:text-blue-600">Grant haqida</a>
-            <a href="{{ asset('186-buyruq.pdf') }}" target="_blank"
-                                             class="hover:text-blue-600">Ijtimoiy faollik</a>
-            <a href="#"                           class="hover:text-blue-600">Registrator ofisi</a>
+            <a href="/" class="hover:text-blue-600">Bosh sahifa</a>
+            <a href="https://www.lex.uz/uz/docs/-7429154" target="_blank" class="hover:text-blue-600">Grant haqida</a>
+            <a href="{{ asset('186-buyruq.pdf') }}" target="_blank" class="hover:text-blue-600">Ijtimoiy faollik</a>
+            <a href="#" id="regoffice" class="hover:text-blue-600">Registrator ofisi</a>
         </nav>
 
         <!-- Call‑to‑action button -->
-        <a href="{{ route('login') }}"
-           class="hidden sm:inline-block bg-blue-600 text-white px-4 py-2 rounded-full shadow
-                  hover:bg-blue-700 transition">Ariza topshirish</a>
+        <a href="{{ route('login') }}" class="hidden sm:inline-block bg-blue-600 text-white px-4 py-2 rounded-full shadow hover:bg-blue-700 transition">Ariza topshirish</a>
 
         <!-- Mobile hamburger -->
         <button x-data @click="$dispatch('toggle-menu')"
