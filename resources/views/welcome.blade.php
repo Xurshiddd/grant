@@ -49,15 +49,11 @@
          x-show="open" x-collapse
          class="md:hidden bg-white border-t">
         <div class="px-4 py-3 space-y-2 font-medium text-gray-700">
-            <a href="/"                            class="block hover:text-blue-600">Bosh sahifa</a>
-            <a href="https://www.lex.uz/uz/docs/-7429154" target="_blank"
-                                               class="block hover:text-blue-600">Grant haqida</a>
-            <a href="{{ asset('186-buyruq.pdf') }}" target="_blank"
-                                               class="block hover:text-blue-600">Ijtimoiy faollik</a>
-            <a href="#"                           class="block hover:text-blue-600">Registrator ofisi</a>
-            <a href="{{ route('login') }}"
-               class="block bg-blue-600 text-white text-center px-4 py-2 rounded-full
-                      hover:bg-blue-700 transition">Ariza topshirish</a>
+            <a href="/" class="block hover:text-blue-600">Bosh sahifa</a>
+            <a href="https://www.lex.uz/uz/docs/-7429154" target="_blank" class="block hover:text-blue-600">Grant haqida</a>
+            <a href="{{ asset('186-buyruq.pdf') }}" target="_blank" class="block hover:text-blue-600">Ijtimoiy faollik</a>
+            <a href="#" id="regoffice" class="block hover:text-blue-600">Registrator ofisi</a>
+            <a href="{{ route('login') }}" class="block bg-blue-600 text-white text-center px-4 py-2 rounded-full hover:bg-blue-700 transition">Ariza topshirish</a>
         </div>
     </nav>
 </header>
@@ -146,7 +142,7 @@
 </section>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const reofficeLink = document.getElementById('reoffice');
+        const reofficeLink = document.getElementById('regoffice');
         reofficeLink.addEventListener('click', function (event) {
             event.preventDefault();
             alert('Registrator ofisi sahifasi jarayonda tez orada ishga tushadi.');
