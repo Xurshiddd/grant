@@ -36,7 +36,7 @@
         color: white;
     }
 </style>
-<div class="container min-h-screen" >
+<div class="container min-h-screen min-w-full">
     
     {{-- Include the sidebar --}}
     <div class="mx-auto px-4 py-8 overflow-y-scroll max-h-[90%]">

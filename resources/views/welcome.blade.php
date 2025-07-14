@@ -11,66 +11,66 @@
 <body class="bg-blue-50 min-h-screen font-sans">
     <!-- Navbar -->
     <header class="bg-white shadow-lg">
-    <div class="mx-auto flex justify-between items-center px-4 py-4 max-w-7xl">
-        <!-- Logo -->
-        <a href="/" class="flex items-center space-x-2">
-            <img src="{{ asset('logo.png') }}" alt="Logo"
-                 class="w-50 h-20 rounded-xl object-contain" />
-        </a>
-
-        <!-- Desktop navigation -->
-        <nav class="hidden md:flex space-x-6 text-gray-700 font-medium">
-            <a href="/" class="hover:text-blue-600">Bosh sahifa</a>
-            <a href="https://www.lex.uz/uz/docs/-7429154" target="_blank" class="hover:text-blue-600">Grant haqida</a>
-            <a href="{{ asset('186-buyruq.pdf') }}" target="_blank" class="hover:text-blue-600">Ijtimoiy faollik</a>
-            <a href="#" id="regoffice" class="hover:text-blue-600">Registrator ofisi</a>
-        </nav>
-
-        <!-- Call‑to‑action button -->
-        <a href="{{ route('login') }}" class="hidden sm:inline-block bg-blue-600 text-white px-4 py-2 rounded-full shadow hover:bg-blue-700 transition">Ariza topshirish</a>
-
-        <!-- Mobile hamburger -->
-        <button x-data @click="$dispatch('toggle-menu')"
-                class="md:hidden text-gray-700 focus:outline-none">
+        <div class="mx-auto flex justify-between items-center px-4 py-4 max-w-7xl">
+            <!-- Logo -->
+            <a href="/" class="flex items-center space-x-2">
+                <img src="{{ asset('logo.png') }}" alt="Logo"
+                class="w-50 h-20 rounded-xl object-contain" />
+            </a>
+            
+            <!-- Desktop navigation -->
+            <nav class="hidden md:flex space-x-6 text-gray-700 font-medium">
+                <a href="/" class="hover:text-blue-600">Bosh sahifa</a>
+                <a href="https://www.lex.uz/uz/docs/-7429154" target="_blank" class="hover:text-blue-600">Grant haqida</a>
+                <a href="{{ asset('186-buyruq.pdf') }}" target="_blank" class="hover:text-blue-600">Ijtimoiy faollik</a>
+                <a href="#" id="regoffice" class="hover:text-blue-600">Registrator ofisi</a>
+            </nav>
+            
+            <!-- Call‑to‑action button -->
+            <a href="{{ route('login') }}" class="hidden sm:inline-block bg-blue-600 text-white px-4 py-2 rounded-full shadow hover:bg-blue-700 transition">Ariza topshirish</a>
+            
+            <!-- Mobile hamburger -->
+            <button x-data @click="$dispatch('toggle-menu')"
+            class="md:hidden text-gray-700 focus:outline-none">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none"
-                 viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round"
-                 stroke-linejoin="round" stroke-width="2"
-                 d="M4 6h16M4 12h16M4 18h16"/></svg>
+            viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round"
+            stroke-linejoin="round" stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
     </div>
-
+    
     <!-- Mobile dropdown (Alpine.js misoli) -->
     <nav x-data="{ open: false }"
-         x-on:toggle-menu.window="open = !open"
-         x-show="open" x-collapse
-         class="md:hidden bg-white border-t">
-        <div class="px-4 py-3 space-y-2 font-medium text-gray-700">
-            <a href="/" class="block hover:text-blue-600">Bosh sahifa</a>
-            <a href="https://www.lex.uz/uz/docs/-7429154" target="_blank" class="block hover:text-blue-600">Grant haqida</a>
-            <a href="{{ asset('186-buyruq.pdf') }}" target="_blank" class="block hover:text-blue-600">Ijtimoiy faollik</a>
-            <a href="#" id="regoffice" class="block hover:text-blue-600">Registrator ofisi</a>
-            <a href="{{ route('login') }}" class="block bg-blue-600 text-white text-center px-4 py-2 rounded-full hover:bg-blue-700 transition">Ariza topshirish</a>
-        </div>
-    </nav>
+    x-on:toggle-menu.window="open = !open"
+    x-show="open" x-collapse
+    class="md:hidden bg-white border-t">
+    <div class="px-4 py-3 space-y-2 font-medium text-gray-700">
+        <a href="/" class="block hover:text-blue-600">Bosh sahifa</a>
+        <a href="https://www.lex.uz/uz/docs/-7429154" target="_blank" class="block hover:text-blue-600">Grant haqida</a>
+        <a href="{{ asset('186-buyruq.pdf') }}" target="_blank" class="block hover:text-blue-600">Ijtimoiy faollik</a>
+        <a href="#" id="regoffice" class="block hover:text-blue-600">Registrator ofisi</a>
+        <a href="{{ route('login') }}" class="block bg-blue-600 text-white text-center px-4 py-2 rounded-full hover:bg-blue-700 transition">Ariza topshirish</a>
+    </div>
+</nav>
 </header>
 
-    @if (session('success') || $errors->has('error'))
-    <div
-    x-data="{ show: true }"
-    x-init="setTimeout(() => show = false, 3000)"
-    x-show="show"
-    x-transition
-    class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md"
-    >
-    @if (session('success'))
-    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded shadow text-center">
-        <strong>Success!</strong> {{ session('success') }}
-    </div>
-    @elseif ($errors->has('error'))
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded shadow text-center">
-        <strong>Xatolik!</strong> {{ $errors->first('error') }}
-    </div>
-    @endif
+@if (session('success') || $errors->has('error'))
+<div
+x-data="{ show: true }"
+x-init="setTimeout(() => show = false, 3000)"
+x-show="show"
+x-transition
+class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md"
+>
+@if (session('success'))
+<div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded shadow text-center">
+    <strong>Success!</strong> {{ session('success') }}
+</div>
+@elseif ($errors->has('error'))
+<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded shadow text-center">
+    <strong>Xatolik!</strong> {{ $errors->first('error') }}
+</div>
+@endif
 </div>
 @endif
 
@@ -93,12 +93,8 @@
             </h1>
             <div class="flex flex-wrap gap-4">
                 <a href="#" class="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition-all duration-300 shadow-md hover:shadow-lg">Grant kvotalari</a>
-                <a href="#" class="flex items-center space-x-2 text-blue-600 hover:text-blue-800 transition-colors duration-300">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M4.5 3.75A1.75 1.75 0 0 1 6.25 2h7.5A1.75 1.75 0 0 1 15.5 3.75v12.5A1.75 1.75 0 0 1 13.75 18h-7.5A1.75 1.75 0 0 1 4.5 16.25V3.75zM10 5a.75.75 0 0 0 0 1.5h.008a.75.75 0 0 0 0-1.5H10zM9.25 8a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .742.648L10.75 8v4a.75.75 0 0 1-1.493.102L9.25 12V8z"/></svg>
-                    <span>Video qo‘llanma</span>
-                </a>
                 <a href="{{ route('login') }}" class="inline-block lg:hidden bg-blue-600 text-white px-4 py-2 rounded-full shadow hover:bg-blue-700 transition">Ariza topshirish</a>
-
+                
             </div>
         </div>
         <div class="lg:w-1/2 mb-10 lg:mb-0">
@@ -106,7 +102,22 @@
         </div>
     </div>
 </section>
-
+<div class="bg-blue-50 py-8">
+    <div class="flex lg:hidden flex-col items-center justify-center max-w-4xl mx-auto px-4">
+        <div class="aspect-w-16 aspect-h-9">
+            <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/9N_OwyJcaxU"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+        </iframe>
+    </div>
+    
+</div>
+</div>
 <!-- Stats Section -->
 <section class="bg-white py-12 px-6">
     <div class="container mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">

@@ -30,7 +30,7 @@
         transition: opacity 0.3s ease;
     }
 </style>
-<div class="container mx-auto px-4 py-8 overflow-y-scroll max-h-[90%]">
+<div class="container mx-auto px-4 py-8 overflow-y-scroll max-h-[90%] min-w-full">
     <!-- Header -->
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold text-gray-800">Talaba malumotlari</h1>
