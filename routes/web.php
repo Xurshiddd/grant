@@ -8,10 +8,13 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PetitionController;
 use App\Http\Controllers\DashboardController;
 use App\Models\Category;
+use App\Models\Message;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     try {
@@ -33,9 +36,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('petitions/{petition}/delete', [PetitionController::class, 'delete'])->name('petitions.delete');
     Route::get('profile', function () {
         $user = Auth::user();
+        $messages = $user->messages()->exists() ? $user->messages()->get()->reverse() : collect();
         $categories = Category::paginate(4);
-        return view('profile', compact('user', 'categories'));
+        return view('profile', compact('user', 'categories', 'messages'));
     })->name('profile');
+    Route::post('messages', function (Request $request) {
+        Message::where('user_id', Auth::id())
+            ->update(['is_read' => true]);
+        return response()->json(['success' => 'All messages marked as read'], 200);
+    })->name('messages.readAll');
 });
 Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::get('/hemis/redirect', [HemisAuthController::class, 'redirectToHemis'])->name('hemis.redirect');
@@ -51,6 +60,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('audits', [AuditController::class, 'store'])->name('audits.store');
 });
 // Route::get('adm', function () {
-//     User::where('id', 1)->update(['password' => bcrypt('password')]);
-//     return redirect()->route('login');
+//     // User::where('id', 1)->update(['password' => bcrypt('password')]);
+//     // return redirect()->route('login');
+//     DB::table('messages')->where('id', 1)->update(['is_read' => 0]);
+//     return redirect()->route('welcome')->with('success', 'Admin route accessed successfully');
 // })->name('admin');

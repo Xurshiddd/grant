@@ -34,7 +34,7 @@
     <!-- Header -->
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold text-gray-800">Talaba malumotlari</h1>
-        <a href="{{ route('students.index') }}" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+        <a href="/students?page={{ $page }}" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
             <i class="fas fa-arrow-left mr-2"></i> Orqaga qaytish
         </a>
     </div>

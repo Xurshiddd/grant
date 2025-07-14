@@ -50,53 +50,30 @@
         <h1 class="text-xl font-bold text-primary">Talaba profili</h1>
         <div class="flex items-center space-x-4">
             <div class="relative">
-                <button id="notification-btn" class="p-2 text-gray-600 hover:text-primary relative hidden">
+                <button id="notification-btn" class="p-2 text-gray-600 hover:text-primary relative">
                     <i class="fas fa-bell text-xl"></i>
-                    <span class="absolute -top-1 -right-1 bg-notification text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                    @if ($messages->where('is_read', 0)->count() > 0)
+                        <span class="absolute -top-1 -right-1 bg-notification text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">{{$messages->where('is_read', 0)->count()}}</span>
+                    @endif
                 </button>
-                <!-- <div id="notification-dropdown" class="hidden absolute right-0 mt-2 w-72 bg-white rounded-md shadow-lg z-10 border border-gray-200">
+                <div id="notification-dropdown" class="hidden absolute right-0 mt-2 w-72 bg-white rounded-md shadow-lg z-10 border border-gray-200">
                     <div class="p-3 border-b border-gray-200">
-                        <h3 class="font-semibold">Notifications</h3>
+                        <h3 class="font-semibold">Xabarlar</h3>
                     </div>
                     <div class="max-h-60 overflow-y-auto">
+                        @foreach ($messages as $msg)
                         <a href="#" class="block px-4 py-3 hover:bg-gray-50 border-b border-gray-100">
-                            <div class="flex items-start">
-                                <div class="flex-shrink-0 text-primary">
-                                    <i class="fas fa-book"></i>
-                                </div>
-                                <div class="ml-3">
-                                    <p class="text-sm font-medium">New grade posted for Web Development</p>
-                                    <p class="text-xs text-gray-500">2 hours ago</p>
-                                </div>
+                            <div class="items-start">
+                                {{ $msg->subject }}
+                                <p class="text-xs text-gray-500">{{ $msg->body }}</p>
                             </div>
                         </a>
-                        <a href="#" class="block px-4 py-3 hover:bg-gray-50 border-b border-gray-100">
-                            <div class="flex items-start">
-                                <div class="flex-shrink-0 text-accent">
-                                    <i class="fas fa-trophy"></i>
-                                </div>
-                                <div class="ml-3">
-                                    <p class="text-sm font-medium">Your achievement was approved</p>
-                                    <p class="text-xs text-gray-500">1 day ago</p>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="#" class="block px-4 py-3 hover:bg-gray-50">
-                            <div class="flex items-start">
-                                <div class="flex-shrink-0 text-secondary">
-                                    <i class="fas fa-calendar-alt"></i>
-                                </div>
-                                <div class="ml-3">
-                                    <p class="text-sm font-medium">Upcoming deadline: Project submission</p>
-                                    <p class="text-xs text-gray-500">3 days ago</p>
-                                </div>
-                            </div>
-                        </a>
+                        @endforeach
                     </div>
                     <div class="p-2 border-t border-gray-200 text-center">
-                        <a href="#" class="text-sm text-primary font-medium">View All Notifications</a>
+                        <button class="text-sm text-primary hover:underline" onclick="document.getElementById('notification-dropdown').classList.add('hidden')" id="readAll">O'qildi</button>
                     </div>
-                </div> -->
+                </div> 
             </div>
             <form action="{{ route('logout') }}" method="POST" class="inline">
                 @csrf
@@ -305,31 +282,28 @@
             notificationDropdown.classList.add('hidden');
         }
     });
-    
-    // Sample data for messages
-    const messages = [
-    {
-        id: 1,
-        sender: "Professor Smith",
-        preview: "Regarding your project submission - please check the feedback I've provided...",
-        date: "Today",
-        read: false
-    },
-    {
-        id: 2,
-        sender: "Admissions Office",
-        preview: "Important information about your scholarship application status...",
-        date: "Yesterday",
-        read: false
-    },
-    {
-        id: 3,
-        sender: "Student Affairs",
-        preview: "Reminder: Upcoming career fair on campus next week...",
-        date: "2 days ago",
-        read: true
-    }
-    ];
+    document.getElementById('readAll').addEventListener('click', function() {
+        fetch('{{ route('messages.readAll') }}', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Accept': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                notificationDropdown.classList.add('hidden');
+                location.reload();
+            } else {
+                alert('Error marking messages as read: ' + (data.error || 'Unknown error'));
+            }
+        })
+        .catch(error => {
+            console.error('Error marking messages as read:', error);
+            alert('An unexpected error occurred.');
+        });
+    });
 </script>
 </body>
 </html>

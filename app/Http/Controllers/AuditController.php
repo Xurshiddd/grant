@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Audit;
+use App\Models\Message;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AuditController extends Controller
 {
@@ -21,7 +23,7 @@ class AuditController extends Controller
             $audit = Audit::where('user_id', $request->user_id)
             ->where('category_id', $request->category)
             ->first();
-            
+            $category = DB::table('categories')->where('id', $request->category)->first();
             if ($audit) {
                 $audit->update([
                     'event' => 'Baholash yangilandi',
@@ -31,6 +33,12 @@ class AuditController extends Controller
                     'new_values' => $request->score,
                 ]);
                 
+                Message::create([
+                    'user_id' => $request->user_id,
+                    'subject' => 'Baholash yangilandi',
+                    'body' => "Sizning baholashingiz yangilandi.{$category->name} mezoni bo'yicha yangi baho: {$request->score}.",
+                    'is_read' => false,
+                ]);
                 return response()->json(['success' => 'Audit updated successfully'], 201);
             }
             
@@ -43,7 +51,12 @@ class AuditController extends Controller
                 'old_values' => '0',
                 'new_values' => $request->score,
             ]);
-            
+            Message::create([
+                'user_id' => $request->user_id,
+                'subject' => 'Baholash',
+                'body' => "Sizga {$category->name} mezoni bo'yicha {$request->score} ball berildi.",
+                'is_read' => false,
+            ]);
             return response()->json(['success' => 'Audit created successfully'], 201);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to process audit: ' . $e->getMessage()], 500);

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use League\OAuth2\Client\Provider\GenericProvider;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class HemisAuthController extends Controller
 {
@@ -53,6 +54,13 @@ class HemisAuthController extends Controller
             
             $resourceOwner = $provider->getResourceOwner($accessToken);
             $userData = $resourceOwner->toArray();
+            $now = Carbon::now();
+            $deadline = Carbon::create($now->year, 7, 25);
+            if ($now->greaterThan($deadline)) {
+                return redirect()->route('welcome')->withErrors([
+                    'error' => "Ariza qabul qilish muddati tugagan."
+                ]);
+            }
             $code = $userData['data']['educationType']['code'];
             if (!in_array($code, ['11', '12'])) {
                 return redirect()->route('welcome')->withErrors([

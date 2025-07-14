@@ -37,7 +37,7 @@
     }
 </style>
 <div class="container min-h-screen" >
-
+    
     {{-- Include the sidebar --}}
     <div class="mx-auto px-4 py-8 overflow-y-scroll max-h-[90%]">
         <div class="flex flex-col md:flex-row justify-between items-center mb-8">
@@ -46,10 +46,11 @@
             </h1>
             <div class="flex items-center space-x-4">
                 <div class="relative">
-                    <input type="text" placeholder="Search name, passport, ID number..."
-                        class="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                        id="searchInput">
-                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                    <form action="{{ route('students.index') }}" method="GET">
+                        <input type="text" name="search" placeholder="Search name, passport, ID number..." class="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" id="searchInput">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>  
+                        <button type="submit" class="hidden"></button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -105,23 +106,22 @@
                                     $student->avg_gpa >= 3.5 ? 'gpa-excellent' : 
                                     ($student->avg_gpa >= 2.5 ? 'gpa-good' : 
                                     ($student->avg_gpa >= 1.5 ? 'gpa-average' : 'gpa-poor')) }}">
-                                    {{ number_format($student->avg_gpa, 2) }}
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <a href="{{ route('students.show', $student->id) }}" class="text-indigo-600 hover:text-indigo-900">Show</a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        
-        <div class="flex justify-between items-center mt-4">
-            {{ $students->links() }}
+                                {{ number_format($student->avg_gpa, 2) }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <a href="{{ route('students.show', $student->id) }}" class="text-indigo-600 hover:text-indigo-900">Show</a>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
+    
+    <div class="flex justify-between items-center mt-4">
+        {{ $students->links() }}
+    </div>
 </div>
-{{-- @dd($students) --}}
+</div>
 @endsection
