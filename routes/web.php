@@ -31,6 +31,7 @@ Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('/students/export', [DashboardController::class, 'export'])->name('students.export');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::post('petitions', [PetitionController::class, 'store'])->name('petitions.store');
     Route::delete('petitions/{petition}/delete', [PetitionController::class, 'delete'])->name('petitions.delete');
@@ -42,7 +43,7 @@ Route::group(['middleware' => 'auth'], function () {
     })->name('profile');
     Route::post('messages', function (Request $request) {
         Message::where('user_id', Auth::id())
-            ->update(['is_read' => true]);
+        ->update(['is_read' => true]);
         return response()->json(['success' => 'All messages marked as read'], 200);
     })->name('messages.readAll');
 });
