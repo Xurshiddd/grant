@@ -178,6 +178,10 @@
                     </div>
                 </div>
             </div>
+            <div class="flex items-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded shadow">
+                <i class="fas fa-exclamation-circle text-red-500 mr-2"></i>
+                <span>Siz bu saytga kiganingizni o'zi ariza hisoblanadi. Qo'shimcha malumot : <a href="https://www.lex.uz/uz/docs/-7429154" target="_blank" class="mr-2.5 hover:underline">149-Qaror</a> va <a href="{{ asset('186-buyruq.pdf') }}" target="_blank" class="ml-2.5 hover:underline">Ijtimoiy faollik</a></span>
+            </div>
             <div class="lg:col-span-3 bg-white rounded-lg shadow-md p-6">
                 <h2 class="text-xl font-bold mb-6 border-b pb-2">Ijtimoiy faollik ko'rsatkichi baliga ega bo'lish uchun asoslovchi hujjatlarni yuklash (ixtiyoriy)</h2>
                 <h4 class="underline mb-1.5">Yig'ilgan ballar: {{ $totalScore }}</h4>
@@ -222,9 +226,7 @@
                     
                 </form>
                 @endforeach
-                <div class="mt-2 card p-4 bg-gray-100 rounded-lg shadow-sm">
-                    {{ $categories->links() }}
-                </div>
+                
             </div>
         </div>
         <!-- category form Section -->

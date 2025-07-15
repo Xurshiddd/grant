@@ -37,7 +37,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('profile', function () {
         $user = Auth::user();
         $messages = $user->messages()->exists() ? $user->messages()->get()->reverse() : collect();
-        $categories = Category::paginate(4);
+        $categories = Category::all();
         return view('profile', compact('user', 'categories', 'messages'));
     })->name('profile');
     Route::post('messages', function (Request $request) {
@@ -59,9 +59,3 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('audits', [AuditController::class, 'store'])->name('audits.store');
 });
-// Route::get('adm', function () {
-//     // User::where('id', 1)->update(['password' => bcrypt('password')]);
-//     // return redirect()->route('login');
-//     DB::table('messages')->where('id', 1)->update(['is_read' => 0]);
-//     return redirect()->route('welcome')->with('success', 'Admin route accessed successfully');
-// })->name('admin');

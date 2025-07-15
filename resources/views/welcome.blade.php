@@ -94,7 +94,6 @@ class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md"
             <div class="flex flex-wrap gap-4">
                 <a href="#" class="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition-all duration-300 shadow-md hover:shadow-lg">Grant kvotalari</a>
                 <a href="{{ route('login') }}" class="inline-block lg:hidden bg-blue-600 text-white px-4 py-2 rounded-full shadow hover:bg-blue-700 transition">Ariza topshirish</a>
-                
             </div>
         </div>
         <div class="lg:w-1/2 mb-10 lg:mb-0">
