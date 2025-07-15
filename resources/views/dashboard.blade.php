@@ -4,7 +4,7 @@
 <div class="container overflow-y-scroll max-w-full">
     <h2 class="text-xl font-semibold mb-4">Dashboard</h2>
     <a href="{{ route('students.export') }}" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-        Export to Excel
+        Ariza uchun fayl yuklagan talabalar ro‘yxatini yuklab olish
     </a>
     
     {{-- Foydalanuvchilar: bakalavr vs magistr --}}

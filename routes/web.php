@@ -9,7 +9,6 @@ use App\Http\Controllers\PetitionController;
 use App\Http\Controllers\DashboardController;
 use App\Models\Category;
 use App\Models\Message;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -19,7 +18,9 @@ use Illuminate\Http\Request;
 Route::get('/', function () {
     try {
         $response = Http::acceptJson()->get('https://student.ttyesi.uz/rest/v1/public/stat-student');
-        $allStudent = array_sum($response['data']['level']['Bakalavr']['1-kurs']) ?? 0;
+        $bakalavr = array_sum($response['data']['level']['Bakalavr']['1-kurs']) ?? 0;
+        $magistr = array_sum($response['data']['level']['magistr']['1-kurs']) ?? 0;
+        $allStudent = (int)$bakalavr+(int)$magistr ?? 0;
     } catch (\Throwable $th) {
         $allStudent = 0; // Default value in case of an error
     }

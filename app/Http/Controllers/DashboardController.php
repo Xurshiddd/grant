@@ -7,6 +7,7 @@ use App\Models\Petition;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use App\Exports\StudentsExport;
+use Illuminate\Container\Attributes\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class DashboardController extends Controller
@@ -31,6 +32,9 @@ class DashboardController extends Controller
     }
     public function export()
     {
+        if (Auth::user()->type !== 'admin') {
+            abort(403, 'Unauthorized action.');
+        }
         return Excel::download(new StudentsExport, 'students.xlsx');
     }
 }
