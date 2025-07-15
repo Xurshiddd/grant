@@ -45,12 +45,27 @@
                 <i class="fas fa-user-graduate mr-2"></i>Student Management System
             </h1>
             <div class="flex items-center space-x-4">
+                <form action="{{ route('students.index') }}" method="GET" class="flex items-center">
+                    <select name="education_form" class="pl-3 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" onchange="this.form.submit()">
+                        <option value="">Hammasi</option>
+                        <option value="1" @isset($educationForm) @if($educationForm == 1) selected @endif @endisset>Ariza uchun fayl yuklamaganlar</option>
+                        <option value="2" @isset($educationForm) @if($educationForm == 2) selected @endif @endisset>Ariza uchun fayl yuklaganlar</option>
+                        <option value="3" @isset($educationForm) @if($educationForm ==  3) selected @endif @endisset>Ariza uchun fayl yuklab baholanmaganlar</option>
+                    </select>
+                </form>
                 <div class="relative">
-                    <form action="{{ route('students.index') }}" method="GET">
-                        <input type="text" name="search" placeholder="Search name, passport, ID number..." class="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" id="searchInput">
-                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>  
-                        <button type="submit" class="hidden"></button>
+                    <form action="{{ route('students.index') }}" method="GET" class="relative w-full max-w-md mx-auto">
+                        <input
+                        type="text"
+                        name="search"
+                        value="{{ request('search') }}"
+                        placeholder="Search name, passport, ID number..."
+                        class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        id="searchInput"
+                        >
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                     </form>
+                    
                 </div>
             </div>
         </div>

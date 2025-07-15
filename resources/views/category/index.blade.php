@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-<div class="container">
+<div class="min-h-screen min-w-full owerflow-scroll">
     <style>
         .gradient-bg {
             background: linear-gradient(135deg, #6b73ff 0%, #000dff 100%);
@@ -24,7 +24,7 @@
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
         }
     </style>
-    <div class="container mx-auto px-4 py-8">
+    <div class="px-4 py-8 owe">
         <!-- Header -->
         <header class="mb-8">
             <h1 class="text-3xl font-bold text-gray-800 flex items-center">
