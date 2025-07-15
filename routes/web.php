@@ -19,7 +19,7 @@ Route::get('/', function () {
     try {
         $response = Http::acceptJson()->get('https://student.ttyesi.uz/rest/v1/public/stat-student');
         $bakalavr = array_sum($response['data']['level']['Bakalavr']['1-kurs']) ?? 0;
-        $magistr = array_sum($response['data']['level']['magistr']['1-kurs']) ?? 0;
+        $magistr = array_sum($response['data']['level']['Magistr']['1-kurs']) ?? 0;
         $allStudent = (int)$bakalavr+(int)$magistr ?? 0;
     } catch (\Throwable $th) {
         $allStudent = 0; // Default value in case of an error
