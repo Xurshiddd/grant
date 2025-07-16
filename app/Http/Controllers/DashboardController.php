@@ -32,8 +32,8 @@ class DashboardController extends Controller
     }
     public function export()
     {
-        if (Auth::user()->type !== 'admin') {
-            abort(403, 'Unauthorized action.');
+        if (!in_array(auth()->user()->type, ['admin', 'dekan'])) {
+            abort(403);
         }
         return Excel::download(new StudentsExport, 'students.xlsx');
     }

@@ -17,7 +17,7 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         // Check if the user is authenticated and has the 'admin' role
-        if (Auth::check() && Auth::user()->type == 'admin') {
+        if (Auth::check() && Auth::user()->type == 'admin' || Auth::user()->type == 'dekan') {
             return $next($request);
         }
         return abort(403, 'Unauthorized action.');

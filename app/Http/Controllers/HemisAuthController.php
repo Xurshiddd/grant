@@ -109,6 +109,7 @@ class HemisAuthController extends Controller
                 'address' => $userData['data']['address'] ?? null,
                 'country' => $userData['data']['country']['name'] ?? null,
                 'phone' => $userData['data']['phone'] ?? null,
+                'fakulty' => $userData['data']['fakulty']['code'] ?? null,
                 ]
             );
             

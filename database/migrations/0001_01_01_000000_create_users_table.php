@@ -32,8 +32,9 @@ return new class extends Migration
             $table->string('email')->nullable()->unique();
             $table->string('country')->nullable();
             $table->string('livel')->nullable();
-            $table->string('type')->default('student'); // 'student', 'teacher', 'admin'
+            $table->string('type')->default('student'); // 'student', 'dekan', 'admin'
             $table->string('password')->nullable();
+            $table->enum('faculty', ['331-103','331-102', '331-101','331-104'])->nullable();
             $table->string('remember_token')->nullable();
             $table->timestamps();
         });

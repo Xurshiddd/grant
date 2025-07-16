@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
@@ -13,7 +14,8 @@ class StudentsExport implements FromCollection, WithHeadings
     */
     public function collection()
     {
-        return User::where('type', 'student')
+        $auth = Auth::user();
+        return User::where('type', 'student')->where('faculty', $auth->faculty)
         ->where(fn ($query) => 
             $query->whereHas('petitions')
         )

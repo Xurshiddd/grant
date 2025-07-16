@@ -3,9 +3,11 @@
 @section('content')
 <div class="container overflow-y-scroll max-w-full">
     <h2 class="text-xl font-semibold mb-4">Dashboard</h2>
+    @if (auth()->user()->type == 'dekan')
     <a href="{{ route('students.export') }}" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
         Ariza uchun fayl yuklagan talabalar ro‘yxatini yuklab olish
     </a>
+    @endif
     
     {{-- Foydalanuvchilar: bakalavr vs magistr --}}
     <div id="educationChart" class="mb-10"></div>
