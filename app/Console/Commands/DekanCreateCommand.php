@@ -97,6 +97,12 @@ class DekanCreateCommand extends Command
         '331-304' => ['13-24','13a-24','13b-24','13v-24','13r-24','14-24','14a-24','14b-24','14v-24','14r-24','19-24','19a-24','19b-24','19v-24','19r-24','32-24','33-24','34-24','M13-24','M14-24'],
     ];
 
-    UserUpdateJob::dispatch($data);
+    foreach ($data as $faculty => $groups) {
+            if (!empty($groups)) {
+                User::whereIn('group_name', $groups)
+                    ->update(['faculty' => $faculty]);
+            }
+            $this->info($faculty . 'fakultet qo\'shildi');
+        }
     }
 }
