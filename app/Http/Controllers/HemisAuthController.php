@@ -55,7 +55,7 @@ class HemisAuthController extends Controller
             $resourceOwner = $provider->getResourceOwner($accessToken);
             $userData = $resourceOwner->toArray();
             $now = Carbon::now();
-            $deadline = Carbon::create($now->year, 7, 25);
+            $deadline = Carbon::create($now->year, 7, 21);
             if ($now->greaterThan($deadline)) {
                 return redirect()->route('welcome')->withErrors([
                     'error' => "Ariza qabul qilish muddati tugagan."
