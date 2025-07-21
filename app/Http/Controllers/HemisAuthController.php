@@ -54,13 +54,7 @@ class HemisAuthController extends Controller
             
             $resourceOwner = $provider->getResourceOwner($accessToken);
             $userData = $resourceOwner->toArray();
-            $now = Carbon::now();
-            $deadline = Carbon::create($now->year, 7, 21);
-            if ($now->greaterThan($deadline)) {
-                return redirect()->route('welcome')->withErrors([
-                    'error' => "Ariza qabul qilish muddati tugagan."
-                ]);
-            }
+            
             $code = $userData['data']['educationType']['code'];
             if (!in_array($code, ['11', '12'])) {
                 return redirect()->route('welcome')->withErrors([
@@ -87,6 +81,13 @@ class HemisAuthController extends Controller
             }
             // dd($userData);
             Log::info('Hemis user data:', $userData);
+            $now = Carbon::now();
+            $deadline = Carbon::create($now->year, 7, 21);
+            if ($now->greaterThan($deadline)) {
+                return redirect()->route('welcome')->withErrors([
+                    'error' => "Ariza qabul qilish muddati tugagan."
+                ]);
+            }
             // 2. Student ma'lumotlarini yaratish yoki yangilash
             $user = User::create([
                 'student_id_number' => $userData['student_id_number'],
