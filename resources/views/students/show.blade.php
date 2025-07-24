@@ -39,10 +39,10 @@
         </a>
     </div>
     @php
-    $totalScore = $student->audits->sum('new_values');   // Jami ball
+    (float)$totalScore = $student->audits->sum('new_values');   // Jami ball
     $maxScore   = \DB::table('categories')->sum('max_score');  
     $percent    = (float)$maxScore ? ((float)$totalScore / (float)$maxScore) * 100 : 0;
-    $allCount = (float)$student->avg_gpa * 16 + (float)$totalScore; // Jami ballar
+    $allCount = ((float)$student->avg_gpa) * 16 + ($totalScore / 5); // Jami ballar
     @endphp
     <!-- User Info Card -->
     <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
