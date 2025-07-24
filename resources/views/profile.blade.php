@@ -208,7 +208,7 @@
                         @php
                         $value = \DB::table('audits')->where('user_id', $user->id)->where('category_id', $category->id)->first();    
                         @endphp
-                        @if ($value->comment)
+                        @if ($value->comment != '')
                             <p class="text-sm text-green-500 mt-2 mb-4">Baholovchi izohi:  {{ $value->comment ?? '' }}</p>
                         @endif
                         <div class="{{ $user->petitions->where('category_id', $category->id)->count() > 0 ? 'inline' : 'hidden' }}">
