@@ -75,9 +75,9 @@ class HemisAuthController extends Controller
             $user = User::where('student_id_number', $userData['student_id_number'])->first();
             if (!empty($user) && $userData['student_id_number'] == $user->student_id_number) {
                 Auth::login($user);
-                Session::flash('success', 'Hemis tizimiga muvaffaqiyatli kirildi.');
+                Session::flash('success', 'Grantga ariza berish tizimiga muvaffaqiyatli kirildi.');
                 // 4. Profil sahifasiga yo'naltirish
-                return redirect()->route('profile')->with('success', 'Hemis tizimiga muvaffaqiyatli kirildi.'); // 'profile' nomli marshrutga yo'naltirish
+                return redirect()->route('profile')->with('success', 'Grantga ariza berish tizimiga muvaffaqiyatli kirildi.'); // 'profile' nomli marshrutga yo'naltirish
             }
             // dd($userData);
             Log::info('Hemis user data:', $userData);

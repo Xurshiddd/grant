@@ -6,6 +6,7 @@ use App\Models\Petition;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Jobs\ProcessPetitionUpload;
+use Carbon\Carbon;
 
 class PetitionController extends Controller
 {
@@ -23,6 +24,13 @@ class PetitionController extends Controller
     
     public function store(Request $request)
     {
+        $now = Carbon::now();
+        $deadline = Carbon::create($now->year, 7, 21);
+        if ($now->greaterThan($deadline)) {
+            return redirect()->route('welcome')->withErrors([
+                'error' => "Ariza qabul qilish muddati tugagan."
+            ]);
+        }
         $request->validate([
             'category_id' => 'required|exists:categories,id',
             'path' => 'required|array',
@@ -63,6 +71,13 @@ class PetitionController extends Controller
     }
     public function delete($id)
     {
+        $now = Carbon::now();
+        $deadline = Carbon::create($now->year, 7, 21);
+        if ($now->greaterThan($deadline)) {
+            return redirect()->route('welcome')->withErrors([
+                'error' => "Ariza qabul qilish muddati tugagan."
+            ]);
+        }
        $petition = Petition::find($id);
     //    dd($petition);
         $petition->delete();
