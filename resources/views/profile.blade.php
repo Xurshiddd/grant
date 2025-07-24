@@ -205,6 +205,7 @@
                         file:focus:ring-primary
                         file:focus:ring-opacity-50"><span class="text-xs text-gray-500">Yuklash uchun PDF, DOC, DOCX, PNG, JPG, JPEG yoki WEBP formatidagi faylni tanlang. max 5mb</span>
                         <p class="text-sm text-yellow-500 mt-2 mb-4">Siz bu mezon uchun {{ $user->petitions->where('category_id', $category->id)->count() }} ta hujjat yuklagansiz.</p>
+                        <p class="text-sm text-green-500 mt-2 mb-4">{{ $user->audits->where('category_id', $category->id)->value('commit') }}</p>
                         <div class="{{ $user->petitions->where('category_id', $category->id)->count() > 0 ? 'inline' : 'hidden' }}">
                         <ul class="list-none pl-5 flex justify-around items-center flex-wrap mb-2">
                             @foreach ($user->petitions->where('category_id', $category->id) as $petition)
