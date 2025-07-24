@@ -208,7 +208,7 @@
                         @php
                         $value = \DB::table('audits')->where('user_id', $user->id)->where('category_id', $category->id)->first();    
                         @endphp
-                        <p class="text-sm text-green-500 mt-2 mb-4">{{ $value->commit ?? '' }}</p>
+                        <p class="text-sm text-green-500 mt-2 mb-4">{{ $value->comment ?? '' }}</p>
                         <div class="{{ $user->petitions->where('category_id', $category->id)->count() > 0 ? 'inline' : 'hidden' }}">
                         <ul class="list-none pl-5 flex justify-around items-center flex-wrap mb-2">
                             @foreach ($user->petitions->where('category_id', $category->id) as $petition)
