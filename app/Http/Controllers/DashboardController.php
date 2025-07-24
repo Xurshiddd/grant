@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AllStudentExcel;
 use Illuminate\Http\Request;
 use App\Models\Petition;
 use App\Models\User;
@@ -36,5 +37,9 @@ class DashboardController extends Controller
             abort(403);
         }
         return Excel::download(new StudentsExport, 'students.xlsx');
+    }
+    public function exportAll()
+    {
+        return Excel::download(new AllStudentExcel, 'studentsAll.xlsx');
     }
 }

@@ -32,6 +32,7 @@ Route::get('/login', function () {
 })->name('login');
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/students/export', [DashboardController::class, 'export'])->name('students.export');
+    Route::get('/students/exportAll', [DashboardController::class, 'exportAll'])->name('students.export');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     // Route::post('petitions', [PetitionController::class, 'store'])->name('petitions.store');
     // Route::delete('petitions/{petition}/delete', [PetitionController::class, 'delete'])->name('petitions.delete');
