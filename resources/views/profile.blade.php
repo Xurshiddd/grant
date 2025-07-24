@@ -10,7 +10,7 @@
     <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <link rel="shortcut icon" href="https://ttysi.uz/assets/public/images/logo_black.svg" type="image/svg">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script>
         tailwind.config = {
@@ -53,7 +53,7 @@
                 <button id="notification-btn" class="p-2 text-gray-600 hover:text-primary relative">
                     <i class="fas fa-bell text-xl"></i>
                     @if ($messages->where('is_read', 0)->count() > 0)
-                        <span class="absolute -top-1 -right-1 bg-notification text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">{{$messages->where('is_read', 0)->count()}}</span>
+                    <span class="absolute -top-1 -right-1 bg-notification text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">{{$messages->where('is_read', 0)->count()}}</span>
                     @endif
                 </button>
                 <div id="notification-dropdown" class="hidden absolute right-0 mt-2 w-72 bg-white rounded-md shadow-lg z-10 border border-gray-200">
@@ -146,11 +146,11 @@
         <!-- Main Content Area -->
         <div class="lg:col-span-3 space-y-8">
             <!-- Academic Information Section -->
-             @php
-                    $gpa = $user->avg_gpa ?? 3.5;
-                    $gpaPercentage = min(100, ($gpa / 5) * 100); // GPA ni 5 ga nisbatan % hisoblash
-                    (float)$totalScore = $user->audits->sum('new_values');
-                    @endphp
+            @php
+            $gpa = $user->avg_gpa ?? 3.5;
+            $gpaPercentage = min(100, ($gpa / 5) * 100); // GPA ni 5 ga nisbatan % hisoblash
+            (float)$totalScore = $user->audits->sum('new_values');
+            @endphp
             <div class="bg-white rounded-lg shadow-md p-6">
                 <h2 class="font-semibold text-gray-700">Umumiy ball: {{($totalScore / 5) + ($gpa*16)}}</h2>
                 
@@ -208,25 +208,25 @@
                         @php
                         $value = \DB::table('audits')->where('user_id', $user->id)->where('category_id', $category->id)->first();    
                         @endphp
-                        @if ($value->comment != '')
-                            <p class="text-sm text-green-500 mt-2 mb-4">Baholovchi izohi:  {{ $value->comment ?? '' }}</p>
+                        @if ($value && $value->comment != '')
+                        <p class="text-sm text-green-500 mt-2 mb-4">Baholovchi izohi:  {{ $value->comment }}</p>
                         @endif
                         <div class="{{ $user->petitions->where('category_id', $category->id)->count() > 0 ? 'inline' : 'hidden' }}">
-                        <ul class="list-none pl-5 flex justify-around items-center flex-wrap mb-2">
-                            @foreach ($user->petitions->where('category_id', $category->id) as $petition)
-                            <li class="group text-sm text-gray-700 p-2 bg-gray-200 rounded-lg flex items-center justify-between m-1.5">
-                                <a href="{{ asset($petition->path) }}" class="text-blue-600 hover:underline" target="_blank">
-                                    {{ basename($petition->path) }}
-                                </a>
-                                <span class="text-xs text-gray-500 ml-2">{{ $petition->created_at->format('d.m.Y') }}</span>
-                                <span class="text-xs text-gray-500 ml-2">
+                            <ul class="list-none pl-5 flex justify-around items-center flex-wrap mb-2">
+                                @foreach ($user->petitions->where('category_id', $category->id) as $petition)
+                                <li class="group text-sm text-gray-700 p-2 bg-gray-200 rounded-lg flex items-center justify-between m-1.5">
+                                    <a href="{{ asset($petition->path) }}" class="text-blue-600 hover:underline" target="_blank">
+                                        {{ basename($petition->path) }}
+                                    </a>
+                                    <span class="text-xs text-gray-500 ml-2">{{ $petition->created_at->format('d.m.Y') }}</span>
+                                    <span class="text-xs text-gray-500 ml-2">
                                         <button type="submit" class="text-red-600 hover:text-red-900" title="O‘chirish" onclick="deletePetition({{ $petition->id }})">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
-                                </span>
-                            </li>
-                            @endforeach
-                        </ul>
+                                    </span>
+                                </li>
+                                @endforeach
+                            </ul>
                         </div>
                         <button type="submit" class="bg-primary text-white px-4 py-2 rounded hover:bg-secondary transition-colors">Yuklash</button>
                     </div>
@@ -244,40 +244,40 @@
 <footer class="bg-white border-t mt-8">
     <div class="container mx-auto px-4 py-6 text-center text-gray-600 text-sm">
         <p>© {{ date('Y') }} TTYSI Student Portal</p>
-
+        
     </div>
 </footer>
 
 <script>
     // delete function prevent default form submission
     function deletePetition(id) {
-    event.preventDefault(); // Prevent default form submission
-
-    if (confirm('Are you sure you want to delete this petition?')) {
-        fetch(`/petitions/${id}/delete`, {
-            method: 'DELETE',
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                'Accept': 'application/json',
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Petition deleted successfully.');
-                location.reload();
-            } else {
-                alert('Error deleting petition: ' + (data.error || 'Unknown error'));
-                location.reload();
-            }
-        })
-        .catch(error => {
-            console.error('Error deleting petition:', error);
-            alert('An unexpected error occurred.');
-        });
+        event.preventDefault(); // Prevent default form submission
+        
+        if (confirm('Are you sure you want to delete this petition?')) {
+            fetch(`/petitions/${id}/delete`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Petition deleted successfully.');
+                    location.reload();
+                } else {
+                    alert('Error deleting petition: ' + (data.error || 'Unknown error'));
+                    location.reload();
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting petition:', error);
+                alert('An unexpected error occurred.');
+            });
+        }
     }
-}
-
+    
     const notificationBtn = document.getElementById('notification-btn');
     const notificationDropdown = document.getElementById('notification-dropdown');
     
