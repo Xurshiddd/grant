@@ -58,7 +58,7 @@
                         <p class="text-gray-600">Tug'ilgan sanasi: {{$student->birth_date}}</p>
                         <div class="mt-2 flex flex-wrap gap-2">
                             
-                            <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">Umumiy ball  {{$allCount / 5}}</span>
+                            <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">Umumiy ball  {{$allCount}}</span>
                             {{-- <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">{{$student->birth_date}}</span>
                             <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">{{$student->birth_date}}</span> --}}
                         </div>
@@ -97,7 +97,7 @@
                         
                         <p class="mt-2">
                             <span class="font-medium">Overall Score:</span>
-                            {{ $totalScore }}
+                            {{ $totalScore / 5 }}
                         </p>
                     </div>
                 </div>
