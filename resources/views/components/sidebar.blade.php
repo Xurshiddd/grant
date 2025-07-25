@@ -58,6 +58,16 @@
     :class="request()->routeIs('categories.*') ? 'text-indigo-700' : 'text-gray-500'"></i>
     Mezonlar
 </a>
+<a href="{{ route('appels') }}"
+    @class([
+    'sidebar-item flex items-center px-3 py-2 text-sm font-medium rounded-md',
+    'text-indigo-700 bg-indigo-100' => request()->routeIs('appels.*'),
+    'text-gray-600 hover:text-indigo-600' => !request()->routeIs('appels.*'),
+    ])>
+    <i class="fas fa-box mr-3"
+    :class="request()->routeIs('appels.*') ? 'text-indigo-700' : 'text-gray-500'"></i>
+    Appelatsiya uchun so'rov yuborganlar
+</a>
 
 </div>
 </div>

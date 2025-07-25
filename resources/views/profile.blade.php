@@ -184,6 +184,12 @@
             </div>
             <div class="lg:col-span-3 bg-white rounded-lg shadow-md p-6">
                 <h2 class="text-xl font-bold mb-6 border-b pb-2">Ijtimoiy faollik ko'rsatkichi baliga ega bo'lish uchun asoslovchi hujjatlarni yuklash (ixtiyoriy)</h2>
+                <div>
+                    <button id="submitRequest" class="bg-primary text-white px-4 py-2 rounded hover:bg-secondary transition-colors mb-3.5">
+                        Qayta ko'rib chiqish uchun so'rov
+                    </button>
+                    
+                </div>
                 <h4 class="underline mb-1.5">Yig'ilgan ballar: {{ $totalScore / 5 }}</h4>
                 <span class="text-amber-700">Qo'yilgan baholarni umumiysini / 5 = Yig'ilgan ball</span>
                 @foreach ($categories as $category)
@@ -247,6 +253,28 @@
         
     </div>
 </footer>
+<script>
+document.getElementById('submitRequest').addEventListener('click', function () {
+    if (confirm("Rostdan ham so'rov jo'natmoqchimisiz?")) {
+        fetch('/appelatsiya', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Laravel uchun kerak
+            },
+            body: JSON.stringify({ confirm: true })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert('So‘rov muvaffaqiyatli yuborildi!');
+        })
+        .catch(error => {
+            alert("Xatolik yuz berdi");
+            console.error('Xatolik:', error);
+        });
+    }
+});
+</script>
 
 <script>
     // delete function prevent default form submission

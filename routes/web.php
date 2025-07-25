@@ -7,6 +7,7 @@ use App\Http\Controllers\HemisAuthController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PetitionController;
 use App\Http\Controllers\DashboardController;
+use App\Models\Appel;
 use App\Models\Category;
 use App\Models\Message;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +37,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::post('petitions', [PetitionController::class, 'store'])->name('petitions.store');
     Route::delete('petitions/{petition}/delete', [PetitionController::class, 'delete'])->name('petitions.delete');
+    Route::post('appelatsiya', function(Request $request){
+        Appel::updateOrInsert([
+            'user_id' => Auth::id()
+        ]);
+        return response()->json(['message'=> 'success']);
+    });
     Route::get('profile', function () {
         $user = Auth::user();
         $messages = $user->messages()->exists() ? $user->messages()->get()->reverse() : collect();
@@ -58,6 +65,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('/categories/{category}', [CategoryController::class, 'update']);
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
     Route::resource('students', StudentController::class);
+    Route::get('appels', [StudentController::class, 'appels'])->name('appels');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('audits', [AuditController::class, 'store'])->name('audits.store');
 });

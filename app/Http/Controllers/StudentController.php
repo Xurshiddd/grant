@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appel;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
@@ -104,5 +106,10 @@ public function destroy($id)
 {
     // Logic to delete a student
     return redirect()->route('students.index')->with('success', 'Student deleted successfully.');
+}
+public function appels()
+{
+    $students = DB::table('users')->join('appels', 'users.id','appels.user_id')->where('users.type', 'student')->paginate(10);
+    return view('students.appels', compact('students'));
 }
 }
