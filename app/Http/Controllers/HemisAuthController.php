@@ -61,7 +61,7 @@ class HemisAuthController extends Controller
                     'error' => "Faqat bakalavr yoki magistr roʻyxatdan oʻtishi mumkin"
                 ]);
             }
-            if ($userData['data']['level']['code'] != '11' || $userData['data']['educationForm']['code'] != '11') {
+            if ($userData['data']['educationForm']['code'] != '11') {
                 return redirect()->route('welcome')->withErrors([
                     'error' => "Siz 1-kurs talabasi bo'lmaganingiz uchun ariza topshira olmaysiz."
                 ]);
