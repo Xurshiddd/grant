@@ -28,14 +28,14 @@ class AllStudentExcel implements FromCollection, WithHeadings
         ->whereIn('faculty', array_keys($facultyNames))
         ->orderByRaw("FIELD(faculty, '331-101', '331-102', '331-103', '331-104')")
         ->get();
-
+// dd($students);
     // Kerakli formatga o‘zgartiramiz
     return $students->map(function ($user) use ($facultyNames) {
         return [
             'faculty' => $facultyNames[$user->faculty] ?? $user->faculty,
             'full_name' => $user->full_name,
             'group_name' => $user->group_name,
-            'new_values' => $user->audits->sum('new_values') ?? 0,
+            'new_values' => (float)$user->audits->sum('new_values') / 5 ?? 0,
         ];
     });
     }
