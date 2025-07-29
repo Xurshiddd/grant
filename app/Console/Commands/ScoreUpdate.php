@@ -47,7 +47,7 @@ class ScoreUpdate extends Command
             Message::create([
                 'user_id' => $student->id,
                 'subject' => 'Baholash',
-                'body' => "Sizga 'Talabaning akademik oʻzlashtirishi' mezoni bo'yicha {$score} ball berildi.",
+                'body' => "Grant kvotalari bosh sahifada Grant kvotalari tugmasi orqali bilish mumkun",
                 'is_read' => false,
             ]);
             $this->info("{$student->full_name} - GPA: $gpa, Score: $score");
