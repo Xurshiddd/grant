@@ -92,7 +92,7 @@ class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md"
                 2025-2026 o‘quv yili uchun grantlarni taqdim etish va qayta taqsimlash bo‘yicha maxsus elektron platforma
             </h1>
             <div class="flex flex-wrap gap-4">
-                <a href="#" class="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition-all duration-300 shadow-md hover:shadow-lg">Grant kvotalari</a>
+                <a href="{{ asset('grant.pdf') }}" class="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition-all duration-300 shadow-md hover:shadow-lg">Grant kvotalari</a>
                 <a href="{{ route('login') }}" class="inline-block lg:hidden bg-blue-600 text-white px-4 py-2 rounded-full shadow hover:bg-blue-700 transition">Ariza topshirish</a>
             </div>
         </div>
