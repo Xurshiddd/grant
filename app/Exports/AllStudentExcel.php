@@ -23,7 +23,7 @@ class AllStudentExcel implements FromCollection, WithHeadings
     ];
 
     $students = User::where('type', 'student')
-        ->whereHas('petitions')
+        // ->whereHas('petitions')
         ->with(['audits']) // audits aloqasini yuklaymiz
         ->whereIn('faculty', array_keys($facultyNames))
         ->orderByRaw("FIELD(faculty, '331-101', '331-102', '331-103', '331-104')")
