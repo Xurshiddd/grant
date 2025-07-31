@@ -116,6 +116,15 @@
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-xl font-semibold text-gray-800">{{ $category->name }}</h3>
                     <div>
+                        <span class="text-sm font-medium text-gray-500">
+                            <form action="{{ route('petitionsave') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="category_id" value="{{ $category->id }}">
+                                <input type="hidden" name="user_id" value="{{ $student->id }}">
+                                <input type="file" name="path[]" multiple accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp">
+                                <button type="submit">Submit</button>
+                            </form>
+                        </span>
                         <span class="text-sm font-medium text-gray-500">Eng yuqori ball: {{ $category->max_score }}</span>
                         <span class="mx-2">|</span>
                         @php
