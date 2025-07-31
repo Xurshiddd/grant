@@ -69,22 +69,22 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('appels', [StudentController::class, 'appels'])->name('appels');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('audits', [AuditController::class, 'store'])->name('audits.store');
-    Route::post('petitionsave', function(Request $request){
-        if (Auth::id()!= 1) {
-            return redirect()->back()->with('error', 'Bu siz uchun emas');
-        }
-        // dd($request->all());
-        foreach ($request->file('path') as $file) {
-            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $path = 'uploads/' . $filename;
-            $file->move(public_path('uploads'), $filename);
-            Petition::create([
-                'user_id' => $request->user_id,
-                'category_id' => $request->category_id,
-                'path' => $path,
-                'evaluation' => 0, // default qiymat
-            ]);
-        }
-        return redirect()->back()->with('success', 'Petition created successfully.');
-    })->name('petitionsave');
+    // Route::post('petitionsave', function(Request $request){
+    //     if (Auth::id()!= 1) {
+    //         return redirect()->back()->with('error', 'Bu siz uchun emas');
+    //     }
+    //     // dd($request->all());
+    //     foreach ($request->file('path') as $file) {
+    //         $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+    //         $path = 'uploads/' . $filename;
+    //         $file->move(public_path('uploads'), $filename);
+    //         Petition::create([
+    //             'user_id' => $request->user_id,
+    //             'category_id' => $request->category_id,
+    //             'path' => $path,
+    //             'evaluation' => 0, // default qiymat
+    //         ]);
+    //     }
+    //     return redirect()->back()->with('success', 'Petition created successfully.');
+    // })->name('petitionsave');
 });
