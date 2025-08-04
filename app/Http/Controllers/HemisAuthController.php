@@ -97,7 +97,7 @@ class HemisAuthController extends Controller
             try {
                 StudentData::create([
                     'user_id' => $user->id,
-                    'data' => $userData
+                    'data' => json_encode($userData)
                 ]);
             } catch (\Exception $e) {
                 \Log::error('data saved error', [$e]);
