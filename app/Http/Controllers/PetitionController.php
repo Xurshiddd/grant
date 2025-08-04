@@ -25,9 +25,9 @@ class PetitionController extends Controller
     public function store(Request $request)
     {
         $now = Carbon::now();
-        $deadline = Carbon::create($now->year, 7, 21);
+        $deadline = Carbon::create($now->year, 8, 11);
         if ($now->greaterThan($deadline)) {
-            return redirect()->route('welcome')->withErrors([
+            return redirect()->route('profile')->withErrors([
                 'error' => "Ariza qabul qilish muddati tugagan."
             ]);
         }
@@ -72,7 +72,7 @@ class PetitionController extends Controller
     public function delete($id)
     {
         $now = Carbon::now();
-        $deadline = Carbon::create($now->year, 7, 21);
+        $deadline = Carbon::create($now->year, 8, 11);
         if ($now->greaterThan($deadline)) {
             return redirect()->route('welcome')->withErrors([
                 'error' => "Ariza qabul qilish muddati tugagan."

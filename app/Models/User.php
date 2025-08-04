@@ -83,4 +83,8 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Appel::class);
     }
+    public function data()
+    {
+        return $this->hasOne(StudentData::class);
+    }
 }

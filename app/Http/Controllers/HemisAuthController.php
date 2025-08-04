@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\StudentData;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Services\HemisOAuthClient;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use League\OAuth2\Client\Provider\GenericProvider;
-use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class HemisAuthController extends Controller
@@ -55,23 +54,13 @@ class HemisAuthController extends Controller
             $resourceOwner = $provider->getResourceOwner($accessToken);
             $userData = $resourceOwner->toArray();
             
-            $code = $userData['data']['educationType']['code'];
-            if (!in_array($code, ['11', '12'])) {
+            $response = $this->check($userData);
+            $data = $response->getData(true);
+            if ($data['error']) {
                 return redirect()->route('welcome')->withErrors([
-                    'error' => "Faqat bakalavr yoki magistr roʻyxatdan oʻtishi mumkin"
+                    'error' => $data['message']
                 ]);
             }
-            if ($userData['data']['educationForm']['code'] != '11') {
-                return redirect()->route('welcome')->withErrors([
-                    'error' => "Siz 1-kurs talabasi bo'lmaganingiz uchun ariza topshira olmaysiz."
-                ]);
-            }
-            if ((float) $userData['data']['avg_gpa'] < 3.5) {
-                return redirect()->route('welcome')->withErrors([
-                    'error' => "Sizning o'rtacha baholaringiz 3.50 dan past bo'lgani uchun ariza topshira olmaysiz."
-                ]);
-            }
-            
             $user = User::where('student_id_number', $userData['student_id_number'])->first();
             if (!empty($user) && $userData['student_id_number'] == $user->student_id_number) {
                 Auth::login($user);
@@ -79,15 +68,7 @@ class HemisAuthController extends Controller
                 // 4. Profil sahifasiga yo'naltirish
                 return redirect()->route('profile')->with('success', 'Grantga ariza berish tizimiga muvaffaqiyatli kirildi.'); // 'profile' nomli marshrutga yo'naltirish
             }
-            // dd($userData);
             Log::info('Hemis user data:', $userData);
-            $now = Carbon::now();
-            $deadline = Carbon::create($now->year, 7, 21);
-            if ($now->greaterThan($deadline)) {
-                return redirect()->route('welcome')->withErrors([
-                    'error' => "Ariza qabul qilish muddati tugagan."
-                ]);
-            }
             // 2. Student ma'lumotlarini yaratish yoki yangilash
             $user = User::create([
                 'student_id_number' => $userData['student_id_number'],
@@ -113,8 +94,14 @@ class HemisAuthController extends Controller
                 'faculty' => $userData['data']['faculty']['code'] ?? null,
                 ]
             );
-            
-            // 3. Login qilish
+            try {
+                StudentData::create([
+                    'user_id' => $user->id,
+                    'data' => $userData
+                ]);
+            } catch (\Exception $e) {
+                \Log::error('data saved error', [$e]);
+            }
             Auth::login($user);
             
             // 4. Profil sahifasiga yo'naltirish
