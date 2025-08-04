@@ -105,7 +105,7 @@ class HemisAuthController extends Controller
             Auth::login($user);
             
             // 4. Profil sahifasiga yo'naltirish
-            return redirect()->route('profile')->with('success', 'Hemis tizimiga muvaffaqiyatli kirildi.'); // 'profile' nomli marshrutga yo'naltirish
+            return redirect()->route('profile')->with('success', $data['message']); // 'profile' nomli marshrutga yo'naltirish
         } catch (\Exception $e) {
             return redirect()->route('welcome')->withErrors(['error' => 'Hemis tizimiga kirishda xatolik yuz berdi: ' . $e->getMessage()]);
         }
