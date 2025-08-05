@@ -105,12 +105,12 @@ class HemisAuthController extends Controller
                 'category_id' => 13,
                 'auditable_id' => 1,
                 'old_values' => '0',
-                'new_values' => $gpa,
+                'new_values' => $this->gpaToScore((string)$gpa),
             ]);
             Message::create([
                 'user_id' => $user->id,
                 'subject' => 'Avtomatik baholash',
-                'body' => "Sizga Talabaning akademik oʻzlashtirishi mezoni bo'yicha {$this->gpaToScore($gpa)} ball berildi.",
+                'body' => "Sizga Talabaning akademik oʻzlashtirishi mezoni bo'yicha {$this->gpaToScore((string)$gpa)} ball berildi.",
                 'is_read' => false,
             ]);
             try {
@@ -134,22 +134,22 @@ class HemisAuthController extends Controller
     private function gpaToScore($gpa)
     {
         $map = [
-            5.0 => 10.0,
-            4.9 => 9.7,
-            4.8 => 9.3,
-            4.7 => 9.0,
-            4.6 => 8.7,
-            4.5 => 8.3,
-            4.4 => 8.0,
-            4.3 => 7.7,
-            4.2 => 7.3,
-            4.1 => 7.0,
-            4.0 => 6.7,
-            3.9 => 6.3,
-            3.8 => 6.0,
-            3.7 => 5.7,
-            3.6 => 5.3,
-            3.5 => 5.0,
+            '5' => 10.0,
+            '4.9' => 9.7,
+            '4.8' => 9.3,
+            '4.7' => 9.0,
+            '4.6' => 8.7,
+            '4.5' => 8.3,
+            '4.4' => 8.0,
+            '4.3' => 7.7,
+            '4.2' => 7.3,
+            '4.1' => 7.0,
+            '4' => 6.7,
+            '3.9' => 6.3,
+            '3.8' => 6.0,
+            '3.7' => 5.7,
+            '3.6' => 5.3,
+            '3.5' => 5.0,
         ];
         
         return $map[$gpa] ?? 0;
