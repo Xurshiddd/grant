@@ -38,7 +38,9 @@ class StudentController extends Controller
             return match ((int) $validated['education_form']) {
                 1 => $q->whereDoesntHave('petitions'),
                 2 => $q->whereHas('petitions'),
-                3 => $q->whereHas('petitions')->whereDoesntHave('audits'),
+                3 => $q->whereHas('petitions')->whereDoesntHave('audits', function($qa){
+                    $qa->where('category_id', '!=', 13);
+                }),
                 default => $q,
             };
         })
