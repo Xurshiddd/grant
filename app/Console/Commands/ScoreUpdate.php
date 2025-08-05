@@ -35,21 +35,21 @@ class ScoreUpdate extends Command
             $score = $this->gpaToScore($gpa);
             
             // Audit logga yozish
-            // Audit::create([
-            //     'user_id' => $student->id,
-            //     'event' => 'Baholash',
-            //     'category_id' => 13,
-            //     'comment' => "Talabaning GPA ko‘rsatkichi: $gpa",
-            //     'auditable_id' => 1,
-            //     'old_values' => '0',
-            //     'new_values' => $score,
-            // ]);
-            Message::create([
+            Audit::create([
                 'user_id' => $student->id,
-                'subject' => 'Baholash',
-                'body' => "Grant kvotalari bosh sahifada Grant kvotalari tugmasi orqali bilish mumkun",
-                'is_read' => false,
+                'event' => 'Baholash',
+                'category_id' => 13,
+                'comment' => "Talabaning GPA ko‘rsatkichi: $gpa",
+                'auditable_id' => 1,
+                'old_values' => '0',
+                'new_values' => $score,
             ]);
+            // Message::create([
+            //     'user_id' => $student->id,
+            //     'subject' => 'Baholash',
+            //     'body' => "Grant kvotalari bosh sahifada Grant kvotalari tugmasi orqali bilish mumkun",
+            //     'is_read' => false,
+            // ]);
             $this->info("{$student->full_name} - GPA: $gpa, Score: $score");
         }
         
