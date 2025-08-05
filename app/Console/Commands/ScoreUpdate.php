@@ -35,8 +35,8 @@ class ScoreUpdate extends Command
             $score = $this->gpaToScore($gpa);
             
             // Audit logga yozish
-            Audit::create([
-                'user_id' => $student->id,
+            Audit::updateOrInsert([
+                'user_id' => $student->id],[
                 'event' => 'Baholash',
                 'category_id' => 13,
                 'comment' => "Talabaning GPA ko‘rsatkichi: $gpa",

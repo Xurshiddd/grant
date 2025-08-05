@@ -102,6 +102,7 @@ class HemisAuthController extends Controller
                 'user_id' => $user->id,
                 'event' => 'Baholash',
                 'comment' => 'Talabaning GPA ko‘rsatkichi:'. $gpa,
+                'category_id' => 13,
                 'auditable_id' => 1,
                 'old_values' => '0',
                 'new_values' => $gpa,
