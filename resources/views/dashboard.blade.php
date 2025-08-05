@@ -7,9 +7,13 @@
     <a href="{{ route('students.export') }}" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
         Ariza uchun fayl yuklagan talabalar ro‘yxatini yuklab olish
     </a>
+    @else
+    <a href="{{ route('students.exportAll') }}" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+        Barcha talabalar mezonlar bo'yicha ballarini yuklab olish
+    </a>     
     @endif
     
-    {{-- Foydalanuvchilar: bakalavr vs magistr --}}
+    {{-- Foydalanuvchilar: bakalavr vs magistr --}}
     <div id="educationChart" class="mb-10"></div>
     
     {{-- Petitions statistikasi (o‘zgarishsiz) --}}

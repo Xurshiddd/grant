@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Audit;
+use App\Models\Message;
 use App\Models\StudentData;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -10,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use League\OAuth2\Client\Provider\GenericProvider;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class HemisAuthController extends Controller
 {
@@ -32,7 +35,6 @@ class HemisAuthController extends Controller
     
     public function handleHemisCallback(Request $request)
     {
-        // dd($request->all());
         $provider = new GenericProvider([
             'clientId'                => config('services.hemis.client_id'),
             'clientSecret'            => config('services.hemis.client_secret'),
@@ -70,6 +72,7 @@ class HemisAuthController extends Controller
             }
             Log::info('Hemis user data:', $userData);
             // 2. Student ma'lumotlarini yaratish yoki yangilash
+            DB::beginTransaction();
             $user = User::create([
                 'student_id_number' => $userData['student_id_number'],
                 'email' => $userData['email'] ?: $userData['login'] . '@student.hemis.uz',
@@ -94,6 +97,21 @@ class HemisAuthController extends Controller
                 'faculty' => $userData['data']['faculty']['code'] ?? null,
                 ]
             );
+            $gpa = round($userData['data']['avg_gpa'],1);
+            Audit::create([
+                'user_id' => $user->id,
+                'event' => 'Baholash',
+                'comment' => 'Talabaning GPA ko‘rsatkichi:'. $gpa,
+                'auditable_id' => 1,
+                'old_values' => '0',
+                'new_values' => $gpa,
+            ]);
+            Message::create([
+                'user_id' => $user->id,
+                'subject' => 'Avtomatik baholash',
+                'body' => "Sizga Talabaning akademik oʻzlashtirishi mezoni bo'yicha {$this->gpaToScore($gpa)} ball berildi.",
+                'is_read' => false,
+            ]);
             try {
                 StudentData::create([
                     'user_id' => $user->id,
@@ -102,12 +120,37 @@ class HemisAuthController extends Controller
             } catch (\Exception $e) {
                 \Log::error('data saved error', [$e]);
             }
+            DB::commit();
             Auth::login($user);
             
             // 4. Profil sahifasiga yo'naltirish
             return redirect()->route('profile')->with('success', $data['message']); // 'profile' nomli marshrutga yo'naltirish
         } catch (\Exception $e) {
+            DB::rollBack();
             return redirect()->route('welcome')->withErrors(['error' => 'Hemis tizimiga kirishda xatolik yuz berdi: ' . $e->getMessage()]);
         }
+    }
+    private function gpaToScore($gpa)
+    {
+        $map = [
+            5.0 => 10.0,
+            4.9 => 9.7,
+            4.8 => 9.3,
+            4.7 => 9.0,
+            4.6 => 8.7,
+            4.5 => 8.3,
+            4.4 => 8.0,
+            4.3 => 7.7,
+            4.2 => 7.3,
+            4.1 => 7.0,
+            4.0 => 6.7,
+            3.9 => 6.3,
+            3.8 => 6.0,
+            3.7 => 5.7,
+            3.6 => 5.3,
+            3.5 => 5.0,
+        ];
+        
+        return $map[$gpa] ?? 0;
     }
 }
