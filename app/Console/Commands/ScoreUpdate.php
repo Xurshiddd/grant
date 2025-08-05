@@ -32,19 +32,24 @@ class ScoreUpdate extends Command
         
         foreach ($students as $student) {
             $gpa = round($student->avg_gpa, 1);
-            $score = $this->gpaToScore($gpa);
-            
-            // Audit logga yozish
-            Audit::updateOrInsert([
-                'user_id' => $student->id,
-                'category_id' => 13,
-            ],[
-                'event' => 'Baholash',
-                'comment' => "Talabaning GPA ko‘rsatkichi: $gpa",
-                'auditable_id' => 1,
-                'old_values' => '0',
-                'new_values' => $score,
-            ]);
+            $score = $this->gpaToScore((string)$gpa);
+            $audit = Audit::where('user_id', $student->id)->where('category_id', 13)->first();
+            if(!empty($audit)){
+                $audit->update([
+                    'old_values' => $audit->old_values,
+                    'new_values' => $score,
+                ]);
+            }else{
+                Audit::create([
+                    'user_id' => $student->id,
+                    'category_id' => 13,
+                    'event' => 'Baholash',
+                    'comment' => "Talabaning GPA ko‘rsatkichi: $gpa",
+                    'auditable_id' => 1,
+                    'old_values' => '0',
+                    'new_values' => $score,
+                ]);
+            }
             // Message::create([
             //     'user_id' => $student->id,
             //     'subject' => 'Baholash',
@@ -59,22 +64,22 @@ class ScoreUpdate extends Command
     private function gpaToScore($gpa)
     {
         $map = [
-            5.0 => 10.0,
-            4.9 => 9.7,
-            4.8 => 9.3,
-            4.7 => 9.0,
-            4.6 => 8.7,
-            4.5 => 8.3,
-            4.4 => 8.0,
-            4.3 => 7.7,
-            4.2 => 7.3,
-            4.1 => 7.0,
-            4.0 => 6.7,
-            3.9 => 6.3,
-            3.8 => 6.0,
-            3.7 => 5.7,
-            3.6 => 5.3,
-            3.5 => 5.0,
+            '5' => 10.0,
+            '4.9' => 9.7,
+            '4.8' => 9.3,
+            '4.7' => 9.0,
+            '4.6' => 8.7,
+            '4.5' => 8.3,
+            '4.4' => 8.0,
+            '4.3' => 7.7,
+            '4.2' => 7.3,
+            '4.1' => 7.0,
+            '4' => 6.7,
+            '3.9' => 6.3,
+            '3.8' => 6.0,
+            '3.7' => 5.7,
+            '3.6' => 5.3,
+            '3.5' => 5.0,
         ];
         
         return $map[$gpa] ?? 0;

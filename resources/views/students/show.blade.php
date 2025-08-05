@@ -252,7 +252,7 @@
     <div>
         <label for="score" class="block mb-1 text-sm font-medium text-gray-700">Ball</label>
         <div class="flex items-center gap-3">
-            <input type="number" name="score" id="score" class="w-28 px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-center font-semibold text-gray-800" placeholder="0">
+            <input type="number" step="0.1" name="score" id="score" class="w-28 px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-center font-semibold text-gray-800" placeholder="0">
             <span id="max_score"class="text-sm text-gray-500 whitespace-nowrap"></span>
         </div>
     </div>
