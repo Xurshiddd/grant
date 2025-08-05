@@ -36,9 +36,10 @@ class ScoreUpdate extends Command
             
             // Audit logga yozish
             Audit::updateOrInsert([
-                'user_id' => $student->id],[
-                'event' => 'Baholash',
+                'user_id' => $student->id,
                 'category_id' => 13,
+            ],[
+                'event' => 'Baholash',
                 'comment' => "Talabaning GPA ko‘rsatkichi: $gpa",
                 'auditable_id' => 1,
                 'old_values' => '0',
