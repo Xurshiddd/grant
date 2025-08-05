@@ -7,6 +7,7 @@ use App\Http\Controllers\HemisAuthController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PetitionController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RejectionController;
 use App\Models\Appel;
 use App\Models\Category;
 use App\Models\Petition;
@@ -69,6 +70,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('appels', [StudentController::class, 'appels'])->name('appels');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('audits', [AuditController::class, 'store'])->name('audits.store');
+    Route::post('rejects', [RejectionController::class,'store'])->name('rejects.store');
     // Route::post('petitionsave', function(Request $request){
     //     if (Auth::id()!= 1) {
     //         return redirect()->back()->with('error', 'Bu siz uchun emas');

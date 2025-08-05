@@ -30,6 +30,37 @@
         transition: opacity 0.3s ease;
     }
 </style>
+<style>
+    .modal {
+        display: none; /* Boshlanishda yashiringan */
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.5); /* fonni qora qilish */
+    }
+    
+    .modal-content {
+        background-color: #fff;
+        margin: 10% auto;
+        padding: 20px;
+        width: 40%;
+        border-radius: 10px;
+        position: relative;
+    }
+    
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 28px;
+        cursor: pointer;
+    }
+</style>
+
 <div class="container mx-auto px-4 py-8 overflow-y-scroll max-h-[90%] min-w-full">
     <!-- Header -->
     <div class="flex justify-between items-center mb-8">
@@ -66,6 +97,14 @@
                     <div class="text-right">
                         <p class="text-gray-500">Ro'yxatdan o'tish: <span class="font-medium">{{ \Carbon\Carbon::parse($student->created_at)->format('d F Y') }}</span></p>
                         <p class="text-gray-500">GPA: <span class="font-medium">{{$student->avg_gpa}}</span></p>
+                        @php
+                            $reject = \DB::table('rejections')->where('user_id', $student->id)->first();
+                        @endphp
+                        @if (!empty($reject))
+                            <button class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">{{$reject->reason}}</button>
+                        @else
+                            <button class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition" id="openModal">Rad etish</button>
+                        @endif
                     </div>
                 </div>
                 
@@ -175,34 +214,34 @@
                     <div class="flex justify-end">
                         @if($student->petitions->where('category_id', $category->id)->count()>0)
                         <button onclick="openRatingModal('{{ $category->name }}', '{{ $category->max_score }}', '{{ $category->id }}')" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition flex items-center"><i class="fas fa-star mr-2"></i> Ushbu mezon bo'yicha baholash</button>
-                    @endif
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
+        @endforeach
+        {{ $categories->links() }}
     </div>
-    @endforeach
-    {{ $categories->links() }}
-</div>
-
-
-{{-- --------------- Modal --------------- --}}
-{{--with float input  assessment and comment--}}
-<!-- ===== Modal Overlay ===== -->
-<div id="ratingModal"
-class="fixed inset-0 z-40 flex items-center justify-center bg-black/50 backdrop-blur-sm
+    
+    
+    {{-- --------------- Modal --------------- --}}
+    {{--with float input  assessment and comment--}}
+    <!-- ===== Modal Overlay ===== -->
+    <div id="ratingModal"
+    class="fixed inset-0 z-40 flex items-center justify-center bg-black/50 backdrop-blur-sm
             transition-opacity duration-300 ease-out hidden">
-
-<!-- ===== Modal Card ===== -->
-<div class="w-full max-w-lg mx-4 bg-white rounded-2xl shadow-2xl ring-1 ring-black/10
+    
+    <!-- ===== Modal Card ===== -->
+    <div class="w-full max-w-lg mx-4 bg-white rounded-2xl shadow-2xl ring-1 ring-black/10
                 animate-[zoomIn_.25s_ease-out]">
-
-<!-- ===== Header ===== -->
-<div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-    <h2 id="modalTitle" class="text-2xl font-semibold text-gray-800">Baholash</h2>
-    <button type="button" onclick="closeRatingModal()"
-    class="text-gray-400 hover:text-gray-600 transition" aria-label="Close">
-    <i class="fas fa-times text-lg"></i>
-</button>
+    
+    <!-- ===== Header ===== -->
+    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+        <h2 id="modalTitle" class="text-2xl font-semibold text-gray-800">Baholash</h2>
+        <button type="button" onclick="closeRatingModal()"
+        class="text-gray-400 hover:text-gray-600 transition" aria-label="Close">
+        <i class="fas fa-times text-lg"></i>
+    </button>
 </div>
 
 <!-- ===== Form ===== -->
@@ -235,7 +274,44 @@ class="fixed inset-0 z-40 flex items-center justify-center bg-black/50 backdrop-
 
 
 {{-- --------------- End of Modal --------------- --}}
+<div id="myModal" class="modal hidden">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h2>Talabani arizasini rad etish</h2>
+                        <form action="{{ route('rejects.store') }}" method="POST">
+                            @csrf
+                            <div class="flex flex-col gap-2">
+                                <input class="hidden" name="student_id" value="{{ $student->id }}">
+                                <label for="reason" class="text-gray-600">Sabab:</label>
+                                <textarea id="reason" name="reason" class="w-full p-2 border-4
+                                gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-
+                                600"></textarea>
+                                <button type="submit" class="inline-block items-center px-5 py-2.5 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition">Yuborish</button>
+                        </form>
+                    </div>
+                </div>
 {{-- --------------- Skript --------------- --}}
+<script>
+    const modal = document.getElementById("myModal");
+    const openBtn = document.getElementById("openModal");
+    const closeBtn = document.querySelector(".close");
+    
+    openBtn.onclick = function() {
+        modal.style.display = "block";
+    }
+    
+    closeBtn.onclick = function() {
+        modal.style.display = "none";
+    }
+    
+    // Modal tashqarisiga bosilganda yopish
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
 <script>
     /** Modalni ochish */
     function openRatingModal(category, maxScore, id) {
