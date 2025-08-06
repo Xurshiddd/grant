@@ -45,8 +45,7 @@ class StudentController extends Controller
         ->when(isset($validated['speciality']), function ($q) use ($validated) {
             return $q->join('specialities', 'users.faculty', '=', 'specialities.faculty_code')
             ->where('specialities.code', $validated['speciality'])
-            ->select('users.*')
-            ->groupBy('users.id');
+            ->select('users.*');
         })
         
         
