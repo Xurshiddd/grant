@@ -12,68 +12,80 @@ use Illuminate\Support\Facades\DB;
 class StudentController extends Controller
 {
     public function index(Request $request)
-{
-    // 1) Kiruvchi ma’lumotni tekshiramiz
-    $validated = $request->validate([
-        'education_form' => 'nullable|in:1,2,3',
-        'search'         => 'nullable|string|max:255',
-        'speciality'     => 'nullable|string|max:255',
-    ]);
+    {
+        // 1) Validatsiya
+        $validated = $request->validate([
+            'education_form' => 'nullable|in:1,2,3',
+            'search'         => 'nullable|string|max:255',
+            'speciality'     => 'nullable|string|max:255', // bu specialities.code
+        ]);
 
-    $auth = $request->user();               // Auth::user() o‘rnini bosadi
+        $auth = $request->user();
 
-    // 2) Faqat admin va dekan kirishi mumkin
-    if (! in_array($auth->type, ['admin', 'dekan'])) {
-        abort(403);
-    }
-    if(isset($validated['speciality'])) {
-        $faculty = Speciality::where('code', $validated['speciality'])->value('faculty_code');
-    }
-    // 3) Umumiy query
-    $students = User::query()
-        ->where('type', 'student')
-        ->when($auth->type === 'dekan',     // dekan bo‘lsa, o‘z fakultetiga cheklaymiz
-            fn ($q)         => $q->where('faculty', $auth->fakulty ?? $auth->faculty)
-        )
-        // speciality bo‘yicha filter
-        ->when(isset($validated['speciality']), function ($q) use ($validated) {
-            return $q->join('specialities', 'users.faculty', '=', 'specialities.faculty_code')
-            ->where('specialities.code', $validated['speciality'])
-            ->select('users.*');
-        })
-        // education_form bo‘yicha filter
-        ->when(isset($validated['education_form']), function ($q) use ($validated) {
-            return match ((int) $validated['education_form']) {
-                1 => $q->whereDoesntHave('petitions'),
-                2 => $q->whereHas('petitions'),
-                3 => $q->whereHas('petitions')->whereDoesntHave('audits', function($qa){
-                    $qa->where('category_id', '!=', 13);
-                }),
-                default => $q,
-            };
-        })
+        // 2) Ruxsat tekshiruvi
+        if (! in_array($auth->type, ['admin', 'dekan'])) {
+            abort(403);
+        }
 
-        // qidiruv filtri
-        ->when(isset($validated['search']), function ($q) use ($validated) {
-            $search = $validated['search'];
-            return $q->where(function ($query) use ($search) {
-                $query->where('full_name',          'like', "%{$search}%")
-                      ->orWhere('passport_number',  'like', "%{$search}%")
-                      ->orWhere('student_id_number','like', "%{$search}%");
+        // 3) Agar specialitet kodi yuborilgan bo'lsa, fakultetni olish (view uchun)
+        $faculty = null;
+        if (isset($validated['speciality'])) {
+            $faculty = Speciality::where('code', $validated['speciality'])->value('faculty_code');
+        }
+
+        // 4) Queryni tuzamiz
+        $studentsQuery = User::query()
+            ->where('type', 'student')
+            // agar dekan bo'lsa, o'z fakultetiga cheklash
+            ->when($auth->type === 'dekan', function ($q) use ($auth) {
+                $facultyVal = $auth->faculty;
+                return $q->where('faculty', $facultyVal);
+            })
+            // speciality bo'yicha filter (education_direction_code -> specialities.code)
+            ->when(isset($validated['speciality']), function ($q) use ($validated) {
+                $specCode = $validated['speciality'];
+            
+                return $q->join('specialities', 'users.faculty', '=', 'specialities.faculty_code')
+                         ->join('student_data', 'users.id', '=', 'student_data.user_id')
+                         // JSON_EXTRACT bilan aniq tekshirish
+                         ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(student_data.data, '$.specialty.code')) = ?", [$specCode])
+                         ->select('users.*')
+                         ->groupBy('users.id');
+            })
+                      
+            // education_form filtri
+            ->when(isset($validated['education_form']), function ($q) use ($validated) {
+                return match ((int) $validated['education_form']) {
+                    1 => $q->whereDoesntHave('petitions'),
+                    2 => $q->whereHas('petitions'),
+                    3 => $q->whereHas('petitions')->whereDoesntHave('audits', function ($qa) {
+                        $qa->where('category_id', '!=', 13);
+                    }),
+                    default => $q,
+                };
+            })
+            // qidiruv
+            ->when(isset($validated['search']), function ($q) use ($validated) {
+                $search = $validated['search'];
+                return $q->where(function ($query) use ($search) {
+                    $query->where('full_name', 'like', "%{$search}%")
+                          ->orWhere('passport_number', 'like', "%{$search}%")
+                          ->orWhere('student_id_number', 'like', "%{$search}%");
+                });
             });
-        })
 
-        ->paginate(10)
-        ->withQueryString();
-    // 4) Natijani view-ga uzatamiz
-    return view('students.index', [
-        'students'      => $students,
-        'faculty'  => $faculty ?? null,
-        'speciality' => $validated['speciality'] ?? null,
-        'educationForm' => $validated['education_form'] ?? null,
-        'search'        => $validated['search'] ?? null,
-    ]);
-}
+        // 5) paginate va view ga yuborish
+        $students = $studentsQuery->paginate(10)->withQueryString();
+
+        return view('students.index', [
+            'students'      => $students,
+            'faculty'       => $faculty,
+            'speciality'    => $validated['speciality'] ?? null,
+            'educationForm' => $validated['education_form'] ?? null,
+            'search'        => $validated['search'] ?? null,
+        ]);
+    }
+
 
 
 public function create()

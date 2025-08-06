@@ -87,4 +87,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(StudentData::class);
     }
+    public function speciality()
+    {
+        return $this->belongsTo(Speciality::class, 'faculty', 'faculty_code');
+    }
 }
