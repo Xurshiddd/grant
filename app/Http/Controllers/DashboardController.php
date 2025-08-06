@@ -5,17 +5,17 @@ namespace App\Http\Controllers;
 use App\Exports\AllStudentExcel;
 use Illuminate\Http\Request;
 use App\Models\Petition;
+use App\Models\StudentData;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use App\Exports\StudentsExport;
-use Illuminate\Container\Attributes\Auth;
+use App\Models\Speciality;
 use Maatwebsite\Excel\Facades\Excel;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        // dd(User::find(5)->education_type);
         $usersByEducation = User::where('type', 'student')
         ->select('education_type', DB::raw('COUNT(*) AS count'))
         ->groupBy('education_type')

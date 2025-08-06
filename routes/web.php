@@ -10,7 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RejectionController;
 use App\Models\Appel;
 use App\Models\Category;
-use App\Models\Petition;
+use App\Models\Speciality;
 use App\Models\Message;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -71,6 +71,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('audits', [AuditController::class, 'store'])->name('audits.store');
     Route::post('rejects', [RejectionController::class,'store'])->name('rejects.store');
+    Route::get('students/faculty/{faculty}', function($faculty){
+        $specialities = Speciality::where('faculty_code', $faculty)->get();
+        return response()->json($specialities);
+    });
     // Route::post('petitionsave', function(Request $request){
     //     if (Auth::id()!= 1) {
     //         return redirect()->back()->with('error', 'Bu siz uchun emas');

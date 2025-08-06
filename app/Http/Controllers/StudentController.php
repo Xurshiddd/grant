@@ -6,7 +6,7 @@ use App\Models\Appel;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Speciality;
 use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
@@ -17,6 +17,7 @@ class StudentController extends Controller
     $validated = $request->validate([
         'education_form' => 'nullable|in:1,2,3',
         'search'         => 'nullable|string|max:255',
+        'speciality'     => 'nullable|string|max:255',
     ]);
 
     $auth = $request->user();               // Auth::user() o‘rnini bosadi
@@ -25,14 +26,21 @@ class StudentController extends Controller
     if (! in_array($auth->type, ['admin', 'dekan'])) {
         abort(403);
     }
-
+    if(isset($validated['speciality'])) {
+        $faculty = Speciality::where('code', $validated['speciality'])->value('faculty_code');
+    }
     // 3) Umumiy query
     $students = User::query()
         ->where('type', 'student')
         ->when($auth->type === 'dekan',     // dekan bo‘lsa, o‘z fakultetiga cheklaymiz
             fn ($q)         => $q->where('faculty', $auth->fakulty ?? $auth->faculty)
         )
-
+        // speciality bo‘yicha filter
+        ->when(isset($validated['speciality']), function ($q) use ($validated) {
+            return $q->join('specialities', 'users.faculty', '=', 'specialities.faculty_code')
+            ->where('specialities.code', $validated['speciality'])
+            ->select('users.*');
+        })
         // education_form bo‘yicha filter
         ->when(isset($validated['education_form']), function ($q) use ($validated) {
             return match ((int) $validated['education_form']) {
@@ -57,10 +65,11 @@ class StudentController extends Controller
 
         ->paginate(10)
         ->withQueryString();
-
     // 4) Natijani view-ga uzatamiz
     return view('students.index', [
         'students'      => $students,
+        'faculty'  => $faculty ?? null,
+        'speciality' => $validated['speciality'] ?? null,
         'educationForm' => $validated['education_form'] ?? null,
         'search'        => $validated['search'] ?? null,
     ]);
