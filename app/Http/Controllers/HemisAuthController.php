@@ -95,6 +95,8 @@ class HemisAuthController extends Controller
                 'country' => $userData['data']['country']['name'] ?? null,
                 'phone' => $userData['data']['phone'] ?? null,
                 'faculty' => $userData['data']['faculty']['code'] ?? null,
+                'education_direction_code' => $userData['data']['specialty']['code'] ?? null,
+                'is_rus' => $userData['groups']['education_lang']['name'] == 'Rus' ? true : false,
                 ]
             );
             $gpa = round($userData['data']['avg_gpa'],1);

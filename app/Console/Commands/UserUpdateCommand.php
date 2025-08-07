@@ -27,15 +27,17 @@ class UserUpdateCommand extends Command
     */
     public function handle()
     {
+        $count = 0;
         $data = StudentData::all();
         foreach ($data as $item) {
             $user = User::where('id', $item->user_id)->first();
             if ($user) {
                 $user->update([
-                    'education_direction_code' => $item->data['specialty']['code'],
+                    'education_direction_code' => $item->data['specialty']['code'] ?? null,
                     'is_rus' => $item->data['group']['educationLang'] == 'Rus' ? true : false,
                 ]);
-                $this->info("✅ Ma'lumot yangilandi: {$user->student_id_number}");
+                $count++;
+                $this->info("✅ Ma'lumot yangilandi: {$count}");
             }
         }
     }
