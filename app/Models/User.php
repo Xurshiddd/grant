@@ -41,7 +41,6 @@ class User extends Authenticatable
         'password',
         'faculty',
         'education_direction_code',
-        'education_direction_name',
         'is_rus',
     ];
     

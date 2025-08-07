@@ -43,8 +43,7 @@ class StudentController extends Controller
         })
         // speciality bo'yicha filter (education_direction_code -> specialities.code)
         ->when(isset($validated['speciality']), function ($q) use ($validated) {
-            return $q->join('specialities', 'users.faculty', '=', 'specialities.faculty_code')
-            ->where('specialities.code', $validated['speciality'])
+            return $q->where('education_direction_code', $validated['speciality'])
             ->select('users.*');
         })
         

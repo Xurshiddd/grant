@@ -35,8 +35,7 @@ return new class extends Migration
             $table->string('type')->default('student'); // 'student', 'dekan', 'admin'
             $table->string('password')->nullable();
             $table->enum('faculty', ['331-103','331-102', '331-101','331-104'])->nullable();
-            $table->string('education_direction_code')->nullable();
-            $table->string('education_direction_name')->nullable();
+            $table->bigInteger('education_direction_code')->nullable();
             $table->boolean('is_rus')->default(false);
             $table->string('remember_token')->nullable();
             $table->timestamps();
