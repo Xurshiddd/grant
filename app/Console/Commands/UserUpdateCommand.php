@@ -40,5 +40,7 @@ class UserUpdateCommand extends Command
                 $this->info("✅ Ma'lumot yangilandi: {$count}");
             }
         }
+        return Command::SUCCESS;
+
     }
 }
