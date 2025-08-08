@@ -35,7 +35,6 @@ class GrantController extends Controller
         'users.education_form',
         'users.education_type',
         'users.group_name',
-        'users.avg_gpa',
         'grants.id as grant_id',
         'grants.grant_type',
         DB::raw('(SUM(audits.new_values)/5 + (users.avg_gpa * 16)) as total_score')
@@ -50,6 +49,7 @@ class GrantController extends Controller
     'users.education_form',
     'users.education_type',
     'users.group_name',
+    'users.avg_gpa',
     'grants.id',
     'grants.grant_type'
     )  // asosiy guruhlash
