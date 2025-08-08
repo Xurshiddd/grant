@@ -39,7 +39,19 @@ class GrantController extends Controller
         'grants.grant_type',
         DB::raw('(SUM(audits.new_values)/5 + (users.avg_gpa * 16)) as total_score')
     )
-    ->groupBy('users.id','grants.id',)  // asosiy guruhlash
+    ->groupBy(
+        'users.id',
+    'users.full_name',
+    'users.phone',
+    'users.image',
+    'users.student_id_number',
+    'users.passport_number',
+    'users.education_form',
+    'users.education_type',
+    'users.group_name',
+    'grants.id',
+    'grants.grant_type'
+    )  // asosiy guruhlash
     ->orderBy('total_score', 'desc')
     ->paginate(10);
     $faculty = $validated['faculty'] ?? null;
