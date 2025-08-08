@@ -68,7 +68,17 @@
     :class="request()->routeIs('appels.*') ? 'text-indigo-700' : 'text-gray-500'"></i>
     Appelatsiya uchun so'rov yuborganlar
 </a>
-
+<a href="{{ route('grant.index') }}"
+    @class([
+    'sidebar-item flex items-center px-3 py-2 text-sm font-medium rounded-md',
+    'text-indigo-700 bg-indigo-100' => request()->routeIs('grant.*'),
+    'text-gray-600 hover:text-indigo-600' => !request()->routeIs('grant.*'),
+    ])
+    >
+    <i class="fas fa-award mr-3"
+    :class="request()->routeIs('grant.*') ? 'text-indigo-700' : 'text-gray-500'"></i>
+    Grant berish
+</a>
 </div>
 </div>
 </div>

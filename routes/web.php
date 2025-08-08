@@ -8,6 +8,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PetitionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RejectionController;
+use App\Http\Controllers\GrantController;
 use App\Models\Appel;
 use App\Models\Category;
 use App\Models\Speciality;
@@ -67,6 +68,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('/categories/{category}', [CategoryController::class, 'update']);
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
     Route::resource('students', StudentController::class);
+    Route::resource('grant', GrantController::class);
     Route::get('appels', [StudentController::class, 'appels'])->name('appels');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('audits', [AuditController::class, 'store'])->name('audits.store');

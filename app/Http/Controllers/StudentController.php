@@ -17,7 +17,8 @@ class StudentController extends Controller
         $validated = $request->validate([
             'education_form' => 'nullable|in:1,2,3',
             'search'         => 'nullable|string|max:255',
-            'speciality'     => 'nullable|string|max:255', // bu specialities.code
+            'speciality'     => 'nullable|string|max:255',
+            'faculty'        => 'nullable|in:331-101,331-102,331-103,331-104',
         ]);
         
         $auth = $request->user();
@@ -27,11 +28,6 @@ class StudentController extends Controller
             abort(403);
         }
         
-        // 3) Agar specialitet kodi yuborilgan bo'lsa, fakultetni olish (view uchun)
-        $faculty = null;
-        if (isset($validated['speciality'])) {
-            $faculty = Speciality::where('code', $validated['speciality'])->value('faculty_code');
-        }
         
         // 4) Queryni tuzamiz
         $studentsQuery = User::query()
@@ -40,6 +36,10 @@ class StudentController extends Controller
         ->when($auth->type === 'dekan', function ($q) use ($auth) {
             $facultyVal = $auth->faculty;
             return $q->where('faculty', $facultyVal);
+        })
+        // agar fakultet tanlangan bo'lsa, o'z fakultetiga cheklash
+        ->when(isset($validated['faculty']), function ($q) use ($validated) {
+            return $q->where('faculty', $validated['faculty']);
         })
         // speciality bo'yicha filter (education_direction_code -> specialities.code)
         ->when(isset($validated['speciality']), function ($q) use ($validated) {
@@ -74,7 +74,7 @@ class StudentController extends Controller
         
         return view('students.index', [
             'students'      => $students,
-            'faculty'       => $faculty,
+            'faculty'       => $validated['faculty'] ?? null,
             'speciality'    => $validated['speciality'] ?? null,
             'educationForm' => $validated['education_form'] ?? null,
             'search'        => $validated['search'] ?? null,

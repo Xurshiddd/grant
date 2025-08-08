@@ -183,7 +183,7 @@
         const speciality = document.getElementById('speciality');
         const defaultOption = document.createElement('option');
         defaultOption.value = '';
-        defaultOption.textContent = 'Mutaxassislik';
+        defaultOption.textContent = 'Mutaxassislik tanlang';
         speciality.innerHTML = '';
         speciality.appendChild(defaultOption);
         
@@ -218,6 +218,8 @@
         
         if (faculty && faculty !== '' && specialty && specialty !== '') {
             loadSpecialties(faculty, specialty);
+        }else if (faculty && faculty !== '') {
+            loadSpecialties(faculty);
         }
     });
     
