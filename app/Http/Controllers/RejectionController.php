@@ -6,6 +6,7 @@ use App\Models\Message;
 use App\Models\Rejection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class RejectionController extends Controller
 {
@@ -15,7 +16,10 @@ class RejectionController extends Controller
         'reason' => 'required|string',
         'student_id' => 'required|integer'
     ]);
-
+    $admin = Auth::user();
+    if ($admin->type !== 'admin') {
+        return redirect()->back()->with('error', 'Unauthorized');
+    }
     try {
         DB::beginTransaction();
 

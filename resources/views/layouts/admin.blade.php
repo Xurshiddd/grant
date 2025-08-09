@@ -6,6 +6,8 @@
     <title>Admin Panel</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="https://ttysi.uz/assets/public/images/logo_black.svg" type="image/svg">
+    <!-- google orqli qidirganda sayt nomi va yonida chiqishi uchun icon -->
+     <link rel="icon" href="https://ttysi.uz/assets/public/images/logo_black.svg" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <div id="sidebarToggleFloating" class="fixed left-0 top-4 z-50 hidden">
         <button class="ml-2 p-2 rounded-full bg-indigo-500 text-white shadow-lg hover:bg-indigo-600 transition-colors">

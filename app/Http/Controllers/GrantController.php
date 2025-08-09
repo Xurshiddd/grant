@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Grant;
 use App\Models\Message;
@@ -14,11 +15,18 @@ class GrantController extends Controller
             'faculty' => 'nullable|in:331-101,331-102,331-103,331-104',
             'speciality' => 'nullable|string|max:255'
         ]);
+        $admin = Auth::user();
+        if ($admin->type !== 'admin' && $admin->type !== 'dekan') {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
         // studentlarni audit ga join qilish kerak va ballarini hisoblab orderby qilish kerak
         $students = DB::table('users')
     ->join('audits', 'users.id', 'audits.user_id')
     ->leftJoin('grants', 'users.id', 'grants.user_id')
     ->where('users.type', 'student')
+    ->when($admin->type === 'dekan', function ($q) use ($admin) {
+        return $q->where('users.faculty', $admin->faculty);
+    })
     ->when(isset($validated['faculty']), function ($q) use ($validated) {
         return $q->where('users.faculty', $validated['faculty']);
     })
@@ -54,7 +62,8 @@ class GrantController extends Controller
     'grants.grant_type'
     )  // asosiy guruhlash
     ->orderBy('total_score', 'desc')
-    ->paginate(10);
+    ->paginate(10)
+    ->appends($validated);
     $faculty = $validated['faculty'] ?? null;
     $speciality = $validated['speciality'] ?? null;
      
@@ -67,6 +76,10 @@ class GrantController extends Controller
             'grant_type' => 'required|in:1,2',
             'comment' => 'nullable',
         ]);
+        $admin = Auth::user();
+        if ($admin->type !== 'admin') {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
         try {
             DB::beginTransaction();
             Grant::updateOrCreate([

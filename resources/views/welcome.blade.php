@@ -133,7 +133,7 @@ class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md"
             <div class="text-gray-600 text-sm">Tasdiqlangan arizalar</div>
         </div>
         <div class="p-4 rounded-lg bg-blue-50">
-            <div class="text-2xl font-bold text-blue-800">0 ta</div>
+            <div class="text-2xl font-bold text-blue-800">{{ DB::table('rejections')->count()}} ta</div>
             <div class="text-gray-600 text-sm">Rad etilgan arizalar</div>
         </div>
     </div>

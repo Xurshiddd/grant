@@ -96,3 +96,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     //     return redirect()->back()->with('success', 'Petition created successfully.');
     // })->name('petitionsave');
 });
+// agar route topilmasa, bu yerga keladi
+Route::fallback(function () {
+    return view('notFount')->with('error', 'Page not found');
+});
