@@ -77,6 +77,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         $specialities = Speciality::where('faculty_code', $faculty)->get();
         return response()->json($specialities);
     });
+    Route::get('students/gpa/export', [DashboardController::class, 'gpaExport'])->name('gpa.export');
     // Route::post('petitionsave', function(Request $request){
     //     if (Auth::id()!= 1) {
     //         return redirect()->back()->with('error', 'Bu siz uchun emas');

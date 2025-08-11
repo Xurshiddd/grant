@@ -42,4 +42,11 @@ class DashboardController extends Controller
     {
         return Excel::download(new AllStudentExcel, 'studentsAll.xlsx');
     }
+    public function gpaExport()
+    {
+        if (!in_array(auth()->user()->type, ['admin', 'dekan'])) {
+            abort(403);
+        }
+        return Excel::download(new \App\Exports\GpaExport, 'gpa.xlsx');
+    }
 }

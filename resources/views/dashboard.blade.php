@@ -10,7 +10,10 @@
     @else
     <a href="{{ route('students.exportAll') }}" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
         Barcha talabalar mezonlar bo'yicha ballarini yuklab olish
-    </a>     
+    </a>
+    <a href="{{ route('gpa.export') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2">
+        GPA bo‘yicha talabalar ro‘yxatini yuklab olish
+    </a>
     @endif
     
     {{-- Foydalanuvchilar: bakalavr vs magistr --}}
