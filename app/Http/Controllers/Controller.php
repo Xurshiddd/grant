@@ -22,11 +22,7 @@ abstract class Controller
             if ((float) $userData['data']['avg_gpa'] < 3.5) {
                 return response()->json(['message' => "Sizning o'rtacha baholaringiz 3.50 dan past bo'lgani uchun ariza topshira olmaysiz.", 'error' => true]);
             }
-            $now = Carbon::now();
-            $deadline = Carbon::create($now->year, 8, 11);
-            if ($now->greaterThan($deadline)) {
-                return response()->json(['message' => "Ariza qabul qilish muddati tugagan.", 'error' => true]);
-            }
+        
         return response()->json(['message' => "Grantga ariza topshirish platformasiga xush kelibsiz!", 'error' => false]);
     }
 }
