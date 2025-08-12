@@ -70,6 +70,11 @@ class HemisAuthController extends Controller
                 // 4. Profil sahifasiga yo'naltirish
                 return redirect()->route('profile')->with('success', 'Grantga ariza berish tizimiga muvaffaqiyatli kirildi.'); // 'profile' nomli marshrutga yo'naltirish
             }
+            $now = Carbon::now();
+            $deadline = Carbon::create($now->year, 8, 11);
+            if ($now->greaterThan($deadline)) {
+                return redirect()-route('welcome')->with('error','Ariza qabul qilish muddati tugagan!');
+            }
             Log::info('Hemis user data:', $userData);
             // 2. Student ma'lumotlarini yaratish yoki yangilash
             DB::beginTransaction();
