@@ -19,10 +19,11 @@ class AllStudentExcel implements FromCollection, WithHeadings
                 DB::raw("CONCAT(specialities.code, '-', specialities.name, '2024-2025') AS speciality"),
                 'users.full_name',
                 'users.group_name',
-                DB::raw("ROUND(SUM(audits.new_values) / 5, 2) AS BALL")
+                DB::raw("ROUND(SUM(audits.new_values) / 5, 2) AS BALL"),
+                'users.passport_pnfl'
             )
             ->where('users.type', 'student')
-            ->groupBy('speciality', 'users.full_name', 'users.group_name', 'users.education_direction_code')
+            ->groupBy('speciality', 'users.full_name', 'users.group_name', 'users.education_direction_code','users.passport_pnfl')
             ->orderBy('speciality', 'asc')
             ->get();
         return $results;
@@ -33,7 +34,8 @@ class AllStudentExcel implements FromCollection, WithHeadings
             'Mutaxasislik',
             'F.I.Sh',
             'Guruh nomi',
-            'Ball'
+            'Ball',
+            'PINFL'
         ];
     }
 }
