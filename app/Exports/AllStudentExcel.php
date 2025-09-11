@@ -23,7 +23,7 @@ class AllStudentExcel implements FromCollection, WithHeadings
             )
             ->where('users.type', 'student')
             ->groupBy('users.full_name', 'users.passport_pnfl', 'users.avg_gpa')
-            ->orderBy('speciality', 'asc')
+            ->orderBy('users.avg_gpa', 'asc')
             ->get();
         return $results;
     }
