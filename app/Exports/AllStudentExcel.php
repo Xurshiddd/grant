@@ -16,13 +16,13 @@ class AllStudentExcel implements FromCollection, WithHeadings
             ->join('audits', 'users.id', '=', 'audits.user_id')
             ->leftJoin('specialities', 'users.education_direction_code', '=', 'specialities.code')
             ->select(
-                DB::raw("CONCAT(specialities.code, '-', specialities.name, '2024-2025') AS speciality"),
                 'users.full_name',
-                'users.group_name',
+                'users.passport_pnfl',
+                'users.avg_gpa',
                 DB::raw("ROUND(SUM(audits.new_values) / 5, 2) AS BALL")
             )
             ->where('users.type', 'student')
-            ->groupBy('speciality', 'users.full_name', 'users.group_name', 'users.education_direction_code')
+            ->groupBy('users.full_name', 'users.passport_pnfl', 'users.avg_gpa')
             ->orderBy('speciality', 'asc')
             ->get();
         return $results;
@@ -30,12 +30,10 @@ class AllStudentExcel implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'Mutaxasislik',
             'F.I.Sh',
-            'Guruh nomi',
-            'Ball',
             'PINFL',
-            'Ariza sanasi'
+            'GPA',
+            'Ijtimoiy ball'
         ];
     }
 }
