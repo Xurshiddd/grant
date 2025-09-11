@@ -34,8 +34,6 @@ class AllStudentExcel implements FromCollection, WithHeadings
             'F.I.Sh',
             'Guruh nomi',
             'Ball',
-            'PINFL',
-            'Ariza sanasi'
         ];
     }
 }
